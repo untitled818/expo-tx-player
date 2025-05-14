@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "expo-tx-player": ["../src/index"],
+      "expo-tx-player/*": ["../src/*"]
+    }
+  }
+}
