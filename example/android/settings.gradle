@@ -37,3 +37,9 @@ expoAutolinking.useExpoVersionCatalog()
 
 include ':app'
 includeBuild(expoAutolinking.reactNativeGradlePlugin)
+
+include ':superplayerkit'
+project(':superplayerkit').projectDir = new File(rootDir, '../../android/superplayerkit')
+
+apply from: new File(["node", "--print", "require.resolve('expo/scripts/autolinking.gradle')"].execute(null, rootDir).text.trim())
+

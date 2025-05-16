@@ -36,8 +36,21 @@ android {
   defaultConfig {
     versionCode 1
     versionName "0.1.0"
+
+    ndk {
+      abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+    }
   }
   lintOptions {
     abortOnError false
   }
+}
+
+dependencies {
+  implementation 'com.tencent.liteav:LiteAVSDK_Player:latest.release'
+  implementation project(':superplayerkit')
+}
+
+repositories {
+  mavenCentral()
 }
