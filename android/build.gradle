@@ -44,13 +44,18 @@ android {
   lintOptions {
     abortOnError false
   }
+  packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        exclude '**/superplayer_vod_view.xml' // 防止冲突
+  }
 }
 
 dependencies {
   implementation 'com.tencent.liteav:LiteAVSDK_Player:latest.release'
-  implementation project(':superplayerkit')
+  implementation project(':superplayerkit') 
 }
 
 repositories {
   mavenCentral()
 }
+
