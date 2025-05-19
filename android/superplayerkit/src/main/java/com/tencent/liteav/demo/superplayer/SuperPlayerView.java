@@ -163,7 +163,16 @@ public class SuperPlayerView extends RelativeLayout
     }
 
     private void initView() {
-        mRootView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.superplayer_vod_view, null);
+        Log.d(TAG, "initView() 被调用了");
+//        mRootView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.superplayer_vod_view, null);
+        try {
+            mRootView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.superplayer_vod_view, null);
+            Log.d(TAG, "initView() 被调用了11");
+        } catch (Exception e) {
+            Log.e(TAG, "加载 superplayer_vod_view 失败", e);
+        }
+        Log.d(TAG, "initView() 被调用了11");
+
         mTXCloudVideoView = (TXCloudVideoView) mRootView.findViewById(R.id.superplayer_cloud_video_view);
         mFullScreenPlayer = (FullScreenPlayer) mRootView.findViewById(R.id.superplayer_controller_large);
         mWindowPlayer = (WindowPlayer) mRootView.findViewById(R.id.superplayer_controller_small);

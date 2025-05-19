@@ -62,10 +62,11 @@ class ExpoTxPlayerModule : Module() {
     // the view definition: Prop, Events.
     View(ExpoTxPlayerView::class) {
       // Defines a setter for the `url` prop.
-      Prop("url") { view: ExpoTxPlayerView, url: URL ->
-        view.webView.loadUrl(url.toString())
-        // Log.d("ExpoTxPlayerModule", "Calling setVideoUrl with: $url")
-        // view.setVideoUrl(url.toString())
+      Prop("url") { view: ExpoTxPlayerView, url: String ->
+        // view.webView.loadUrl(url.toString())
+        Log.d("ExpoTxPlayerModule", "Calling setVideoUrl with: $url")
+
+        view.setVideoUrl(url.toString())
       }
       // Log.d("ExpoTxPlayerModule触发了吗")
       // Defines an event that the view can send to JavaScript.

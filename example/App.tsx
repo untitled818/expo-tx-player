@@ -1,14 +1,36 @@
 import { useEvent } from "expo";
 import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
 import { Button, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { useState, useEffect, useRef } from "react";
 
 export default function App() {
   const onChangePayload = useEvent(ExpoTxPlayer, "onChange");
 
+  const [url, setUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    // 延迟到下一帧或视图 layout 后再设置 url
+    const timeout = setTimeout(() => {
+      setUrl(
+        "webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971"
+      );
+    }, 100); // 延迟 100ms，确保 native view attach
+
+    return () => clearTimeout(timeout);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
+      {/* {url && (
+        <ExpoTxPlayerView
+          url={url}
+          style={{ flex: 1 }}
+          onLoad={({ nativeEvent }) =>
+            console.log(`Loaded: ${nativeEvent.url}`)
+          }
+        />
+      )} */}
       <ExpoTxPlayerView
-        url="https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971"
+        url="webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971"
         onLoad={({ nativeEvent: { url } }) => console.log(`Loaded: ${url}`)}
         style={styles.view}
       />
@@ -67,6 +89,6 @@ const styles = {
   },
   view: {
     flex: 1,
-    height: 200,
+    // height: 200,
   },
 };

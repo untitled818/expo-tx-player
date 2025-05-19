@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.tencent.liteav.demo.superplayer.R;
@@ -187,7 +188,16 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
      * 初始化控件、手势检测监听器、亮度/音量/播放进度的回调
      */
     private void initialize(Context context) {
-        initView(context);
+        Log.d("FullScreenPlayer", "initialize() 被调用");
+        try {
+            initView(context);
+        } catch (Exception e) {
+            Log.e("FullScreenPlayer", "initView(context) 出错", e);
+        }
+
+//        initView(context);
+        Log.d("FullScreenPlayer", "initialize() 被调用1");
+
         // called in AsyncLayoutInflater，so use Main Looper
         mGestureDetector = new GestureDetector(getContext(),
                 new GestureDetector.SimpleOnGestureListener() {
@@ -323,9 +333,24 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     }
 
     private void initView(Context context) {
+        Log.d("VodMoreView", "init 被调用111");
         mContext = context;
+        Log.d("VodMoreView", "init 被调用333");
         mHideLockViewRunnable = new HideLockViewRunnable(this);
-        LayoutInflater.from(context).inflate(R.layout.superplayer_vod_player_fullscreen, this);
+        Log.d("VodMoreView", "init 被调用444");
+//        try {
+//            LayoutInflater.from(context).inflate(R.layout.superplayer_vod_player_fullscreen, this);
+//            Log.d("VodMoreView", "init 被调用666");
+////            LayoutInflater.from(context).inflate(R.layout.superplayer_vod_view, this);
+//
+//        } catch (Exception e) {
+//            Log.e("VodMoreView", "init 异常", e);
+//        }
+       LayoutInflater.from(context).inflate(R.layout.superplayer_vod_player_fullscreen, this);
+//        LayoutInflater.from(context).inflate(R.layout.superplayer_vod_view, this);
+
+        Log.d("VodMoreView", "init 被调用555222777");
+
         mLlTitle = (LinearLayout) findViewById(R.id.superplayer_ll_title);
         mLayoutTop = (RelativeLayout) findViewById(R.id.superplayer_rl_top);
         mLayoutTop.setOnClickListener(this);
