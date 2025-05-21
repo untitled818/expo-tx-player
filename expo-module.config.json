@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["ExpoTxPlayerModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.txplayer.ExpoTxPlayerModule"]
+  }
+}
