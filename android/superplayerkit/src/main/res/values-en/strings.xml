@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="superplayer_hardware_Acceleration">Hardware Acceleration</string>
+    <string name="superplayer_mirror">Mirror</string>
+    <string name="superplayer_multi_speed_playback">Speed</string>
+    <string name="superplayer_brightness">Brightness</string>
+    <string name="superplayer_sound">Volume</string>
+    <string name="superplayer_sharpness">Video Preference</string>
+    <string name="superplayer_back_live">Back to Live Streaming</string>
+    <string name="superplayer_small_video_special_effects_editing">UGSV - Special Effects</string>
+    <string name="superplayer_original_picture">Original</string>
+    <string name="superplayer_test_video">Test Video</string>
+    <string name="superplayer_screenshot_fail">Screenshot failed.</string>
+    <string name="superplayer_float_play_fail">Failed to play video in a floating window.</string>
+    <string name="superplayer_enter_setting_fail">Failed to open settings. Please grant the floating window permission manually.</string>
+    <string name="superplayer_vipwatch_endwatch_tip">The trial is over, VIP members can watch the full video</string>
+    <string name="superplayer_vipwatch_open_vip_tip">Open VIP membership</string>
+    <string name="superplayer_vipwatch_retry_tip">Try again</string>
+    <string name="superplayer_resolution_name">%1$s (%2$dp)</string>
+    <string name="superplayer_flu">FLU</string>
+    <string name="superplayer_sd">SD</string>
+    <string name="superplayer_hd">HD</string>
+    <string name="superplayer_fsd">FSD</string>
+    <string name="superplayer_fhd2">FHD</string>
+    <string name="superplayer_2k">2K</string>
+    <string name="superplayer_4k">4K</string>
+    <string name="superplayer_current_quality">quality:</string>
+    <string name="superplayer_view_cache_list">video download list</string>
+    <string name="superplayer_start_download">start downloading video %1$s</string>
+    <string name="superplayer_download_failed">downloading video %1$s failed</string>
+    <string name="superplayer_download_quality_invalid">this video quality is invalid,download failed,please download video by others quality</string>
+    <string name="superplayer_danmu">Comment</string>
+    <string name="superplayer_replay">Replay</string>
+    <string name="superplayer_subtitle">Subtitles</string>
+    <string name="superplayer_audio_tracks">Audio Tracks</string>
+    <string name="superplayer_off">Off</string>
+    <string name="superplayer_audio_track">Audio Track </string>
+    <string name="superplayer_playforward">Fast Forward</string>
+    <string name="superplayer_playbackward">Fast Rewind</string>
+
+    <string name="superplayer_weak_net_tip">Detected that your network is poor, it is recommended to switch to a lower video quality</string>
+    <string name="superplayer_switch_high_quality_failed">Switching to high video quality failed, please try again later</string>
+    <string name="superplayer_switching_high_quality">Switching to high video quality, please wait&#8230;</string>
+
+
+    <string name="common_toast_camera_permission_failed">Camera permission failed.</string>
+    <string name="common_toast_qr_code_error">The QR code is error.</string>
+    <string name="btn_forbit">Forbit</string>
+    <string name="permission_always_allow">Always Allow</string>
+    <string name="permission_introduction_title">Description of storage permission application</string>
+    <string name="permission_introduction_positive">allow authorization</string>
+    <string name="permission_introduction_write">Used to store SDK configuration files, log files and media files, read local media files</string>
+    <string name="permission_introduction_camera">Used to capture camera images, take photos and record videos</string>
+    <string name="permission_introduction_audio">Used to collect user voice and record voice</string>
+    <string name="permission_introduction_write_title">storage permission</string>
+    <string name="permission_introduction_camera_title">camera permission</string>
+    <string name="permission_introduction_audio_title">Microphone permissions</string>
+</resources>
