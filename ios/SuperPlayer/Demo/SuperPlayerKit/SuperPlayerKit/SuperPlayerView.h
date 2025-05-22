@@ -77,6 +77,21 @@
 
 /// return event
 /// 返回事件
+///
+- (void)superPlayerDidEnterFullScreen:(SuperPlayerView *)player;
+- (void)superPlayerDidExitFullScreen:(SuperPlayerView *)player;
+
+/// f - 画中画通知
+- (void)superPlayerDidEnterPictureInPicture:(SuperPlayerView *)player;
+- (void)superPlayerDidExitPictureInPicture:(SuperPlayerView *)player;
+
+/// f - 暂停通知
+//- (void)superPlayerDidPause:(SuperPlayerView *)player;
+
+/// f - 播放通知
+- (void)superPlayerDidPlay:(SuperPlayerView *)player;
+
+
 - (void)superPlayerCaseAction:(SuperPlayerView *)player;
 /// return event
 /// 返回事件
@@ -354,5 +369,15 @@ typedef NS_ENUM(NSInteger, SuperPlayerLayoutStyle) {
  * 使用画中画能力时需要判断当前设备是否支持
  */
 - (BOOL)isSupportPictureInPicture;
+
+- (BOOL)isPlaying;
+
+- (void)setVolume:(int)volume;
+
+- (void)setMute:(BOOL)bEnable;
+
+- (float)playableDuration;
+
+- (NSString *)status;
 @end
 #pragma clang diagnostic pop

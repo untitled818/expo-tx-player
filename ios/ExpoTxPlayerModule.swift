@@ -1,7 +1,19 @@
 import ExpoModulesCore
 import TXLiteAVSDK_Player
 
+func runOnMain(_ block: @escaping () -> Void) {
+  if Thread.isMainThread {
+    block()
+  } else {
+    DispatchQueue.main.async {
+      block()
+    }
+  }
+}
+
 public class ExpoTxPlayerModule: Module {
+    
+    private var currentPlayer: ExpoTxPlayerView?
     
     private var isLicenseSet = false
     // Each module class must implement the definition function. The definition consists of components
@@ -53,9 +65,48 @@ public class ExpoTxPlayerModule: Module {
             print("License set: url=\(url), key=\(key)")
         }
         
+        Function("setVolume") { (volume: Int) in
+            print("setVolume 触发");
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.setVolume(volume);
+              }
+        }
+        
+        Function("setMute") { (mute: Bool) in
+            print("setMute 触发");
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.setMute(mute);
+              }
+        }
+        
+        Function("getStatus") { () -> String in
+            return ExpoTxPlayerView.currentInstance?.getStatus() ?? "unknown"
+        }
+        
+        Function("bufferedPosition") { () -> Float in
+            return ExpoTxPlayerView.currentInstance?.bufferedPosition() ?? 0;
+        }
+        
+        
+        Function("play") { () in
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.play()
+              }
+        }
+        
+        Function("pause") { () in
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.pause()
+              }
+        }
+        
+        
+        
+        
         // Enables the module to be used as a native view. Definition components that are accepted as part of the
         // view definition: Prop, Events.
         View(ExpoTxPlayerView.self) {
+            Events("onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd","onPIPStart", "onPIPStop")
 //            Events("onLoad")
             // Defines a setter for the `url` prop.
             Prop("url") { (view: ExpoTxPlayerView, url: String) in

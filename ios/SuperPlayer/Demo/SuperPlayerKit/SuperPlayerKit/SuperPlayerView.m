@@ -514,10 +514,16 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
 
 - (void)enterPictureInPicture {
     [self.vodPlayer enterPictureInPicture];
+    if ([self.delegate respondsToSelector:@selector(superPlayerDidEnterPictureInPicture:)]) {
+            [self.delegate superPlayerDidEnterPictureInPicture:self];
+    }
 }
 
 - (void)exitPictureInPicture {
     [self.vodPlayer exitPictureInPicture];
+    if ([self.delegate respondsToSelector:@selector(superPlayerDidExitPictureInPicture:)]) {
+        [self.delegate superPlayerDidExitPictureInPicture:self];
+    }
 }
 - (BOOL)isSupportPictureInPicture {
     if ([TXVodPlayer isSupportPictureInPicture]) {
@@ -2993,4 +2999,61 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     }
     return _watermarkView;
 }
+
+- (BOOL)isPlaying {
+    if (self.vodPlayer) {
+        return [self.vodPlayer isPlaying];
+    } else {
+        return [_livePlayer isPlaying];
+    }
+    return NO;
+}
+- (void)setVolume:(int)volume {
+    if (self.isLive) {
+        [_livePlayer setVolume:volume];
+    } else {
+        [self.vodPlayer setAudioPlayoutVolume:volume];
+    }
+}
+
+- (void)setMute:(BOOL)bEnable {
+    NSLog(@"mutessssss: %@", bEnable ? @"YES" : @"NO");
+    if (self.isLive) {
+        [_livePlayer setMute:bEnable];
+    } else {
+        [self.vodPlayer setMute:bEnable];
+    }
+}
+
+- (float)playableDuration {
+    if (self.isLive) {
+        return 0.0f;
+    } else {
+        float duration = [self.vodPlayer playableDuration];
+        NSLog(@"[PlayerView] 当前缓冲时间: %.2f 秒", duration);
+        return [self.vodPlayer playableDuration];
+    }
+}
+
+- (NSString *)status {
+    switch (self.state) {
+        case StateFailed:
+            return @"failed";
+        case StateBuffering:
+            return @"buffering";
+        case StatePrepare:
+            return @"preparing";
+        case StatePlaying:
+            return @"playing";
+        case StateStopped:
+            return @"stopped";
+        case StatePause:
+            return @"paused";
+        case StateFirstFrame:
+            return @"first-frame";
+        default:
+            return @"unknown";
+    }
+}
+
 @end
