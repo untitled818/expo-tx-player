@@ -65,6 +65,9 @@ PODS:
     - Yoga
   - ExpoTxPlayer (0.1.0):
     - ExpoModulesCore
+    - Masonry
+    - SDWebImage
+    - TXLiteAVSDK_Player
   - fast_float (6.1.4)
   - FBLazyVector (0.79.2)
   - fmt (11.0.2)
@@ -72,6 +75,7 @@ PODS:
   - hermes-engine (0.79.2):
     - hermes-engine/Pre-built (= 0.79.2)
   - hermes-engine/Pre-built (0.79.2)
+  - Masonry (1.1.0)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1718,7 +1722,11 @@ PODS:
     - React-logger (= 0.79.2)
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
+  - SDWebImage (5.21.0):
+    - SDWebImage/Core (= 5.21.0)
+  - SDWebImage/Core (5.21.0)
   - SocketRocket (0.7.1)
+  - TXLiteAVSDK_Player (12.4.17856)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1805,7 +1813,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Masonry
+    - SDWebImage
     - SocketRocket
+    - TXLiteAVSDK_Player
 
 EXTERNAL SOURCES:
   boost:
@@ -1976,12 +1987,13 @@ SPEC CHECKSUMS:
   ExpoFont: abbb91a911eb961652c2b0a22eef801860425ed6
   ExpoKeepAwake: bf0811570c8da182bfb879169437d4de298376e7
   ExpoModulesCore: 5d37821c36f3781dcd0ea9a393800c90eaa6259d
-  ExpoTxPlayer: 7aa8aeffffa624943c7426df51f59c802c0f210d
+  ExpoTxPlayer: ccc8d4cc37c1f06240424c43c8cc6b2612419df7
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 84b955f7b4da8b895faf5946f73748267347c975
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: 314be5250afa5692b57b4dd1705959e1973a8ebe
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 83ffb90c23ee5cea353bd32008a7bca100908f8c
   RCTRequired: eb7c0aba998009f47a540bec9e9d69a54f68136e
@@ -2044,7 +2056,9 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 04d5eb15eb46be6720e17a4a7fa92940a776e584
   ReactCodegen: c63eda03ba1d94353fb97b031fc84f75a0d125ba
   ReactCommon: 76d2dc87136d0a667678668b86f0fca0c16fdeb0
+  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
+  TXLiteAVSDK_Player: 0c6a52db4ae7adb9d091da2bb572c3ab791903ba
   Yoga: c758bfb934100bb4bf9cbaccb52557cee35e8bdf
 
 PODFILE CHECKSUM: 073eb51b0d43710a1e71076aa805fe238a800ebc

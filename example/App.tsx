@@ -1,73 +1,24 @@
-import { useEvent } from 'expo';
-import ExpoTxPlayer, { ExpoTxPlayerView } from 'expo-tx-player';
-import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { useEvent } from "expo";
+import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
+import { Button, SafeAreaView, ScrollView, Text, View } from "react-native";
+
+ExpoTxPlayer.setLicense({
+  url: "https://license.vod2.myqcloud.com/license/v2/1258384072_1/v_cube.license",
+  key: "4c71bd88da95af202a8f3b2743c7e4e4",
+});
 
 export default function App() {
-  const onChangePayload = useEvent(ExpoTxPlayer, 'onChange');
+  // const onChangePayload = useEvent(ExpoTxPlayer, 'onChange');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>Module API Example</Text>
-        <Group name="Constants">
-          <Text>{ExpoTxPlayer.PI}</Text>
-        </Group>
-        <Group name="Functions">
-          <Text>{ExpoTxPlayer.hello()}</Text>
-        </Group>
-        <Group name="Async functions">
-          <Button
-            title="Set value"
-            onPress={async () => {
-              await ExpoTxPlayer.setValueAsync('Hello from JS!');
-            }}
-          />
-        </Group>
-        <Group name="Events">
-          <Text>{onChangePayload?.value}</Text>
-        </Group>
-        <Group name="Views">
-          <ExpoTxPlayerView
-            url="https://www.example.com"
-            onLoad={({ nativeEvent: { url } }) => console.log(`Loaded: ${url}`)}
-            style={styles.view}
-          />
-        </Group>
+    <SafeAreaView>
+      <ExpoTxPlayerView
+        url="webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971"
+        style={{ width: "100%", height: 200 }}
+      />
+      <ScrollView>
+        <Text>Module API Example</Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-function Group(props: { name: string; children: React.ReactNode }) {
-  return (
-    <View style={styles.group}>
-      <Text style={styles.groupHeader}>{props.name}</Text>
-      {props.children}
-    </View>
-  );
-}
-
-const styles = {
-  header: {
-    fontSize: 30,
-    margin: 20,
-  },
-  groupHeader: {
-    fontSize: 20,
-    marginBottom: 20,
-  },
-  group: {
-    margin: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#eee',
-  },
-  view: {
-    flex: 1,
-    height: 200,
-  },
-};
