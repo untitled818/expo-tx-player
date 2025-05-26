@@ -60,7 +60,6 @@ allprojects {
 }
 
 dependencies {
-    implementation project(":superplayerkit")
     implementation 'com.tencent.liteav:LiteAVSDK_Player:latest.release'
 }
 

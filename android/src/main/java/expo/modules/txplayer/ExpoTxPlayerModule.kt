@@ -2,7 +2,10 @@ package expo.modules.txplayer
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.records.Record
+import expo.modules.kotlin.records.Field
 import java.net.URL
+import com.tencent.rtmp.TXLiveBase
 
 class ExpoTxPlayerModule : Module() {
   // Each module class must implement the definition function. The definition consists of components
@@ -36,15 +39,32 @@ class ExpoTxPlayerModule : Module() {
       ))
     }
 
+    Function("reset") { view: ExpoTxPlayerView ->
+      view.resetPlayer()
+    }
+
+    Function("setLicense") { params: LicenseParams ->
+      val context = appContext.reactContext ?: return@Function
+      TXLiveBase.getInstance().setLicence(context, params.url, params.key)
+    }
+
     // Enables the module to be used as a native view. Definition components that are accepted as part of
     // the view definition: Prop, Events.
     View(ExpoTxPlayerView::class) {
       // Defines a setter for the `url` prop.
-      Prop("url") { view: ExpoTxPlayerView, url: URL ->
-        view.webView.loadUrl(url.toString())
+      Prop("url") { view: ExpoTxPlayerView, url: String ->
+        view.playWithUrl(url, 1308280968)
       }
       // Defines an event that the view can send to JavaScript.
       Events("onLoad")
     }
   }
+}
+
+class LicenseParams : Record {
+  @Field
+  var url: String = ""
+
+  @Field
+  var key: String = ""
 }

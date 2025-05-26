@@ -4,6 +4,12 @@
     "modules": ["ExpoTxPlayerModule"]
   },
   "android": {
-    "modules": ["expo.modules.txplayer.ExpoTxPlayerModule"]
+    "modules": ["expo.modules.txplayer.ExpoTxPlayerModule"],
+    "extraGradleDependencies": [
+      {
+        "name": ":superplayerkit",
+        "path": "./android/superplayerkit"
+      }
+    ]
   }
 }

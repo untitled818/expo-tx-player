@@ -1,2 +1,0 @@
-include ':superplayerkit'
-project(':superplayerkit').projectDir = new File(rootDir, 'superplayerkit')
