@@ -1780,6 +1780,11 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
         // 如果在播放暂停需要显示封面，打开此行
 //        self.coverImageView.hidden = NO;
     }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(superPlayerStatusDidChange:status:)]) {
+            NSString *statusStr = [self stringForState:state];
+            [self.delegate superPlayerStatusDidChange:self status:statusStr];
+    }
 }
 
 - (void)setControlView:(SuperPlayerControlView *)controlView {
@@ -3064,6 +3069,19 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
             return @"first-frame";
         default:
             return @"unknown";
+    }
+}
+
+- (NSString *)stringForState:(SuperPlayerState)state {
+    switch (state) {
+        case StateFailed: return @"failed";
+        case StateBuffering: return @"buffering";
+        case StatePrepare: return @"preparing";
+        case StatePlaying: return @"playing";
+        case StateStopped: return @"stopped";
+        case StatePause: return @"paused";
+        case StateFirstFrame: return @"first-frame";
+        default: return @"unknown";
     }
 }
 

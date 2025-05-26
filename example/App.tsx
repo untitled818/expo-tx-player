@@ -3,6 +3,7 @@ import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
 import { Button, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { useTxPlayer } from "./components/useTxPlayer";
 import { PlayerView } from "./components";
+import { useEffect } from "react";
 
 // ExpoTxPlayer.setLicense({
 //   url: "https://license.vod2.myqcloud.com/license/v2/1258384072_1/v_cube.license",
@@ -27,13 +28,14 @@ export default function App() {
     player.play();
   });
 
-  const isPlaying = useEvent(player as any, "playingChange", player.playing);
-
-  console.log(isPlaying, "isPlaying");
-
-  const error = useEvent(player as any, "error", null);
-
+  const isPlaying = useEvent(player, "playingChange", player.playing);
+  console.log(isPlaying, "playingChange");
+  const error = useEvent(player, "error", null);
   console.log(error, "error");
+
+  const status = useEvent(player, "statusChange", player.status);
+
+  console.log(status, "statusChange");
 
   return (
     <SafeAreaView>
@@ -93,9 +95,15 @@ export default function App() {
       />
 
       <Button
-        title="切换视频源"
+        title="切换视频源hls"
         onPress={() => {
           player.switchSource(hls);
+        }}
+      />
+      <Button
+        title="切换视频源rtc"
+        onPress={() => {
+          player.switchSource(rtc);
         }}
       />
 

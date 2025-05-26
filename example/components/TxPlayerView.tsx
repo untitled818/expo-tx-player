@@ -1,7 +1,7 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useEffect } from "react";
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
-import { Player } from "./Player";
+import { Player, destroyPlayer } from "./Player";
 
 // ExpoTxPlayer.setLicense({
 //   url: "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license",
@@ -37,6 +37,11 @@ export const PlayerView: React.FC<Props> = ({
   onScreenCastStop,
 }) => {
   const castModalRef = useRef<any>(null);
+  useEffect(() => {
+    return () => {
+      destroyPlayer();
+    };
+  }, []);
   return (
     <>
       <ExpoTxPlayerView

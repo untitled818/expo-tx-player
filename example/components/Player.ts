@@ -1,6 +1,5 @@
 // Player.ts
 import ExpoTxPlayer from "expo-tx-player";
-import type { EventEmitter } from "events";
 
 export type PlayerEventMap = {
   playingChange: boolean;
@@ -9,26 +8,32 @@ export type PlayerEventMap = {
   bufferedChange: number;
 };
 
-type PlayerListeners = {
-  [K in keyof PlayerEventMap]?: Listener<PlayerEventMap[K]>[];
-};
-
 type Listener<T> = (value: T) => void;
 
-export interface TypedEventEmitter<T> {
-  addListener<K extends keyof T>(event: K, cb: (value: T[K]) => void): void;
-  removeListener<K extends keyof T>(event: K, cb: (value: T[K]) => void): void;
-  removeAllListeners<K extends keyof T>(event?: K): void;
-  listenerCount<K extends keyof T>(event: K): number;
+export interface EventSubscription {
+  remove(): void;
 }
 
-// ExpoTxPlayer.setLicense({
-//   url: "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license",
-//   key: "589c3bc57bfdf9a4ecd75687b163a054",
-//   appId: "f0039500001",
-// });
+export interface EventEmitterCompatible {
+  addListener(event: string, cb: (value: any) => void): EventSubscription;
+  removeListener(event: string, cb: (value: any) => void): void;
+}
 
 let currentPlayer: Player | null = null;
+
+export function destroyPlayer() {
+  if (currentPlayer) {
+    console.log("[Player] 🧹 清理播放器实例");
+    currentPlayer.pause();
+    currentPlayer.removeAllListeners();
+    currentPlayer = null;
+    ExpoTxPlayer.resetPlayer(); // 通知原生释放 native 实例
+  }
+}
+
+type PlayerListeners = {
+  [event: string]: Listener<any>[];
+};
 
 type videoType = {
   source: string;
@@ -37,7 +42,7 @@ type videoType = {
   appId: string;
 };
 
-export class Player implements TypedEventEmitter<PlayerEventMap> {
+export class Player implements EventEmitterCompatible {
   public url: string;
   public loop = false;
   public playing = false;
@@ -47,11 +52,6 @@ export class Player implements TypedEventEmitter<PlayerEventMap> {
   private _volume = 50; // 1 - 100
 
   private listeners: PlayerListeners = {};
-
-  // ExpoTxPlayer.setLicense({
-  //   url: video.url,
-  //   key: video.key,
-  // });
 
   constructor(url: string) {
     this.url = url;
@@ -63,13 +63,9 @@ export class Player implements TypedEventEmitter<PlayerEventMap> {
     });
   }
 
-  // static source(url: string) {
-  //   return new Player(url);
-  // }
-
   static source(url: string): Player {
     if (currentPlayer) {
-      currentPlayer.switchSource(url); // ✅ 更新 URL 而不是 new
+      currentPlayer.switchSource(url);
       return currentPlayer;
     }
 
@@ -121,53 +117,46 @@ export class Player implements TypedEventEmitter<PlayerEventMap> {
 
   switchSource(url: string) {
     this.url = url;
-    // TODO: call native switchSource
     ExpoTxPlayer.setVideoURL(url);
   }
 
-  addListener<K extends keyof PlayerEventMap>(
-    event: K,
-    cb: Listener<PlayerEventMap[K]>
-  ) {
+  addListener(event: string, cb: (value: any) => void): EventSubscription {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
-    this.listeners[event]!.push(cb);
-    return this;
+    this.listeners[event].push(cb);
+
+    return {
+      remove: () => {
+        this.removeListener(event, cb);
+      },
+    };
   }
 
-  removeListener<K extends keyof PlayerEventMap>(
-    event: K,
-    cb: Listener<PlayerEventMap[K]>
-  ) {
+  removeListener(event: string, cb: (value: any) => void): void {
     const arr = this.listeners[event];
-    if (!arr) return this;
-    (this.listeners as any)[event] = arr.filter(
-      (listener) => listener !== cb
-    ) as Listener<PlayerEventMap[K]>[];
-    return this;
+    if (!arr) return;
+    this.listeners[event] = arr.filter((listener) => listener !== cb);
   }
 
-  removeAllListeners<K extends keyof PlayerEventMap>(event?: K) {
+  removeAllListeners(event?: string): void {
     if (event) {
       delete this.listeners[event];
     } else {
       this.listeners = {};
     }
-    return this;
   }
 
-  listenerCount<K extends keyof PlayerEventMap>(event: K): number {
+  listenerCount(event: string): number {
     return this.listeners[event]?.length ?? 0;
   }
 
-  emit<K extends keyof PlayerEventMap>(event: K, value: PlayerEventMap[K]) {
+  emit(event: string, value: any): boolean {
     const arr = this.listeners[event];
     arr?.forEach((cb) => cb(value));
     return true;
   }
 
-  // Compatibility aliases
   on = this.addListener;
   off = this.removeListener;
 

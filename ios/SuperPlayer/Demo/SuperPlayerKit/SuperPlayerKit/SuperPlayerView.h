@@ -95,6 +95,8 @@
 /// 播放状态变化通知（播放 / 暂停）
 - (void)superPlayerPlayingStateDidChange:(SuperPlayerView *)player isPlaying:(BOOL)isPlaying;
 
+- (void)superPlayerStatusDidChange:(SuperPlayerView *)player status:(NSString *)status;
+
 
 - (void)superPlayerCaseAction:(SuperPlayerView *)player;
 /// return event

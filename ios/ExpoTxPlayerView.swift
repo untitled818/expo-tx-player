@@ -13,6 +13,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
     public let onPIPStop = EventDispatcher()
     public let onError = EventDispatcher()
     public let onPlayingChange = EventDispatcher()
+    public let onStatusChange = EventDispatcher()
     
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -93,16 +94,21 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
     }
     
     func superPlayerError(_ player: SuperPlayerView!, errCode code: Int32, errMessage why: String!) {
-        print("[ExpoTxPlayer] 播放错误: \(code) - \(why)")
+        print("[ExpoTxPlayer] 播放错误: \(code) - \(why ?? "未知错误")")
         // 将错误传给 JS 层
-        self.onError(["message": why]);
+        self.onError(["message": why ?? "未知错误"])
     }
     
     func superPlayerPlayingStateDidChange(_ player: SuperPlayerView!, isPlaying: Bool) {
       print("[ExpoTxPlayer] 播放状态变化：\(isPlaying)")
       // 触发 JS 层事件
-        onPlayingChange(["value": isPlaying])
+        self.onPlayingChange(["value": isPlaying])
     }
+    
+    public func superPlayerStatusDidChange(_ player: SuperPlayerView, status: String) {
+        print("[ExpoTxPlayer] status 改变为: \(status)")
+        self.onStatusChange(["status": status])
+      }
     
     
     
@@ -153,9 +159,8 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
     
     deinit {
         print("[ExpoTxPlayer] 🧹 资源释放")
-        // ✅ 如果当前释放的实例就是 global 的，就清空
-        if ExpoTxPlayerView.currentInstance === self {
-            ExpoTxPlayerView.currentInstance = nil
-        }
+//        if ExpoTxPlayerView.currentInstance === self {
+//            ExpoTxPlayerView.currentInstance = nil
+//        }
     }
 }

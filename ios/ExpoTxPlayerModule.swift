@@ -88,6 +88,14 @@ public class ExpoTxPlayerModule: Module {
                 ExpoTxPlayerView.currentInstance?.switchSource(url)
           }
         }
+        Function("resetPlayer") {
+            runOnMain {
+                print("[ExpoTxPlayer] 🔄 主动清理 currentInstance")
+                ExpoTxPlayerView.currentInstance?.pause()
+                ExpoTxPlayerView.currentInstance?.removeFromSuperview()
+                ExpoTxPlayerView.currentInstance = nil
+            }
+        }
         
         
         
