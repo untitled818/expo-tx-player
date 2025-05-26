@@ -1101,7 +1101,12 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
         self.fatherView.viewController.navigationController.navigationBarHidden = YES;
     } else {
         [self addPlayerToFatherView:self.fatherView];
-        self.fatherView.viewController.navigationController.navigationBarHidden = NO;
+        UIViewController *vc = self.fatherView.viewController;
+        UINavigationController *nav = vc.navigationController;
+
+        if (nav && nav.viewControllers.count > 0 && ![NSStringFromClass([nav class]) containsString:@"RNS"]) {
+            nav.navigationBarHidden = NO;
+        }
     }
 }
 
