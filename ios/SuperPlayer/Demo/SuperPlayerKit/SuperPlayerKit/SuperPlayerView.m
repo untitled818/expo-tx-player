@@ -391,6 +391,9 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
             }
         }
     }
+    if ([self.delegate respondsToSelector:@selector(superPlayerPlayingStateDidChange:isPlaying:)]) {
+            [self.delegate superPlayerPlayingStateDidChange:self isPlaying:YES];
+    }
 }
 
 /**
@@ -412,6 +415,9 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
         [_livePlayer pause];
     } else {
         [self.vodPlayer pause];
+    }
+    if ([self.delegate respondsToSelector:@selector(superPlayerPlayingStateDidChange:isPlaying:)]) {
+            [self.delegate superPlayerPlayingStateDidChange:self isPlaying:NO];
     }
 }
 

@@ -11,7 +11,7 @@ export type ChangeEventPayload = {};
 export type ExpoTxPlayerViewProps = {
   url: string;
   style?: StyleProp<ViewStyle>;
-  containFit?: "contain" | "cover" | "fill";
+  contentFit?: "contain" | "cover" | "fill";
   allowsPictureInPicture?: boolean;
   allowsFullscreen?: boolean;
 
@@ -24,4 +24,5 @@ export type ExpoTxPlayerViewProps = {
   onError?: (e: { nativeEvent: { message: string } }) => void;
   onStatusChange?: (e: { nativeEvent: { status: string } }) => void;
   onBufferedChange?: (e: { nativeEvent: { value: number } }) => void;
+  onPlayingChange?: (e: { nativeEvent: { value: boolean } }) => void;
 };

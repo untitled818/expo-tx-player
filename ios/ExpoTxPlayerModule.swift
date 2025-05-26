@@ -25,29 +25,6 @@ public class ExpoTxPlayerModule: Module {
         // The module will be accessible from `requireNativeModule('ExpoTxPlayer')` in JavaScript.
         Name("ExpoTxPlayer")
         
-        // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-//        Constants([
-//            "PI": Double.pi
-//        ])
-//        
-//        // Defines event names that the module can send to JavaScript.
-//        Events("onChange")
-//        
-//        // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-//        Function("hello") {
-//            return "Hello world! 👋"
-//        }
-//        
-//        // Defines a JavaScript function that always returns a Promise and whose native code
-//        // is by default dispatched on the different thread than the JavaScript runtime runs on.
-//        AsyncFunction("setValueAsync") { (value: String) in
-//            // Send an event to JavaScript.
-//            self.sendEvent("onChange", [
-//                "value": value
-//            ])
-//        }
-        
-        
         Function("setLicense") { (license: [String: String]) -> Void in
             if isLicenseSet {
                 print("Warning: License already set, ignoring repeated call")
@@ -100,13 +77,22 @@ public class ExpoTxPlayerModule: Module {
               }
         }
         
+        Function("setVideoURL") { (url: String) in
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.setVideoURL(url)
+              }
+        }
+        
+        Function("switchSource") { (url: String) in
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.switchSource(url)
+          }
+        }
         
         
         
-        // Enables the module to be used as a native view. Definition components that are accepted as part of the
-        // view definition: Prop, Events.
         View(ExpoTxPlayerView.self) {
-            Events("onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd","onPIPStart", "onPIPStop")
+            Events("onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd","onPIPStart", "onPIPStop", "onError", "onStatusChange", "onBufferedChange", "onPlayingChange")
 //            Events("onLoad")
             // Defines a setter for the `url` prop.
             Prop("url") { (view: ExpoTxPlayerView, url: String) in
@@ -116,6 +102,11 @@ public class ExpoTxPlayerModule: Module {
                     return
                 }
                 view.setVideoURL(url)
+            }
+            
+            Prop("contentFit") { (view: ExpoTxPlayerView, contentFit: String) in
+                print("contentFit");
+              view.setContentFit(contentFit)
             }
             
         }

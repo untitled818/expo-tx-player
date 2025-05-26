@@ -91,6 +91,10 @@
 /// f - 播放通知
 - (void)superPlayerDidPlay:(SuperPlayerView *)player;
 
+// 播放暂停通知
+/// 播放状态变化通知（播放 / 暂停）
+- (void)superPlayerPlayingStateDidChange:(SuperPlayerView *)player isPlaying:(BOOL)isPlaying;
+
 
 - (void)superPlayerCaseAction:(SuperPlayerView *)player;
 /// return event

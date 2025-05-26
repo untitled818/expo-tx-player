@@ -11,6 +11,8 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
     public let onFullscreenEnd = EventDispatcher()
     public let onPIPStart = EventDispatcher()
     public let onPIPStop = EventDispatcher()
+    public let onError = EventDispatcher()
+    public let onPlayingChange = EventDispatcher()
     
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -30,10 +32,24 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
     
     public func setVideoURL(_ url: String) {
         print("[ExpoTxPlayer] 🎬 设置视频地址: \(url)")
+        playerView.resetPlayer();
         let model = SuperPlayerModel()
         model.videoURL = url
         
         playerView.play(withModelNeedLicence: model)
+    }
+    
+    public func switchSource(_ url: String) {
+        print("[ExpoTxPlayer] 🎬 切换视频地址为: \(url)")
+
+        if let model = playerView.playerModel {
+            model.videoURL = url
+            playerView.play(withModelNeedLicence: model)
+        } else {
+            let newModel = SuperPlayerModel()
+            newModel.videoURL = url
+            playerView.play(withModelNeedLicence: newModel)
+        }
     }
     
     override func layoutSubviews() {
@@ -76,6 +92,19 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
         
     }
     
+    func superPlayerError(_ player: SuperPlayerView!, errCode code: Int32, errMessage why: String!) {
+        print("[ExpoTxPlayer] 播放错误: \(code) - \(why)")
+        // 将错误传给 JS 层
+        self.onError(["message": why]);
+    }
+    
+    func superPlayerPlayingStateDidChange(_ player: SuperPlayerView!, isPlaying: Bool) {
+      print("[ExpoTxPlayer] 播放状态变化：\(isPlaying)")
+      // 触发 JS 层事件
+        onPlayingChange(["value": isPlaying])
+    }
+    
+    
     
     func setVolume(_ volume: Int) {
         playerView.setVolume(Int32(volume));
@@ -106,7 +135,20 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate {
         print("[ExpoTxPlayer] 视频暂停");
         playerView.pause();
     }
-    
+    func setContentFit(_ mode: String) {
+      print("[ExpoTxPlayer] 设置 contentFit: \(mode)")
+        switch mode {
+          case "contain":
+            playerView.playerConfig.renderMode = 1;
+          case "cover":
+            print("触发 cover");
+            playerView.playerConfig.renderMode = 0;
+          case "fill":
+            playerView.playerConfig.renderMode = 0; // 你也可以自己定义逻辑
+          default:
+            playerView.playerConfig.renderMode = 1; // 默认 fallback
+          }
+    }
     
     
     deinit {
