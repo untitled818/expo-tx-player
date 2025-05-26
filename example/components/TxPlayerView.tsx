@@ -3,12 +3,6 @@ import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
 import { Player, destroyPlayer } from "./Player";
 
-// ExpoTxPlayer.setLicense({
-//   url: "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license",
-//   key: "589c3bc57bfdf9a4ecd75687b163a054",
-//   appId: "f0039500001",
-// });
-
 type Props = {
   style?: StyleProp<ViewStyle>;
   player: Player;

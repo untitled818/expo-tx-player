@@ -27,7 +27,7 @@ export function destroyPlayer() {
     currentPlayer.pause();
     currentPlayer.removeAllListeners();
     currentPlayer = null;
-    ExpoTxPlayer.resetPlayer(); // 通知原生释放 native 实例
+    ExpoTxPlayer.resetPlayer();
   }
 }
 
