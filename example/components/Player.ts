@@ -35,31 +35,23 @@ type PlayerListeners = {
   [event: string]: Listener<any>[];
 };
 
-type videoType = {
-  source: string;
-  url: string;
-  key: string;
-  appId: string;
-};
-
 export class Player implements EventEmitterCompatible {
-  public url: string;
-  public loop = false;
-  public playing = false;
-  public _status = "unknown";
-  public _buffered = 0;
+  private _url: string;
+  public _playing = false;
+  private _status = "unknown";
+  private _buffered = 0;
   private _muted = false;
   private _volume = 50; // 1 - 100
 
   private listeners: PlayerListeners = {};
 
   constructor(url: string) {
-    this.url = url;
+    this._url = url;
     this._status = ExpoTxPlayer.getStatus();
 
     ExpoTxPlayer.setLicense({
-      url: "https://license.vod2.myqcloud.com/license/v2/1258384072_1/v_cube.license",
-      key: "4c71bd88da95af202a8f3b2743c7e4e4",
+      url: "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license",
+      key: "589c3bc57bfdf9a4ecd75687b163a054",
     });
   }
 
@@ -72,6 +64,10 @@ export class Player implements EventEmitterCompatible {
     const p = new Player(url);
     currentPlayer = p;
     return p;
+  }
+
+  get url() {
+    return this._url;
   }
 
   get muted() {
@@ -103,20 +99,24 @@ export class Player implements EventEmitterCompatible {
     return ExpoTxPlayer.getStatus();
   }
 
+  get playing() {
+    return this._playing;
+  }
+
   play() {
-    this.playing = true;
+    this._playing = true;
     this.emit("playingChange", true);
     ExpoTxPlayer.play();
   }
 
   pause() {
-    this.playing = false;
+    this._playing = false;
     this.emit("playingChange", false);
     ExpoTxPlayer.pause();
   }
 
   switchSource(url: string) {
-    this.url = url;
+    this._url = url;
     ExpoTxPlayer.setVideoURL(url);
   }
 
@@ -175,7 +175,7 @@ export class Player implements EventEmitterCompatible {
   }
 
   _onNativePlayingChange(value: boolean) {
-    this.playing = value;
+    this._playing = value;
     this.emit("playingChange", value);
   }
 }

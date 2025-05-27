@@ -1,9 +1,16 @@
 import { useEvent } from "expo";
 import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
-import { Button, SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+  Button,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useTxPlayer } from "./components/useTxPlayer";
 import { PlayerView } from "./components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // ExpoTxPlayer.setLicense({
 //   url: "https://license.vod2.myqcloud.com/license/v2/1258384072_1/v_cube.license",
@@ -36,6 +43,8 @@ export default function App() {
   const status = useEvent(player, "statusChange", player.status);
 
   console.log(status, "statusChange");
+
+  const [danmu, setDanmu] = useState("这是一条JS端发送的弹幕");
 
   return (
     <SafeAreaView>
@@ -106,6 +115,10 @@ export default function App() {
           player.switchSource(rtc);
         }}
       />
+
+      {/* <TextInput value={danmu} onChange={(e) =>} /> */}
+
+      <Button title="发送弹幕" onPress={ExpoTxPlayer.sendDanmaku(danmu)} />
 
       <ScrollView>
         <Text>Module API Example</Text>

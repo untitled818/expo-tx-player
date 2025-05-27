@@ -97,6 +97,12 @@ public class ExpoTxPlayerModule: Module {
             }
         }
         
+        Function("sendDanmaku") { (text: String) in
+          runOnMain {
+            ExpoTxPlayerView.currentInstance?.sendDanmaku(text)
+          }
+        }
+        
         
         
         View(ExpoTxPlayerView.self) {
