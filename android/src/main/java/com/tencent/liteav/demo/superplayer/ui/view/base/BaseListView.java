@@ -9,73 +9,71 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tencent.liteav.demo.superplayer.R;
+import expo.modules.txplayer.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseListView<ADAPTER extends BaseAdapter,DATA>  extends RelativeLayout {
+public abstract class BaseListView<ADAPTER extends BaseAdapter, DATA> extends RelativeLayout {
 
-    public Context mContext;
+  public Context mContext;
 
-    public TextView mTextView;
+  public TextView mTextView;
 
-    public RecyclerView mBaseRecyclerView;
+  public RecyclerView mBaseRecyclerView;
 
-    public ADAPTER mAdapter;
+  public ADAPTER mAdapter;
 
-    public List<DATA> mData;
+  public List<DATA> mData;
 
-    public RelativeLayout  mRootView;
+  public RelativeLayout mRootView;
 
+  public BaseListView(Context context) {
+    super(context);
+    init(context);
+  }
 
-    public BaseListView(Context context) {
-        super(context);
-        init(context);
-    }
+  public BaseListView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init(context);
+  }
 
-    public BaseListView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
+  public BaseListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    init(context);
+  }
 
-    public BaseListView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
-    }
+  public void init(Context context) {
+    mContext = context;
+    mData = new ArrayList<>();
+    mRootView = (RelativeLayout) LayoutInflater.from(mContext)
+        .inflate(R.layout.superplayer_vod_base_list_view, this);
+    mTextView = mRootView.findViewById(R.id.base_title);
+    mTextView.setText(getTitle());
+    mBaseRecyclerView = mRootView.findViewById(R.id.base_data_recycler_view);
+    mBaseRecyclerView.setHasFixedSize(true);
+    mBaseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    mAdapter = getAdapter();
+    mBaseRecyclerView.setAdapter(mAdapter);
+  }
 
-    public void init(Context context) {
-        mContext = context;
-        mData = new ArrayList<>();
-        mRootView = (RelativeLayout) LayoutInflater.from(mContext)
-                .inflate(R.layout.superplayer_vod_base_list_view, this);
-        mTextView = mRootView.findViewById(R.id.base_title);
-        mTextView.setText(getTitle());
-        mBaseRecyclerView = mRootView.findViewById(R.id.base_data_recycler_view);
-        mBaseRecyclerView.setHasFixedSize(true);
-        mBaseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = getAdapter();
-        mBaseRecyclerView.setAdapter(mAdapter);
-    }
+  public void setCurrentPosition(int position) {
+    mAdapter.mCurrentPositionInAdapter = position;
+  }
 
+  /**
+   * Set the video quality list.
+   *
+   * 设置画质列表
+   */
+  public void setModelList(List<DATA> list) {
+    mData.clear();
+    mData.addAll(list);
+    mAdapter.setData(list);
+  }
 
-    public void setCurrentPosition(int position) {
-        mAdapter.mCurrentPositionInAdapter = position;
-    }
+  protected abstract String getTitle();
 
-    /**
-     * Set the video quality list.
-     *
-     * 设置画质列表
-     */
-    public void setModelList(List<DATA> list) {
-        mData.clear();
-        mData.addAll(list);
-        mAdapter.setData(list);
-    }
-
-    protected abstract String getTitle();
-
-    protected abstract ADAPTER getAdapter();
+  protected abstract ADAPTER getAdapter();
 
 }

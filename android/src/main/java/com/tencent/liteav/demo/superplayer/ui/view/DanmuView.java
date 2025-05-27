@@ -9,7 +9,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.tencent.liteav.demo.superplayer.R;
+import expo.modules.txplayer.R;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -39,164 +39,163 @@ import master.flame.danmaku.ui.widget.DanmakuView;
  * 2、弹幕操作所在线程的Handler{@link DanmuHandler}
  */
 public class DanmuView extends DanmakuView {
-    private Context        mContext;
-    private DanmakuContext mDanmakuContext;
-    private boolean        mShowDanma;
-    private HandlerThread  mHandlerThread;
-    private DanmuHandler   mDanmuHandler;
+  private Context mContext;
+  private DanmakuContext mDanmakuContext;
+  private boolean mShowDanma;
+  private HandlerThread mHandlerThread;
+  private DanmuHandler mDanmuHandler;
 
-    public DanmuView(Context context) {
-        super(context);
-        init(context);
+  public DanmuView(Context context) {
+    super(context);
+    init(context);
+  }
+
+  public DanmuView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init(context);
+  }
+
+  public DanmuView(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+    init(context);
+  }
+
+  private void init(Context context) {
+    mContext = context;
+    enableDanmakuDrawingCache(true);
+    setCallback(new DrawHandler.Callback() {
+      @Override
+      public void prepared() {
+        mShowDanma = true;
+        start();
+        generateDanmaku();
+      }
+
+      @Override
+      public void updateTimer(DanmakuTimer timer) {
+
+      }
+
+      @Override
+      public void danmakuShown(BaseDanmaku danmaku) {
+
+      }
+
+      @Override
+      public void drawingFinished() {
+
+      }
+    });
+    mDanmakuContext = DanmakuContext.create();
+    HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
+    overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
+    mDanmakuContext.preventOverlapping(overlappingEnablePair);
+    prepare(mParser, mDanmakuContext);
+  }
+
+  @Override
+  public void release() {
+    super.release();
+    mShowDanma = false;
+    if (mDanmuHandler != null) {
+      mDanmuHandler.removeCallbacksAndMessages(null);
+      mDanmuHandler = null;
     }
-
-    public DanmuView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
+    if (mHandlerThread != null) {
+      mHandlerThread.quit();
+      mHandlerThread = null;
     }
+  }
 
-    public DanmuView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
+  private BaseDanmakuParser mParser = new BaseDanmakuParser() {
+    @Override
+    protected IDanmakus parse() {
+      return new Danmakus();
     }
+  };
 
+  /**
+   * Generate some random danmaku content for testing.
+   *
+   * 随机生成一些弹幕内容以供测试
+   */
+  private void generateDanmaku() {
+    mHandlerThread = new HandlerThread("Danmu");
+    mHandlerThread.start();
+    mDanmuHandler = new DanmuHandler(mHandlerThread.getLooper());
+  }
 
-    private void init(Context context) {
-        mContext = context;
-        enableDanmakuDrawingCache(true);
-        setCallback(new DrawHandler.Callback() {
-            @Override
-            public void prepared() {
-                mShowDanma = true;
-                start();
-                generateDanmaku();
-            }
+  /**
+   * Add a danmaku to the danmaku view
+   *
+   * 向弹幕View中添加一条弹幕
+   *
+   * @param content    The specific content of the danmaku
+   *                   弹幕的具体内容
+   * @param withBorder Whether the danmaku has a border
+   *                   弹幕是否有边框
+   */
+  private void addDanmaku(String content, boolean withBorder) {
+    BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+    if (danmaku != null) {
+      danmaku.text = content;
+      danmaku.padding = 5;
+      danmaku.textSize = sp2px(mContext, 20.0f);
+      danmaku.textColor = Color.WHITE;
+      danmaku.setTime(getCurrentTime());
+      if (withBorder) {
+        danmaku.borderColor = Color.GREEN;
+      }
+      addDanmaku(danmaku);
+    }
+  }
 
-            @Override
-            public void updateTimer(DanmakuTimer timer) {
+  /**
+   * Convert sp unit to px
+   *
+   * sp单位转px
+   */
+  public int sp2px(Context context, float spValue) {
+    final float scale = context.getResources().getDisplayMetrics().density;
+    return (int) (spValue * scale + 0.5f);
+  }
 
-            }
+  public void toggle(boolean on) {
+    Log.i(TAG, "onToggleControllerView on:" + on);
+    if (mDanmuHandler == null) {
+      return;
+    }
+    if (on) {
+      mDanmuHandler.sendEmptyMessageAtTime(DanmuHandler.MSG_SEND_DANMU, 100);
+    } else {
+      mDanmuHandler.removeMessages(DanmuHandler.MSG_SEND_DANMU);
+    }
+  }
 
-            @Override
-            public void danmakuShown(BaseDanmaku danmaku) {
+  public class DanmuHandler extends Handler {
+    public static final int MSG_SEND_DANMU = 1001;
 
-            }
-
-            @Override
-            public void drawingFinished() {
-
-            }
-        });
-        mDanmakuContext = DanmakuContext.create();
-        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
-        overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
-        mDanmakuContext.preventOverlapping(overlappingEnablePair);
-        prepare(mParser, mDanmakuContext);
+    public DanmuHandler(Looper looper) {
+      super(looper);
     }
 
     @Override
-    public void release() {
-        super.release();
-        mShowDanma = false;
-        if (mDanmuHandler != null) {
-            mDanmuHandler.removeCallbacksAndMessages(null);
-            mDanmuHandler = null;
-        }
-        if (mHandlerThread != null) {
-            mHandlerThread.quit();
-            mHandlerThread = null;
-        }
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case MSG_SEND_DANMU:
+          sendDanmu();
+          int time = new Random().nextInt(1000);
+          if (mDanmuHandler != null) {
+            mDanmuHandler.sendEmptyMessageDelayed(MSG_SEND_DANMU, time);
+          }
+          break;
+      }
     }
 
-    private BaseDanmakuParser mParser = new BaseDanmakuParser() {
-        @Override
-        protected IDanmakus parse() {
-            return new Danmakus();
-        }
-    };
-
-    /**
-     * Generate some random danmaku content for testing.
-     *
-     * 随机生成一些弹幕内容以供测试
-     */
-    private void generateDanmaku() {
-        mHandlerThread = new HandlerThread("Danmu");
-        mHandlerThread.start();
-        mDanmuHandler = new DanmuHandler(mHandlerThread.getLooper());
+    private void sendDanmu() {
+      int time = new Random().nextInt(300);
+      String content = getContext().getResources().getString(R.string.superplayer_danmu) + time + time;
+      addDanmaku(content, false);
     }
-
-    /**
-     * Add a danmaku to the danmaku view
-     *
-     * 向弹幕View中添加一条弹幕
-     *
-     * @param content    The specific content of the danmaku
-     *                   弹幕的具体内容
-     * @param withBorder Whether the danmaku has a border
-     *                   弹幕是否有边框
-     */
-    private void addDanmaku(String content, boolean withBorder) {
-        BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
-        if (danmaku != null) {
-            danmaku.text = content;
-            danmaku.padding = 5;
-            danmaku.textSize = sp2px(mContext, 20.0f);
-            danmaku.textColor = Color.WHITE;
-            danmaku.setTime(getCurrentTime());
-            if (withBorder) {
-                danmaku.borderColor = Color.GREEN;
-            }
-            addDanmaku(danmaku);
-        }
-    }
-
-    /**
-     * Convert sp unit to px
-     *
-     * sp单位转px
-     */
-    public int sp2px(Context context, float spValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (spValue * scale + 0.5f);
-    }
-
-    public void toggle(boolean on) {
-        Log.i(TAG, "onToggleControllerView on:" + on);
-        if (mDanmuHandler == null) {
-            return;
-        }
-        if (on) {
-            mDanmuHandler.sendEmptyMessageAtTime(DanmuHandler.MSG_SEND_DANMU, 100);
-        } else {
-            mDanmuHandler.removeMessages(DanmuHandler.MSG_SEND_DANMU);
-        }
-    }
-
-    public class DanmuHandler extends Handler {
-        public static final int MSG_SEND_DANMU = 1001;
-
-        public DanmuHandler(Looper looper) {
-            super(looper);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_SEND_DANMU:
-                    sendDanmu();
-                    int time = new Random().nextInt(1000);
-                    if (mDanmuHandler != null) {
-                        mDanmuHandler.sendEmptyMessageDelayed(MSG_SEND_DANMU, time);
-                    }
-                    break;
-            }
-        }
-
-        private void sendDanmu() {
-            int time = new Random().nextInt(300);
-            String content = getContext().getResources().getString(R.string.superplayer_danmu) + time + time;
-            addDanmaku(content, false);
-        }
-    }
+  }
 }

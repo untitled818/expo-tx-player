@@ -14,22 +14,22 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   // Creates and initializes an event dispatcher for the `onLoad` event.
   // The name of the event is inferred from the value and needs to match the event name defined in the module.
   private val onLoad by EventDispatcher()
-  private val playerView = SuperPlayerView(context)
+//  private val playerView = SuperPlayerView(context)
 
   fun playWithUrl(url: String, appId: Int) {
-    val model = SuperPlayerModel().apply {
-      this.url = url
-      this.appId = appId
-    }
-    playerView.playWithModelNeedLicence(model)
+//    val model = SuperPlayerModel().apply {
+//      this.url = url
+//      this.appId = appId
+//    }
+//    playerView.playWithModelNeedLicence(model)
   }
   fun resetPlayer() {
-    playerView.resetPlayer()
+//    playerView.resetPlayer()
   }
 
 
   init {
     // Adds the WebView to the view hierarchy.
-    addView(playerView)
+//    addView(playerView)
   }
 }
