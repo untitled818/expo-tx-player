@@ -14,7 +14,7 @@ import java.util.Map;
 public class SuperPlayerGlobalConfig {
 
     private static class Singleton {
-        private static SuperPlayerGlobalConfig sInstance = new SuperPlayerGlobalConfig();
+        private static final SuperPlayerGlobalConfig sInstance = new SuperPlayerGlobalConfig();
     }
 
     public static SuperPlayerGlobalConfig getInstance() {

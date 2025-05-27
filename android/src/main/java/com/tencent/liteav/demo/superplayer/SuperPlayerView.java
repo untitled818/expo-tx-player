@@ -3,6 +3,7 @@ package com.tencent.liteav.demo.superplayer;
 import static com.tencent.liteav.demo.superplayer.SuperPlayerModel.PLAY_ACTION_AUTO_PLAY;
 import static com.tencent.liteav.demo.superplayer.SuperPlayerModel.PLAY_ACTION_MANUAL_PLAY;
 import static com.tencent.liteav.demo.superplayer.SuperPlayerModel.PLAY_ACTION_PRELOAD;
+import expo.modules.txplayer.R;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
