@@ -636,4 +636,23 @@ static NSTimeInterval const timeMargin = 0.5;
     
 }
 
+- (void)setDensity:(CFDanmakuDensity)density inFrame:(CGRect)frame {
+    CGFloat totalHeight = CGRectGetHeight(frame);
+    CGFloat usedHeight = totalHeight;
+
+    switch (density) {
+        case CFDanmakuDensityMedium:
+            usedHeight = totalHeight * 0.5;
+            break;
+        case CFDanmakuDensityHigh:
+            usedHeight = totalHeight * 1.0;
+            break;
+    }
+
+    NSInteger maxLines = (NSInteger)(usedHeight / (self.lineHeight + self.lineMargin));
+    self.maxShowLineCount = MAX(1, maxLines);
+
+    NSLog(@"弹幕轨道动态调整：density=%ld，高度=%.2f，轨道数=%ld", (long)density, usedHeight, (long)self.maxShowLineCount);
+}
+
 @end

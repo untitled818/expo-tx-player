@@ -29,6 +29,11 @@
 @property(nonatomic, readonly, assign) BOOL      isPlaying;
 @property(nonatomic, readonly, assign) BOOL      isPauseing;
 
+typedef NS_ENUM(NSInteger, CFDanmakuDensity) {
+    CFDanmakuDensityMedium, // 半屏弹幕（1/2屏高）
+    CFDanmakuDensityHigh    // 全屏弹幕（整屏高）
+};
+
 - (void)prepareDanmakus:(NSArray *)danmakus;
 
 /// The following properties must be configured --------
@@ -69,6 +74,9 @@
 
 /// 隐藏弹幕
 - (void)hideDanmaku;
+
+/// 设置弹幕 1/2 ，1/1 密度
+- (void)setDensity:(CFDanmakuDensity)density inFrame:(CGRect)frame;
 
 
 @end

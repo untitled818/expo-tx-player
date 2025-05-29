@@ -22,4 +22,7 @@ typedef enum : NSInteger { CFDanmakuPositionNone = 0, CFDanmakuPositionCenterTop
 /// 弹幕类型(如果不设置 默认情况下只是从右到左滚动)
 @property(nonatomic, assign) CFDanmakuPosition position;
 
+/// 弹幕文本颜色
+@property(nonatomic, strong) UIColor *textColor;
+
 @end

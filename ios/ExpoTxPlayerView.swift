@@ -11,6 +11,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     }
     
     public static var currentInstance: ExpoTxPlayerView?
+    var currentDanmakuDensity: CFDanmakuDensity = .high
     private var danmakuView: CFDanmakuView?
     private var danmakuBtn: UIButton?
     let playerView = SuperPlayerView()
@@ -22,6 +23,11 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     public let onError = EventDispatcher()
     public let onPlayingChange = EventDispatcher()
     public let onStatusChange = EventDispatcher()
+    
+    @objc enum DanmakuDensity: Int {
+        case low, medium, high
+    }
+
     
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -60,23 +66,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
             playerView.play(withModelNeedLicence: newModel)
         }
     }
-    
-    //            var danmakus: [CFDanmaku] = []
-    //            let baseTime = playerView.playCurrentTime
-    //
-    //            for i in 0..<50 {
-    //                let content = NSAttributedString(string: "弹幕 \(i)", attributes: [
-    //                    .foregroundColor: UIColor.white,
-    //                    .font: UIFont.systemFont(ofSize: 14)
-    //                ])
-    //                let danmaku = CFDanmaku()
-    //                danmaku.contentStr = content
-    //                danmaku.timePoint = baseTime + Double(i) * 0.1 // 每 0.1 秒发一条
-    //                danmakus.append(danmaku)
-    //            }
-    //
-    //            danmakuView?.prepareDanmakus(danmakus)
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -100,6 +90,9 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
             danmakuView?.lineHeight = 25.0
             danmakuView?.lineMargin = 4.0
             danmakuView?.maxShowLineCount = 5
+            
+            // 设置初始轨道数（默认半屏密度）
+            danmakuView?.setDensity(currentDanmakuDensity, inFrame: self.bounds)
 
             // 添加多条弹幕
             self.insertSubview(danmakuView!, aboveSubview: playerView)
@@ -107,16 +100,16 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         }
     }
     
-    func sendDanmaku(_ text: String) {
+    func sendDanmaku(_ text: String, color: UIColor = .white) {
 //        print("JS 端的代码文字", text);
         let attr = NSAttributedString(string: text, attributes: [
-            .foregroundColor: UIColor.white,
+            .foregroundColor: color,
             .font: UIFont.systemFont(ofSize: 14)
         ])
         let danmaku = CFDanmaku()
-        danmaku.contentStr = attr
+        danmaku.contentStr = attr;
         danmaku.timePoint = 0;
-        danmakuView?.sendDanmakuSource(danmaku)
+        danmakuView?.sendDanmakuSource(danmaku);
     }
     
     func pauseDanmaku() {
@@ -143,6 +136,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
                 hideDanmaku();
             }
     }
+
     
     func screenRotation(_ fullScreen: Bool) {
         print("屏幕旋转，是否全屏: \(fullScreen)")
@@ -191,12 +185,14 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
                     fullscreenView.addSubview(danmaku)
                     danmaku.frame = fullscreenView.bounds
                     danmaku.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                    danmaku.setDensity(currentDanmakuDensity, inFrame: fullscreenView.bounds) // 设置高密度
                 }
             } else {
                 print("[ExpoTxPlayer] 退出全屏：还原弹幕到原位")
                 self.insertSubview(danmaku, aboveSubview: playerView)
                 danmaku.frame = self.bounds
                 danmaku.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                danmaku.setDensity(currentDanmakuDensity, inFrame: self.bounds) // 设置中密度
             }
     }
     

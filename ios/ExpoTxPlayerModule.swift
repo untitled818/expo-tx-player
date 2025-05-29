@@ -11,6 +11,13 @@ func runOnMain(_ block: @escaping () -> Void) {
   }
 }
 
+struct DanmakuInput: Codable {
+    let text: String
+    let color: String?
+    let fontSize: CGFloat?
+    let bold: Bool?
+}
+
 public class ExpoTxPlayerModule: Module {
     
     private var currentPlayer: ExpoTxPlayerView?
@@ -98,9 +105,9 @@ public class ExpoTxPlayerModule: Module {
         }
         
         Function("sendDanmaku") { (text: String) in
-          runOnMain {
-            ExpoTxPlayerView.currentInstance?.sendDanmaku(text)
-          }
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.sendDanmaku(text);
+            }
         }
         
         Function("pauseDanmaku") {
