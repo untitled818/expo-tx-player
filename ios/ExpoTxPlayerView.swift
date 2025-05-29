@@ -12,7 +12,6 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     
     public static var currentInstance: ExpoTxPlayerView?
     private var danmakuView: CFDanmakuView?
-    private var isDanmakuEnabled = false
     private var danmakuBtn: UIButton?
     let playerView = SuperPlayerView()
     public let onCastButtonPressed = EventDispatcher()
@@ -62,6 +61,22 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         }
     }
     
+    //            var danmakus: [CFDanmaku] = []
+    //            let baseTime = playerView.playCurrentTime
+    //
+    //            for i in 0..<50 {
+    //                let content = NSAttributedString(string: "弹幕 \(i)", attributes: [
+    //                    .foregroundColor: UIColor.white,
+    //                    .font: UIFont.systemFont(ofSize: 14)
+    //                ])
+    //                let danmaku = CFDanmaku()
+    //                danmaku.contentStr = content
+    //                danmaku.timePoint = baseTime + Double(i) * 0.1 // 每 0.1 秒发一条
+    //                danmakus.append(danmaku)
+    //            }
+    //
+    //            danmakuView?.prepareDanmakus(danmakus)
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -70,11 +85,8 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
                let btn = dv.value(forKey: "danmakuBtn") as? UIButton {
                 if danmakuBtn == nil {
                     danmakuBtn = btn
+                    btn.isSelected = true
                     btn.addTarget(self, action: #selector(danmakuButtonToggled), for: .touchUpInside)
-                    
-                    // ✅ 设置初始为“弹幕开启状态”
-                    danmakuView?.isHidden = false
-                    danmakuView?.resume()
                 }
             }
         
@@ -83,102 +95,53 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
             danmakuView?.delegate = self
             danmakuView?.backgroundColor = .clear
 
-            danmakuView?.duration = 5.0
+            danmakuView?.duration = 10.0
             danmakuView?.centerDuration = 3.0
             danmakuView?.lineHeight = 25.0
             danmakuView?.lineMargin = 4.0
-            danmakuView?.maxShowLineCount = 12
-            danmakuView?.maxCenterLineCount = 1
+            danmakuView?.maxShowLineCount = 5
 
             // 添加多条弹幕
-            var danmakus: [CFDanmaku] = []
-            let baseTime = playerView.playCurrentTime
-            
-            for i in 0..<50 {
-                let content = NSAttributedString(string: "弹幕 \(i)", attributes: [
-                    .foregroundColor: UIColor.white,
-                    .font: UIFont.systemFont(ofSize: 14)
-                ])
-                let danmaku = CFDanmaku()
-                danmaku.contentStr = content
-                danmaku.timePoint = baseTime + Double(i) * 0.1 // 每 0.1 秒发一条
-                danmakus.append(danmaku)
-            }
-
-            danmakuView?.prepareDanmakus(danmakus)
             self.insertSubview(danmakuView!, aboveSubview: playerView)
             danmakuView?.start()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.danmakuBtn?.sendActions(for: .touchUpInside)
-        }
-    }
-    
-    @objc func danmakuButtonToggled(_ sender: UIButton) {
-        // 你只做行为，UI 交给腾讯原有的逻辑控制
-            if sender.isSelected {
-                print("🔵 开启弹幕")
-//                danmakuView?.resume()
-//                danmakuView?.isHidden = false
-//                }
-            } else {
-                print("🔴 关闭弹幕")
-//                danmakuView?.pause()
-//                danmakuView?.isHidden = true
-            }
-    }
-    
-    @objc func danmakuShow(_ sender: UIButton) {
-        sender.isSelected.toggle();
-        print("🔵 弹幕按钮被点击")
-        // 调用 JS 回调 or 插入弹幕数据
-        print("[ExpoTxPlayer] 弹幕按钮点击")
-        
-        if sender.isSelected {
-                print("✅ 开启弹幕")
-                danmakuView?.resume()
-            } else {
-                print("⛔️ 关闭弹幕")
-                danmakuView?.pause()
-        }
-        
-        isDanmakuEnabled.toggle()
-            print("[ExpoTxPlayer] 弹幕按钮点击，当前状态：\(isDanmakuEnabled ? "开启" : "关闭")")
-
-            if isDanmakuEnabled {
-                // 开启弹幕：展示 view + start()
-                if let danmakuView = danmakuView {
-                    self.insertSubview(danmakuView, aboveSubview: playerView)
-                    danmakuView.start()
-                }
-            } else {
-                // 关闭弹幕：隐藏 view + pause()
-                danmakuView?.pause()
-                danmakuView?.removeFromSuperview()
-            }
-
-//        let content = NSAttributedString(string: "弹幕走起", attributes: [
-//                .foregroundColor: UIColor.green,
-//                .font: UIFont.boldSystemFont(ofSize: 14)
-//            ])
-//
-//            let danmaku = CFDanmaku()
-//            danmaku.contentStr = content
-//            danmaku.timePoint = playerView.playCurrentTime // 当前时间点
-//            danmaku.position = CFDanmakuPositionCenterTop
-//
-//            danmakuView?.sendDanmakuSource(danmaku)
     }
     
     func sendDanmaku(_ text: String) {
+//        print("JS 端的代码文字", text);
         let attr = NSAttributedString(string: text, attributes: [
             .foregroundColor: UIColor.white,
             .font: UIFont.systemFont(ofSize: 14)
         ])
         let danmaku = CFDanmaku()
         danmaku.contentStr = attr
-        danmaku.timePoint = CACurrentMediaTime()
+        danmaku.timePoint = 0;
         danmakuView?.sendDanmakuSource(danmaku)
+    }
+    
+    func pauseDanmaku() {
+        danmakuView?.pause();
+    }
+    
+    // 显示弹幕
+    func showDanmaku() {
+        danmakuView?.showDanmaku();
+    }
+    
+    // 关闭弹幕
+    func hideDanmaku() {
+        danmakuView?.hideDanmaku()
+    }
+    
+    @objc func danmakuButtonToggled(_ sender: UIButton) {
+        // 你只做行为，UI 交给腾讯原有的逻辑控制
+            if sender.isSelected {
+                print("🔵 开启弹幕");
+                showDanmaku();
+            } else {
+                print("🔴 关闭弹幕");
+                hideDanmaku();
+            }
     }
     
     func screenRotation(_ fullScreen: Bool) {
@@ -212,6 +175,15 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         }
         
         guard let danmaku = danmakuView else { return }
+        
+        // ✅ 清除当前弹幕 UI，不清除队列
+        for subview in danmaku.subviews {
+            if subview is UILabel {
+                subview.layer.removeAllAnimations()
+                subview.removeFromSuperview()
+            }
+        }
+
 
         if player.isFullScreen {
                 print("[ExpoTxPlayer] 进入全屏：添加弹幕到全屏 view")
@@ -219,18 +191,12 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
                     fullscreenView.addSubview(danmaku)
                     danmaku.frame = fullscreenView.bounds
                     danmaku.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-                    // ✅ 可选：触发一次重新布局轨道
-                    // danmaku.resetLayout()  // 如果你在 CFDanmakuView 里加了这个方法
                 }
             } else {
                 print("[ExpoTxPlayer] 退出全屏：还原弹幕到原位")
                 self.insertSubview(danmaku, aboveSubview: playerView)
                 danmaku.frame = self.bounds
                 danmaku.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-                // ✅ 可选：重新布局
-                // danmaku.resetLayout()
             }
     }
     

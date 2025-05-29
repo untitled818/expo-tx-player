@@ -29,8 +29,57 @@ const videoObj = {
   key: "589c3bc57bfdf9a4ecd75687b163a054",
   appId: "f0039500001",
 };
+let intervalId: NodeJS.Timeout | null = null;
+let count = 0;
 
 export default function App() {
+  const startFiring = () => {
+    if (intervalId) return;
+
+    count = 0; // 重置计数
+    // 规整弹幕
+    // intervalId = setInterval(() => {
+    //   if (count >= 50) {
+    //     stopFiring();
+    //     return;
+    //   }
+    //   ExpoTxPlayer.sendDanmaku(`🔥 弹幕 ${count++}`);
+    // }, 200); // 每 200 毫秒发一条（5 条/秒）
+
+    // 不规整弹幕
+    intervalId = setInterval(() => {
+      // if (count >= 50) {
+      //   stopFiring();
+      //   return;
+      // }
+
+      const emojis = ["🔥", "💥", "⚡️", "🎯", "🚀"];
+      const suffix = [
+        "来了乐乐乐乐乐乐乐了了",
+        "冲了",
+        "利物浦是冠军冠军冠军冠军冠军冠军冠军",
+        "再来一发火火火火火火火火火",
+        "爆炸啦",
+      ];
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      const suf = suffix[Math.floor(Math.random() * suffix.length)];
+
+      ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`);
+    }, 200);
+  };
+
+  const stopFiring = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      stopFiring(); // 组件卸载时清除定时器
+    };
+  }, []);
   const player = useTxPlayer(rtc, (player) => {
     player.play();
   });
@@ -71,6 +120,12 @@ export default function App() {
           console.log("cast stop");
         }}
       />
+
+      {/* 打开和关闭弹幕测试 */}
+
+      <Button title="打开弹幕" onPress={() => ExpoTxPlayer.showDanmaku()} />
+
+      <Button title="关闭弹幕" onPress={() => ExpoTxPlayer.hideDanmaku()} />
 
       <Button
         title={isPlaying ? "Pause" : "Play"}
@@ -116,9 +171,26 @@ export default function App() {
         }}
       />
 
-      {/* <TextInput value={danmu} onChange={(e) =>} /> */}
+      <TextInput
+        value={danmu}
+        onChangeText={setDanmu} // ✅ 这是 React Native 的写法
+        placeholder="请输入弹幕"
+        style={{ borderWidth: 1, padding: 8 }}
+      />
 
-      <Button title="发送弹幕" onPress={ExpoTxPlayer.sendDanmaku(danmu)} />
+      <Button
+        title="发送弹幕"
+        onPress={() => {
+          ExpoTxPlayer.sendDanmaku(danmu);
+          setDanmu("");
+        }}
+      />
+
+      <Button title="开始模拟高密度弹幕" onPress={startFiring} />
+
+      <Button title="停止弹幕" onPress={stopFiring} />
+
+      <Button title="暂停弹幕" onPress={() => ExpoTxPlayer.pauseDanmaku()} />
 
       <ScrollView>
         <Text>Module API Example</Text>

@@ -103,6 +103,24 @@ public class ExpoTxPlayerModule: Module {
           }
         }
         
+        Function("pauseDanmaku") {
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.pauseDanmaku();
+            }
+        }
+        
+        Function("showDanmaku") {
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.showDanmaku();
+            }
+        }
+        
+        Function("hideDanmaku") {
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.hideDanmaku();
+            }
+        }
+        
         
         
         View(ExpoTxPlayerView.self) {

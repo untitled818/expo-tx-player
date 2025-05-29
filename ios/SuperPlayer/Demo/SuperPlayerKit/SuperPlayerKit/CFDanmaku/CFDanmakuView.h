@@ -51,6 +51,9 @@
 /// The maximum number of lines above/below the middle of the bullet chatter
 /// 弹幕弹道中间上边/下边最大行数
 @property(nonatomic, assign) NSInteger maxCenterLineCount;
+
+/// 控制弹幕是否隐藏
+@property (nonatomic, assign, readonly) BOOL danmakuVisible;
 /// start corresponds to stop, pause corresponds to resume
 /// start 与 stop 对应  pause 与 resume 对应
 - (void)start;
@@ -60,5 +63,12 @@
 /// Send a barrage
 /// 发送一个弹幕
 - (void)sendDanmakuSource:(CFDanmaku *)danmaku;
+
+/// 显示弹幕
+- (void)showDanmaku;
+
+/// 隐藏弹幕
+- (void)hideDanmaku;
+
 
 @end
