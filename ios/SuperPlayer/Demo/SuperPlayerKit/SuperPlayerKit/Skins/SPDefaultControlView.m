@@ -47,6 +47,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         [self.bottomImageView addSubview:self.resolutionBtn];
         [self.bottomImageView addSubview:self.fullScreenBtn];
         [self.bottomImageView addSubview:self.totalTimeLabel];
+        self.totalTimeLabel.hidden = YES;
         [self.bottomImageView addSubview:self.nextBtn];
 
         [self.topImageView addSubview:self.captureBtn];

@@ -301,7 +301,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoTxPlayer (0.1.10):
+  - ExpoTxPlayer (0.1.15):
     - ExpoModulesCore
     - Masonry
     - SDWebImage
@@ -2254,7 +2254,8 @@ SPEC CHECKSUMS:
   ExpoFont: abbb91a911eb961652c2b0a22eef801860425ed6
   ExpoKeepAwake: bf0811570c8da182bfb879169437d4de298376e7
   ExpoModulesCore: 5d37821c36f3781dcd0ea9a393800c90eaa6259d
-  ExpoTxPlayer: 8386328fd179a6ff9a7ecaf6b53152649e666d0e
+  ExpoTxPlayer: 38edd92611b66ba1bc008d4667687359933c9070
+  EXUpdatesInterface: 7ff005b7af94ee63fa452ea7bb95d7a8ff40277a
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 84b955f7b4da8b895faf5946f73748267347c975
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd

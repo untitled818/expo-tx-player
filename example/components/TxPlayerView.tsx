@@ -1,7 +1,8 @@
 import React, { useMemo, useRef, useEffect } from "react";
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
-// import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
+import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
 import { Player, destroyPlayer } from "./Player";
+// import { ExpoTxPlayerView } from "expo-tx-player";
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -20,8 +21,9 @@ type Props = {
 const url =
   "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license";
 const key = "589c3bc57bfdf9a4ecd75687b163a054";
+const appId = 1308280968;
 
-Player.setLicense(url, key);
+Player.setLicense(url, key, appId);
 
 export const PlayerView: React.FC<Props> = ({
   player,

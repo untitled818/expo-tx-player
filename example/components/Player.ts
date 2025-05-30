@@ -46,9 +46,9 @@ export class Player implements EventEmitterCompatible {
 
   private listeners: PlayerListeners = {};
 
-  static setLicense(url: string, key: string) {
+  static setLicense(url: string, key: string, appId?: number) {
     if (Player._isLicenseSet) return;
-    ExpoTxPlayer.setLicense({ url, key });
+    ExpoTxPlayer.setLicense({ url, key, appId });
     Player._isLicenseSet = true;
   }
 

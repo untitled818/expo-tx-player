@@ -32,13 +32,13 @@ public class ExpoTxPlayerModule: Module {
         // The module will be accessible from `requireNativeModule('ExpoTxPlayer')` in JavaScript.
         Name("ExpoTxPlayer")
         
-        Function("setLicense") { (license: [String: String]) -> Void in
+        Function("setLicense") { (license: [String: Any]) -> Void in
             if isLicenseSet {
                 print("Warning: License already set, ignoring repeated call")
                 throw NSError(domain: "ExpoTxPlayer", code: 1, userInfo: [NSLocalizedDescriptionKey: "License already set"])
                 
             }
-            guard let url = license["url"], let key = license["key"] else {
+            guard let url = license["url"] as? String, let key = license["key"] as? String else {
                 print("setLicense 参数缺少 url 或 key")
                 throw NSError(domain: "ExpoTxPlayer", code: 2, userInfo: [NSLocalizedDescriptionKey: "License url or key missing"])
                 
