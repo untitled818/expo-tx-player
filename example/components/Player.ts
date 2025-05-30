@@ -36,6 +36,7 @@ type PlayerListeners = {
 };
 
 export class Player implements EventEmitterCompatible {
+  static _isLicenseSet = false;
   private _url: string;
   public _playing = false;
   private _status = "unknown";
@@ -45,14 +46,15 @@ export class Player implements EventEmitterCompatible {
 
   private listeners: PlayerListeners = {};
 
+  static setLicense(url: string, key: string) {
+    if (Player._isLicenseSet) return;
+    ExpoTxPlayer.setLicense({ url, key });
+    Player._isLicenseSet = true;
+  }
+
   constructor(url: string) {
     this._url = url;
     this._status = ExpoTxPlayer.getStatus();
-
-    ExpoTxPlayer.setLicense({
-      url: "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license",
-      key: "589c3bc57bfdf9a4ecd75687b163a054",
-    });
   }
 
   static source(url: string): Player {

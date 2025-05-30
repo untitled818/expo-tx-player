@@ -17,6 +17,12 @@ type Props = {
   onScreenCastStop?: () => void;
 };
 
+const url =
+  "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license";
+const key = "589c3bc57bfdf9a4ecd75687b163a054";
+
+Player.setLicense(url, key);
+
 export const PlayerView: React.FC<Props> = ({
   player,
   style,
