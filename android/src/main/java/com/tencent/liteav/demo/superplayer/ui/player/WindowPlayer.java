@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -11,16 +12,20 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import expo.modules.txplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig;
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel;
+import com.tencent.liteav.demo.superplayer.helper.ContextUtils;
 import com.tencent.liteav.demo.superplayer.helper.PictureInPictureHelper;
 import com.tencent.liteav.demo.superplayer.model.utils.VideoGestureDetector;
 import com.tencent.liteav.demo.superplayer.ui.view.PointSeekBar;
@@ -124,10 +129,18 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
    */
   private void initialize(Context context) {
     initView(context);
-    mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+
+    if (mContext == null) {
+      Log.e("TXPlayer", "mContext is null after initView");
+    }
+
+    mGestureDetector = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
       @Override
       public boolean onDoubleTap(MotionEvent e) {
+        Log.d("TXPlayer", "onDoubleTap triggered");
+
         if (isShowingVipView()) { // When the preview page is displayed, do not handle double-click events
+          Log.d("TXPlayer", "VIP view is showing, ignoring double tap");
           return true;
         }
         togglePlayState();
@@ -135,16 +148,23 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
         if (mHideViewRunnable != null) {
           removeCallbacks(mHideViewRunnable);
           postDelayed(mHideViewRunnable, 7000);
+          Log.d("TXPlayer", "HideViewRunnable reset for 7s");
+
         }
         return true;
       }
 
       @Override
       public boolean onScroll(MotionEvent downEvent, MotionEvent moveEvent, float distanceX, float distanceY) {
+        Log.d("TXPlayer", "onScroll triggered");
+
         if (downEvent == null || moveEvent == null) {
+          Log.e("TXPlayer", "Scroll event is null");
+
           return false;
         }
         if (mVideoGestureDetector != null && mGestureVolumeBrightnessProgressLayout != null) {
+          Log.d("TXPlayer", "Calling videoGestureDetector.check()");
           mVideoGestureDetector.check(mGestureVolumeBrightnessProgressLayout.getHeight(), downEvent, moveEvent,
               distanceX, distanceY);
         }
@@ -162,7 +182,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     });
     mGestureDetector.setIsLongpressEnabled(false);
 
-    mVideoGestureDetector = new VideoGestureDetector(getContext());
+    mVideoGestureDetector = new VideoGestureDetector(ContextUtils.getActivityFromContext(getContext()));
     mVideoGestureListener = new VideoGestureDetector.VideoGestureListener() {
       @Override
       public void onBrightnessGesture(float newBrightness) {
@@ -321,7 +341,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
 
   private void updateStartUI(boolean isAutoPlay) {
     mPiPIV.setVisibility((mIsShowPIPIv && PictureInPictureHelper
-        .hasPipPermission((Activity) mContext)) ? VISIBLE : GONE);
+        .hasPipPermission((Activity) ContextUtils.getActivityFromContext(mContext))) ? VISIBLE : GONE);
     if (isAutoPlay) {
       toggleView(mImageStartAndResume, false);
       toggleView(mPbLiveLoading, true);
@@ -397,6 +417,12 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   @Override
   public void show() {
     isShowing = true;
+    Log.d("TXPlayer", "show() called");
+    View parent = mLayoutTop.getParent() instanceof View ? (View) mLayoutTop.getParent() : null;
+    while (parent != null) {
+      Log.d("TXPlayer", "parent visibility: " + parent.getVisibility());
+      parent = parent.getParent() instanceof View ? (View) parent.getParent() : null;
+    }
     mLayoutTop.setVisibility(View.VISIBLE);
     mLayoutBottom.setVisibility(View.VISIBLE);
 
@@ -411,11 +437,12 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
 
   /**
    * Hide control
-   *
+   * <p>
    * 隐藏控件
    */
   @Override
   public void hide() {
+    Log.d("TXPlayer", "hide() called");
     isShowing = false;
     mLayoutTop.setVisibility(View.GONE);
     mLayoutBottom.setVisibility(View.GONE);
@@ -864,6 +891,6 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   public void showPIPIV(boolean isShow) {
     mIsShowPIPIv = isShow;
     mPiPIV.setVisibility((mIsShowPIPIv) && PictureInPictureHelper
-        .hasPipPermission((Activity) mContext) ? VISIBLE : GONE);
+        .hasPipPermission((Activity) ContextUtils.getActivityFromContext(mContext)) ? VISIBLE : GONE);
   }
 }

@@ -1,5 +1,6 @@
 package expo.modules.txplayer
 
+import android.util.Log
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.records.Record
@@ -8,6 +9,9 @@ import java.net.URL
 import com.tencent.rtmp.TXLiveBase
 
 class ExpoTxPlayerModule : Module() {
+  private var appId: Int? = null
+  private val TAG = "ExpoTxPlayer"
+
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
@@ -45,7 +49,11 @@ class ExpoTxPlayerModule : Module() {
 
     Function("setLicense") { params: LicenseParams ->
       val context = appContext.reactContext ?: return@Function
+      Log.d(TAG, "setLicense() called with appId: ${params.appId}, url: ${params.url}")
       TXLiveBase.getInstance().setLicence(context, params.url, params.key)
+      TXLiveBase.setConsoleEnabled(false)
+      TXLiveBase.setLogLevel(4)
+      appId = params.appId
     }
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of
@@ -53,7 +61,9 @@ class ExpoTxPlayerModule : Module() {
     View(ExpoTxPlayerView::class) {
       // Defines a setter for the `url` prop.
       Prop("url") { view: ExpoTxPlayerView, url: String ->
-        view.playWithUrl(url, 1308280968)
+        val id = appId ?: throw IllegalStateException("appId is not set. Please call setLicense() before setting the URL.")
+        Log.d(TAG, "Prop 'url' set to: $url with appId: $id")
+        view.playWithUrl(url, id)
       }
       // Defines an event that the view can send to JavaScript.
       Events("onLoad")
@@ -67,4 +77,8 @@ class LicenseParams : Record {
 
   @Field
   var key: String = ""
+
+  @Field
+  var appId: Int = 0
+
 }

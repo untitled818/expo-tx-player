@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useEffect } from "react";
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
-import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
+// import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
 import { Player, destroyPlayer } from "./Player";
 
 type Props = {
