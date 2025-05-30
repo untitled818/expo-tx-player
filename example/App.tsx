@@ -17,6 +17,11 @@ import { useEffect, useState } from "react";
 //   key: "4c71bd88da95af202a8f3b2743c7e4e4",
 // });
 
+ExpoTxPlayer.setLicense({
+  url: "https://license.vod2.myqcloud.com/license/v2/1308280968_1/v_cube.license",
+  key: "b371c6eb2f0a78f3a61b840db671f058",
+  appId: 1308280968,
+});
 const hls =
   "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
 
@@ -74,42 +79,22 @@ export default function App() {
     player.play();
   });
 
-  const isPlaying = useEvent(player, "playingChange", player.playing);
-  console.log(isPlaying, "playingChange");
-  const error = useEvent(player, "error", null);
-  console.log(error, "error");
+  // const player = useTxPlayer(rtc, (player) => {
+  //   player.play();
+  // });
 
-  const status = useEvent(player, "statusChange", player.status);
+  // const isPlaying = useEvent(player, "playingChange", player.playing);
+  // console.log(isPlaying, "playingChange");
+  // const error = useEvent(player, "error", null);
+  // console.log(error, "error");
 
-  console.log(status, "statusChange");
+  // const status = useEvent(player, "statusChange", player.status);
 
   const [danmu, setDanmu] = useState("这是一条JS端发送的弹幕");
 
   return (
-    <SafeAreaView>
-      <PlayerView
-        player={player}
-        style={{ width: "100%", height: 200 }}
-        contentFit="cover"
-        onFullscreenEnter={() => {
-          console.log("fullscreen start");
-        }}
-        onFullscreenEnd={() => {
-          console.log("fullscreen stop");
-        }}
-        onPIPStart={() => {
-          console.log("pip start");
-        }}
-        onPIPStop={() => {
-          console.log("pip end");
-        }}
-        onScreenCastStart={() => {
-          console.log("cast start");
-        }}
-        onScreenCastStop={() => {
-          console.log("cast stop");
-        }}
-      />
+    <SafeAreaView style={{ flex: 1 }}>
+      <ExpoTxPlayerView url={hls} style={{ width: "100%", flex: 1 }} />
 
       {/* 打开和关闭弹幕测试 */}
 

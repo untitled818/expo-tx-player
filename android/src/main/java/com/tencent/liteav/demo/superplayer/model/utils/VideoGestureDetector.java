@@ -9,6 +9,9 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.util.Log;
+
+import com.tencent.liteav.demo.superplayer.helper.ContextUtils;
 
 /**
  * Gesture control tool for adjusting video playback progress, brightness and volume
@@ -40,10 +43,12 @@ public class VideoGestureDetector {
     private float                      mSensitivity = 0.3f;
 
     public VideoGestureDetector(Context context) {
+        Log.d("VideoGestureDetector", "init init: ");
         mAudioManager = (AudioManager) context.getSystemService(Service.AUDIO_SERVICE);
         mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        Log.d("VideoGestureDetector", "AudioManager found, context instanceof Activity: " + (context instanceof Activity) );
         if (context instanceof Activity) {
-            mWindow = ((Activity) context).getWindow();
+            mWindow = ContextUtils.getActivityFromContext(context).getWindow();
             mLayoutParams = mWindow.getAttributes();
             mBrightness = mLayoutParams.screenBrightness;
         }
@@ -69,11 +74,32 @@ public class VideoGestureDetector {
      *                     手势按下时视频的播放进度(秒)
      */
     public void reset(int videoWidth, int downProgress) {
+        Log.d("VideoGestureDetector", "reset() called with videoWidth: " + videoWidth + ", downProgress: " + downProgress);
+
         mVideoProgress = 0;
         mVideoWidth = videoWidth;
         mScrollMode = NONE;
-        mOldVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        mBrightness = mLayoutParams.screenBrightness;
+//        mOldVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (mAudioManager != null) {
+            mOldVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            Log.d("VideoGestureDetector", "Old volume: " + mOldVolume);
+        } else {
+            Log.w("VideoGestureDetector", "AudioManager is null");
+            mOldVolume = 0;
+        }
+//        mBrightness = mLayoutParams.screenBrightness;
+        if (mLayoutParams != null) {
+            mBrightness = mLayoutParams.screenBrightness;
+            Log.d("VideoGestureDetector", "screenBrightness from LayoutParams: " + mBrightness);
+            if (mBrightness == -1) {
+                mBrightness = getBrightness() / 255.0f;
+                Log.d("VideoGestureDetector", "Fallback to system brightness: " + mBrightness);
+            }
+        } else {
+            Log.e("VideoGestureDetector", "LayoutParams is null in reset()");
+            mBrightness = 0.5f; // fallback default brightness
+        }
+
         if (mBrightness == -1) {
             // When the default brightness is set, get the system brightness and calculate the ratio value
             mBrightness = getBrightness() / 255.0f;

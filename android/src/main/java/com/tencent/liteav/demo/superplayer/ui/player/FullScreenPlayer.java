@@ -25,6 +25,7 @@ import expo.modules.txplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig;
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel;
+import com.tencent.liteav.demo.superplayer.helper.ContextUtils;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayImageSpriteInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayKeyFrameDescInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.VideoQuality;
@@ -326,7 +327,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   }
 
   public int getScreenWidth() {
-    Display display = ((Activity) mContext).getWindowManager().getDefaultDisplay();
+    Display display = ((Activity) ContextUtils.getActivityFromContext(mContext)).getWindowManager().getDefaultDisplay();
     Point outSize = new Point();
     display.getSize(outSize);
     return outSize.x;

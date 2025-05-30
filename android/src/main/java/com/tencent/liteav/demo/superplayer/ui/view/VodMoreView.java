@@ -25,6 +25,7 @@ import android.widget.Switch;
 import expo.modules.txplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig;
+import com.tencent.liteav.demo.superplayer.helper.ContextUtils;
 
 /**
  * <p>
@@ -129,7 +130,7 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
     }
 
     private void updateCurrentLightProgress() {
-        Activity activity = (Activity) mContext;
+        Activity activity = ContextUtils.getActivityFromContext(mContext);
         float brightness = getActivityBrightness(activity);
         if (brightness == -1) {
             mSeekBarLight.setProgress(100);
@@ -206,7 +207,7 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
     };
 
     private void updateBrightProgress(int progress) {
-        Activity activity = (Activity) mContext;
+        Activity activity = ContextUtils.getActivityFromContext(mContext);
         Window window = activity.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.screenBrightness = progress * 1.0f / 100;

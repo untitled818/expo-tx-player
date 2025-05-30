@@ -2,7 +2,11 @@ import {
   withInfoPlist,
   withAndroidManifest,
   ConfigPlugin,
+  AndroidConfig,
 } from "expo/config-plugins";
+
+const { getMainApplicationOrThrow, addMetaDataItemToMainApplication } =
+  AndroidConfig.Manifest;
 
 const withPlayerAppConfig: ConfigPlugin = (config) => {
   config = withInfoPlist(config, (config) => {
@@ -51,9 +55,40 @@ const withPlayerAppConfig: ConfigPlugin = (config) => {
   });
 
   config = withAndroidManifest(config, (config) => {
-    // const mainApplication = AndroidConfig.Manifest.getMainApplicationOrThrow(
-    //   config.modResults
-    // );
+    const manifest = config.modResults;
+    const mainApplication = getMainApplicationOrThrow(manifest);
+
+    const permissions = [
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_NETWORK_STATE",
+      "android.permission.ACCESS_WIFI_STATE",
+      "android.permission.SYSTEM_ALERT_WINDOW",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.READ_EXTERNAL_STORAGE",
+    ];
+
+    manifest.manifest["uses-permission"] ??= [];
+
+    for (const permission of permissions) {
+      const alreadyExists = manifest.manifest["uses-permission"].some(
+        (item) => {
+          return item.$["android:name"] === permission;
+        }
+      );
+
+      if (!alreadyExists) {
+        manifest.manifest["uses-permission"].push({
+          $: { "android:name": permission },
+        });
+      }
+    }
+
+    // 尝试添加 android:networkSecurityConfig
+    // ⚠️ 注意：此属性不会自动合并进宿主 app 的 AndroidManifest.xml，最终仍需宿主 app 手动配置
+    if (!mainApplication.$["android:networkSecurityConfig"]) {
+      mainApplication.$["android:networkSecurityConfig"] =
+        "@xml/network_security_config";
+    }
 
     // AndroidConfig.Manifest.addMetaDataItemToMainApplication(
     //   mainApplication,
