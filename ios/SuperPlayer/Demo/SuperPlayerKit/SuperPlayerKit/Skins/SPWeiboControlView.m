@@ -24,7 +24,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:self.startBtn];
-        [self addSubview:self.currentTimeLabel];
+//        [self addSubview:self.currentTimeLabel];
         [self addSubview:self.totalTimeLabel];
         [self addSubview:self.videoSlider];
         [self addSubview:self.fullScreenBtn];

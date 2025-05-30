@@ -41,7 +41,9 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         [self addSubview:self.bottomImageView];
         [self.bottomImageView addSubview:self.startBtn];
         [self.bottomImageView addSubview:self.currentTimeLabel];
+        self.currentTimeLabel.hidden = YES;
         [self.bottomImageView addSubview:self.videoSlider];
+        self.videoSlider.hidden = YES;
         [self.bottomImageView addSubview:self.resolutionBtn];
         [self.bottomImageView addSubview:self.fullScreenBtn];
         [self.bottomImageView addSubview:self.totalTimeLabel];
