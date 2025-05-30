@@ -37,16 +37,6 @@ export default function App() {
     if (intervalId) return;
 
     count = 0; // 重置计数
-    // 规整弹幕
-    // intervalId = setInterval(() => {
-    //   if (count >= 50) {
-    //     stopFiring();
-    //     return;
-    //   }
-    //   ExpoTxPlayer.sendDanmaku(`🔥 弹幕 ${count++}`);
-    // }, 200); // 每 200 毫秒发一条（5 条/秒）
-
-    // 不规整弹幕
     intervalId = setInterval(() => {
       // if (count >= 50) {
       //   stopFiring();
@@ -173,7 +163,7 @@ export default function App() {
 
       <TextInput
         value={danmu}
-        onChangeText={setDanmu} // ✅ 这是 React Native 的写法
+        onChangeText={setDanmu}
         placeholder="请输入弹幕"
         style={{ borderWidth: 1, padding: 8 }}
       />

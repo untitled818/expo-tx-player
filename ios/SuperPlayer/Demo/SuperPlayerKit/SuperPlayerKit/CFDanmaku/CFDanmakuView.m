@@ -312,7 +312,7 @@ static NSTimeInterval const timeMargin = 0.5;
 //
 //    info.playLabel = label;
 //    NSInteger line = info.lineCount;
-//    NSLog(@"✅ 播放弹幕：%@", info.danmaku.contentStr.string);
+//    NSLog(@" 播放弹幕：%@", info.danmaku.contentStr.string);
 //
 //    CGFloat y = (self.lineHeight + self.lineMargin) * line;
 //    CGFloat labelWidth = CGRectGetWidth(label.bounds);
@@ -323,7 +323,7 @@ static NSTimeInterval const timeMargin = 0.5;
 //
 //    [self addSubview:label];
 //
-//    // ✅ 使用统一速度（例如 80 px/s）
+//    //  使用统一速度（例如 80 px/s）
 //    CGFloat speed = 80.0;
 //    CGFloat totalDistance = screenWidth + labelWidth;
 //    CGFloat duration = totalDistance / speed;
@@ -350,7 +350,7 @@ static NSTimeInterval const timeMargin = 0.5;
 
     info.playLabel = label; // 如果你后面需要用它
     NSInteger line = info.lineCount;
-    NSLog(@"✅ 播放弹幕：%@", info.danmaku.contentStr.string);
+    NSLog(@" 播放弹幕：%@", info.danmaku.contentStr.string);
     CGFloat y = (self.lineHeight + self.lineMargin) * line;
     label.frame = CGRectMake(CGRectGetWidth(self.bounds), y, CGRectGetWidth(label.bounds), CGRectGetHeight(label.bounds));
     

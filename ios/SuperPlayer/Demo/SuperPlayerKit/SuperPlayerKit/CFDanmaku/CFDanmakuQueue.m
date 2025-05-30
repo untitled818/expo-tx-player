@@ -1,5 +1,5 @@
 #import "CFDanmakuQueue.h"
-#import "CFDanmakuInfo.h" // 确保你引入这个类
+#import "CFDanmakuInfo.h"
 
 @interface CFDanmakuQueue ()
 @property(nonatomic, strong) NSMutableArray<CFDanmakuInfo *> *queue;

@@ -171,7 +171,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         
         guard let danmaku = danmakuView else { return }
         
-        // ✅ 清除当前弹幕 UI，不清除队列
+        // 清除当前弹幕 UI，不清除队列
         for subview in danmaku.subviews {
             if subview is UILabel {
                 subview.layer.removeAllAnimations()
