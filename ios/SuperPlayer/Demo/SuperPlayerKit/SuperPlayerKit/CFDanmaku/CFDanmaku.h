@@ -25,4 +25,7 @@ typedef enum : NSInteger { CFDanmakuPositionNone = 0, CFDanmakuPositionCenterTop
 /// 弹幕文本颜色
 @property(nonatomic, strong) UIColor *textColor;
 
+/// 标识是否是自己发的队列
+@property (nonatomic, assign) BOOL isSelf;
+
 @end

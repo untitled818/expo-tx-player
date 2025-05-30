@@ -11,7 +11,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     }
     
     public static var currentInstance: ExpoTxPlayerView?
-    var currentDanmakuDensity: CFDanmakuDensity = .high
+    private var currentDanmakuDensity: CFDanmakuDensity = .medium
     private var danmakuView: CFDanmakuView?
     private var danmakuBtn: UIButton?
     let playerView = SuperPlayerView()
@@ -100,7 +100,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         }
     }
     
-    func sendDanmaku(_ text: String, color: UIColor = .white) {
+    func sendDanmaku(_ text: String, color: UIColor = .white, isSelf: Bool) {
 //        print("JS 端的代码文字", text);
         let attr = NSAttributedString(string: text, attributes: [
             .foregroundColor: color,
@@ -109,6 +109,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         let danmaku = CFDanmaku()
         danmaku.contentStr = attr;
         danmaku.timePoint = 0;
+        danmaku.isSelf = isSelf;
         danmakuView?.sendDanmakuSource(danmaku);
     }
     

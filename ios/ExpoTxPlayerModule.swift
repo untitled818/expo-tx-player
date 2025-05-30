@@ -104,9 +104,11 @@ public class ExpoTxPlayerModule: Module {
             }
         }
         
-        Function("sendDanmaku") { (text: String) in
+        Function("sendDanmaku") { (text: String, colorName: String?, isSelf: Bool?) in
             runOnMain {
-                ExpoTxPlayerView.currentInstance?.sendDanmaku(text);
+                let color = colorName.flatMap { UIColor.from(name: $0) } ?? .white
+                let finalIsSelf = isSelf ?? false
+                ExpoTxPlayerView.currentInstance?.sendDanmaku(text, color: color, isSelf: finalIsSelf)
             }
         }
         
@@ -148,6 +150,23 @@ public class ExpoTxPlayerModule: Module {
               view.setContentFit(contentFit)
             }
             
+        }
+    }
+}
+
+extension UIColor {
+    static func from(name: String) -> UIColor? {
+        switch name.lowercased() {
+        case "red": return .red
+        case "blue": return .blue
+        case "green": return .green
+        case "yellow": return .yellow
+        case "white": return .white
+        case "black": return .black
+        case "gray": return .gray
+        case "orange": return .orange
+        case "purple": return .purple
+        default: return nil
         }
     }
 }

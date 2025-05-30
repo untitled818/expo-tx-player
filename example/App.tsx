@@ -57,14 +57,14 @@ export default function App() {
       const suffix = [
         "来了乐乐乐乐乐乐乐了了",
         "冲了",
-        "利物浦是冠军冠军冠军冠军冠军冠军冠军",
+        "TV streaming device by Google",
         "再来一发火火火火火火火火火",
         "爆炸啦",
       ];
       const emoji = emojis[Math.floor(Math.random() * emojis.length)];
       const suf = suffix[Math.floor(Math.random() * suffix.length)];
 
-      ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`);
+      ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`, "green");
     }, 200);
   };
 
@@ -181,7 +181,7 @@ export default function App() {
       <Button
         title="发送弹幕"
         onPress={() => {
-          ExpoTxPlayer.sendDanmaku(danmu);
+          ExpoTxPlayer.sendDanmaku(danmu, "blue", true);
           setDanmu("");
         }}
       />

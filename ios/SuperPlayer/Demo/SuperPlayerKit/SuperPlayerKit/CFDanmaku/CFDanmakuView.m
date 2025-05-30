@@ -36,6 +36,7 @@
 @property(nonatomic, strong) NSMutableDictionary* centerBottomLinesDict;
 
 @property(nonatomic, strong) CFDanmakuQueue *waitingQueue;
+@property(nonatomic, strong) CFDanmakuQueue *selfDanmakuQueue;
 
 @property (nonatomic, assign, readwrite) BOOL danmakuVisible;
 
@@ -54,6 +55,7 @@ static NSTimeInterval const timeMargin = 0.5;
         
         _linesDict = [NSMutableDictionary dictionary];
         _waitingQueue = [[CFDanmakuQueue alloc] init];
+        _selfDanmakuQueue = [[CFDanmakuQueue alloc] init];
     }
     return self;
 }
@@ -289,7 +291,14 @@ static NSTimeInterval const timeMargin = 0.5;
 //        info.playLabel = playerLabel;
         info.leftTime = self.duration;
         info.danmaku = danmaku;
-        [self.waitingQueue enqueue:info];
+    
+        if (danmaku.isSelf) {
+            [self.selfDanmakuQueue enqueue:info];
+        } else {
+            // 正常弹幕，插队尾
+            [self.waitingQueue enqueue:info];
+        }
+//        [self.waitingQueue enqueue:info];
 
         [self tryPlayNextDanmaku];
 }
@@ -362,24 +371,17 @@ static NSTimeInterval const timeMargin = 0.5;
         
         // 播放等待队列中弹幕
         [self tryPlayNextDanmaku];
-//        CFDanmakuInfo *next = [self.waitingQueue dequeue];
-//        
-//        if (next) {
-//            [self tryPlayNextDanmaku];
-//        }
-        //            UILabel* playerLabel       = [[UILabel alloc] init];
-        //            playerLabel.attributedText = next.contentStr;
-        //            [playerLabel sizeToFit];
-        //            playerLabel.backgroundColor = [UIColor clearColor];
-                    
-        //            [self playFromRightDanmaku:next playerLabel:playerLabel];
     }];
 }
 
 //
 - (void)tryPlayNextDanmaku {
     while (![self.waitingQueue isEmpty]) {
-        CFDanmakuInfo *nextInfo = [self.waitingQueue peek];
+        // 取出优先队列
+        CFDanmakuInfo *nextInfo = ![self.selfDanmakuQueue isEmpty]
+                    ? [self.selfDanmakuQueue peek]
+                    : [self.waitingQueue peek];
+//        CFDanmakuInfo *nextInfo = [self.waitingQueue peek];
         BOOL didPlay = NO;
 
         for (NSInteger i = 0; i < self.maxShowLineCount; i++) {
@@ -412,7 +414,13 @@ static NSTimeInterval const timeMargin = 0.5;
                 nextInfo.lineCount = i;
                 NSLog(@"➡️ addAnimationToViewWithInfo 被调用，lineCount = %ld", (long)nextInfo.lineCount);
                 [infosInLine addObject:nextInfo];
-                [self.waitingQueue dequeue];
+//                [self.waitingQueue dequeue];
+                if (![self.selfDanmakuQueue isEmpty]) {
+                    [self.selfDanmakuQueue dequeue];
+                } else {
+                    [self.waitingQueue dequeue];
+                }
+
                 [self addAnimationToViewWithInfo:nextInfo];
                 didPlay = YES;
                 break; // 播完这一条，再 peek 下一条
