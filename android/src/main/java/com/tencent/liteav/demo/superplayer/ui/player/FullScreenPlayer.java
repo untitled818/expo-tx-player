@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -327,9 +328,10 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   }
 
   public int getScreenWidth() {
-    Display display = ((Activity) ContextUtils.getActivityFromContext(mContext)).getWindowManager().getDefaultDisplay();
+    Display display = ((Activity) (mContext)).getWindowManager().getDefaultDisplay();
     Point outSize = new Point();
     display.getSize(outSize);
+    Log.d("SuperPlayerView", "getScreenWidth called, width = " + outSize.x);
     return outSize.x;
   }
 

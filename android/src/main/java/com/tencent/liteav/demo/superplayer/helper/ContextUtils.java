@@ -20,14 +20,16 @@ public class ContextUtils {
             Log.e("ContextUtils", "context is null");
             throw new IllegalStateException("Context is null and cannot be used to get Activity");
         }
+        Log.d("ContextUtils", "getActivityFromContext: context class = " + context.getClass().getName());
         if (context instanceof Activity) {
+            Log.d("ContextUtils", "getActivityFromContext: found Activity");
             return (Activity) context;
         } else if (context instanceof ContextWrapper) {
             Context baseContext = ((ContextWrapper) context).getBaseContext();
             return getActivityFromContext(baseContext);
         }
+        Log.e("ContextUtils", "Context cannot be cast to Activity: " + context.getClass().getName());
 
-        Log.e("ContextUtils", "Cannot extract Activity from context: " + context.getClass().getName());
         throw new IllegalStateException("Context cannot be cast to Activity: " + context.getClass().getName());
     }
 

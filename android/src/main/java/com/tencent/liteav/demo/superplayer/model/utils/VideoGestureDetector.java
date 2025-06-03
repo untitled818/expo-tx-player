@@ -48,7 +48,7 @@ public class VideoGestureDetector {
         mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         Log.d("VideoGestureDetector", "AudioManager found, context instanceof Activity: " + (context instanceof Activity) );
         if (context instanceof Activity) {
-            mWindow = ContextUtils.getActivityFromContext(context).getWindow();
+            mWindow = ((Activity) context).getWindow();
             mLayoutParams = mWindow.getAttributes();
             mBrightness = mLayoutParams.screenBrightness;
         }
