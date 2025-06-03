@@ -90,11 +90,11 @@ export default function App() {
 
   // const status = useEvent(player, "statusChange", player.status);
 
-  // const [danmu, setDanmu] = useState("这是一条JS端发送的弹幕");
+  const [danmu, setDanmu] = useState("这是一条JS端发送的弹幕");
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ExpoTxPlayerView url={hls} style={{ width: "100%", flex: 1 }} />
+      <ExpoTxPlayerView url={hls} style={{ width: "100%", height: 220 }} />
 
       {/* <PlayerView
         player={player}
@@ -137,7 +137,7 @@ export default function App() {
         }}
       /> */}
 
-      <Button
+      {/* <Button
         title="音量"
         onPress={() => {
           ExpoTxPlayer.setMute(true);
@@ -148,35 +148,35 @@ export default function App() {
         onPress={() => {
           ExpoTxPlayer.bufferedPosition();
         }}
-      />
+      /> */}
 
-      <Button
+      {/* <Button
         title="获取到当前状态"
         onPress={() => {
           // console.log(ExpoTxPlayer.getStatus());
         }}
-      />
+      /> */}
 
-      <TextInput
+      {/* <TextInput
         value={danmu}
         onChangeText={setDanmu}
         placeholder="请输入弹幕"
         style={{ borderWidth: 1, padding: 8 }}
-      />
+      /> */}
 
-      <Button
+      {/* <Button
         title="发送弹幕"
         onPress={() => {
           ExpoTxPlayer.sendDanmaku(danmu, "blue", true);
           setDanmu("");
         }}
-      />
+      /> */}
 
-      <Button title="开始模拟高密度弹幕" onPress={startFiring} />
+      {/* <Button title="开始模拟高密度弹幕" onPress={startFiring} /> */}
 
-      <Button title="停止弹幕" onPress={stopFiring} />
+      {/* <Button title="停止弹幕" onPress={stopFiring} /> */}
 
-      <Button title="暂停弹幕" onPress={() => ExpoTxPlayer.pauseDanmaku()} /> */}
+      {/* <Button title="暂停弹幕" onPress={() => ExpoTxPlayer.pauseDanmaku()} /> */}
 
       <ScrollView>
         <Text>Module API Example</Text>

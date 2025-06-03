@@ -107,6 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/superplayer_bottom_shadow"
+        android:paddingBottom="8dp"
         android:orientation="horizontal">
 
         <!--播放/暂停-->
@@ -116,7 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/superplayer_ic_vod_pause_normal" />
+            android:src="@drawable/superplayer_ic_vod_pause_normal" 
+            />
         <!--播放位置-->
         <TextView
             android:id="@+id/superplayer_tv_current"
@@ -126,7 +128,9 @@
             android:text="00:00"
             android:ems="3"
             android:textColor="@android:color/white"
-            android:textSize="11.0sp" />
+            android:textSize="11.0sp" 
+            android:visibility="gone"
+            />
 
         <com.tencent.liteav.demo.superplayer.ui.view.PointSeekBar
             android:id="@+id/superplayer_seekbar_progress"
@@ -136,22 +140,31 @@
             android:layout_marginLeft="5.0dip"
             android:layout_marginRight="5.0dip"
             android:layout_weight="1.0"
+            android:visibility="gone"
             app:psb_backgroundColor="@color/superplayer_biz_audio_progress_second"
             app:psb_max="100"
             app:psb_progress="0"
             app:psb_progressColor="#FF584C"
             app:psb_progressHeight="2dp"
-            app:psb_thumbBackground="@drawable/superplayer_ic_vod_thumb" />
+            app:psb_thumbBackground="@drawable/superplayer_ic_vod_thumb" 
+            />
+
+        <!-- 中间空白撑开 View -->
+        <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
 
         <!--总时长-->
-        <TextView
+        <!-- <TextView
             android:id="@+id/superplayer_tv_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="00:00"
             android:textColor="@android:color/white"
-            android:textSize="11.0sp" />
+            android:textSize="11.0sp" 
+            /> -->
 
         <ImageView
             android:id="@+id/superplayer_iv_play_next"
@@ -168,6 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
             android:src="@drawable/superplayer_ic_vod_fullscreen" />
     </LinearLayout>
 
