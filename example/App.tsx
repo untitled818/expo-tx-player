@@ -8,8 +8,8 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useTxPlayer } from "./components/useTxPlayer";
-import { PlayerView } from "./components";
+// import { useTxPlayer } from "./components/useTxPlayer";
+// import { PlayerView } from "./components";
 import { useEffect, useState } from "react";
 
 // ExpoTxPlayer.setLicense({
@@ -17,11 +17,11 @@ import { useEffect, useState } from "react";
 //   key: "4c71bd88da95af202a8f3b2743c7e4e4",
 // });
 
-// ExpoTxPlayer.setLicense({
-//   url: "https://license.vod2.myqcloud.com/license/v2/1308280968_1/v_cube.license",
-//   key: "b371c6eb2f0a78f3a61b840db671f058",
-//   appId: 1308280968,
-// });
+ExpoTxPlayer.setLicense({
+  url: "https://license.vod2.myqcloud.com/license/v2/1308280968_1/v_cube.license",
+  key: "b371c6eb2f0a78f3a61b840db671f058",
+  appId: 1308280968,
+});
 const hls =
   "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
 
@@ -59,7 +59,7 @@ export default function App() {
       const emoji = emojis[Math.floor(Math.random() * emojis.length)];
       const suf = suffix[Math.floor(Math.random() * suffix.length)];
 
-      ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`, "green");
+      // ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`, "green");
     }, 200);
   };
 
@@ -126,7 +126,7 @@ export default function App() {
 
       <Button title="关闭弹幕" onPress={() => ExpoTxPlayer.hideDanmaku()} />
 
-      <Button
+      {/* <Button
         title={isPlaying ? "Pause" : "Play"}
         onPress={() => {
           if (isPlaying) {
@@ -135,7 +135,7 @@ export default function App() {
             player.play();
           }
         }}
-      />
+      /> */}
 
       <Button
         title="音量"
@@ -153,20 +153,7 @@ export default function App() {
       <Button
         title="获取到当前状态"
         onPress={() => {
-          console.log(ExpoTxPlayer.getStatus());
-        }}
-      />
-
-      <Button
-        title="切换视频源hls"
-        onPress={() => {
-          player.switchSource(hls);
-        }}
-      />
-      <Button
-        title="切换视频源rtc"
-        onPress={() => {
-          player.switchSource(rtc);
+          // console.log(ExpoTxPlayer.getStatus());
         }}
       />
 
