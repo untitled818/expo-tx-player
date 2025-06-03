@@ -70,33 +70,33 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      stopFiring(); // 组件卸载时清除定时器
-    };
-  }, []);
-  const player = useTxPlayer(hls, (player) => {
-    player.play();
-  });
+  // useEffect(() => {
+  //   return () => {
+  //     stopFiring(); // 组件卸载时清除定时器
+  //   };
+  // }, []);
+  // const player = useTxPlayer(hls, (player) => {
+  //   player.play();
+  // });
 
   // const player = useTxPlayer(rtc, (player) => {
   //   player.play();
   // });
 
-  const isPlaying = useEvent(player, "playingChange", player.playing);
-  console.log(isPlaying, "playingChange");
-  const error = useEvent(player, "error", null);
-  console.log(error, "error");
+  // const isPlaying = useEvent(player, "playingChange", player.playing);
+  // console.log(isPlaying, "playingChange");
+  // const error = useEvent(player, "error", null);
+  // console.log(error, "error");
 
-  const status = useEvent(player, "statusChange", player.status);
+  // const status = useEvent(player, "statusChange", player.status);
 
-  const [danmu, setDanmu] = useState("这是一条JS端发送的弹幕");
+  // const [danmu, setDanmu] = useState("这是一条JS端发送的弹幕");
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <ExpoTxPlayerView url={hls} style={{ width: "100%", flex: 1 }} /> */}
+      <ExpoTxPlayerView url={hls} style={{ width: "100%", flex: 1 }} />
 
-      <PlayerView
+      {/* <PlayerView
         player={player}
         style={{ width: "100%", height: 200 }}
         contentFit="cover"
@@ -118,11 +118,11 @@ export default function App() {
         onScreenCastStop={() => {
           console.log("cast stop");
         }}
-      />
+      /> */}
 
       {/* 打开和关闭弹幕测试 */}
 
-      <Button title="打开弹幕" onPress={() => ExpoTxPlayer.showDanmaku()} />
+      {/* <Button title="打开弹幕" onPress={() => ExpoTxPlayer.showDanmaku()} />
 
       <Button title="关闭弹幕" onPress={() => ExpoTxPlayer.hideDanmaku()} />
 
@@ -189,7 +189,7 @@ export default function App() {
 
       <Button title="停止弹幕" onPress={stopFiring} />
 
-      <Button title="暂停弹幕" onPress={() => ExpoTxPlayer.pauseDanmaku()} />
+      <Button title="暂停弹幕" onPress={() => ExpoTxPlayer.pauseDanmaku()} /> */}
 
       <ScrollView>
         <Text>Module API Example</Text>
