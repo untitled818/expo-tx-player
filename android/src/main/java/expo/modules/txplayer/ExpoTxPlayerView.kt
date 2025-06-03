@@ -46,7 +46,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
 
     playerView.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
       override fun onStartFullScreenPlay() {
-        Log.d("ExpoTxPlayer", "进入全屏播放")
+        Log.d("ExpoTxPlayer", "进入全屏播放，view size: ${playerView.width}x${playerView.height}")
       }
 
       override fun onStopFullScreenPlay() {

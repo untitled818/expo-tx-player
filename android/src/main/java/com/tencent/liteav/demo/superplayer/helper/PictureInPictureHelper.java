@@ -48,7 +48,7 @@ public class PictureInPictureHelper implements ServiceConnection {
 
   @SuppressLint({ "WrongConstant", "UnspecifiedRegisterReceiverFlag" })
   public PictureInPictureHelper(Context context) {
-    mContext = context;
+    mContext =  context;
     mReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
@@ -95,7 +95,7 @@ public class PictureInPictureHelper implements ServiceConnection {
 
   public void enterPictureInPictureMode(SuperPlayerDef.PlayerState state, TXCloudVideoView mTXCloudVideoView) {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O
-        && hasPipPermission((Activity) ContextUtils.getActivityFromContext(mContext))) {
+        && hasPipPermission((Activity) (mContext))) {
       if (mPictureInPictureParamsBuilder == null) {
         mPictureInPictureParamsBuilder = new PictureInPictureParams.Builder();
       }
@@ -112,7 +112,7 @@ public class PictureInPictureHelper implements ServiceConnection {
         updatePictureInPictureActions(R.drawable.superplayer_ic_vod_play_normal, "",
             PIP_CONTROL_TYPE_PLAY, PIP_REQUEST_TYPE_PLAY);
       }
-      ((Activity) ContextUtils.getActivityFromContext(mContext))
+      ((Activity) mContext)
           .enterPictureInPictureMode(mPictureInPictureParamsBuilder.build());
     }
   }
@@ -139,7 +139,7 @@ public class PictureInPictureHelper implements ServiceConnection {
     if (mPictureInPictureParamsBuilder == null) {
       return;
     }
-    final Activity activity = ContextUtils.getActivityFromContext(mContext);
+    final Activity activity = (Activity) mContext;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && null != activity
         && !activity.isDestroyed() && !activity.isFinishing()) {
 

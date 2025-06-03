@@ -285,7 +285,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mIvWatermark = (ImageView) findViewById(R.id.superplayer_small_iv_water_mark);
     mVipWatchView = findViewById(R.id.superplayer_vip_watch_view);
     mVipWatchView.setVipWatchViewClickListener(this);
-    mContext = context;
+    mContext = ContextUtils.getActivityFromContext(context);
   }
 
   /**
@@ -341,7 +341,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
 
   private void updateStartUI(boolean isAutoPlay) {
     mPiPIV.setVisibility((mIsShowPIPIv && PictureInPictureHelper
-        .hasPipPermission((Activity) ContextUtils.getActivityFromContext(mContext))) ? VISIBLE : GONE);
+        .hasPipPermission((Activity) mContext)) ? VISIBLE : GONE);
     if (isAutoPlay) {
       toggleView(mImageStartAndResume, false);
       toggleView(mPbLiveLoading, true);
@@ -353,12 +353,13 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   }
 
   public void preparePlayVideo(SuperPlayerModel superPlayerModel) {
+    Activity activity = ContextUtils.getActivityFromContext(getContext());
     if (!isDestroy) {
       if (superPlayerModel.coverPictureUrl != null) {
-        Glide.with(getContext()).load(superPlayerModel.coverPictureUrl)
+        Glide.with(activity).load(superPlayerModel.coverPictureUrl)
             .placeholder(R.drawable.superplayer_default).into(mImageCover);
       } else {
-        Glide.with(getContext()).load(superPlayerModel.placeholderImage)
+        Glide.with(activity).load(superPlayerModel.placeholderImage)
             .placeholder(R.drawable.superplayer_default).into(mImageCover);
       }
     }
@@ -615,12 +616,14 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
    * 设置目标ImageView显示的图片
    */
   private void setBitmap(ImageView view, Bitmap bitmap) {
+    Activity activity = ContextUtils.getActivityFromContext(getContext());
+
     if (view == null || bitmap == null)
       return;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      view.setBackground(new BitmapDrawable(getContext().getResources(), bitmap));
+      view.setBackground(new BitmapDrawable(activity.getResources(), bitmap));
     } else {
-      view.setBackgroundDrawable(new BitmapDrawable(getContext().getResources(), bitmap));
+      view.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), bitmap));
     }
   }
 
@@ -891,6 +894,6 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   public void showPIPIV(boolean isShow) {
     mIsShowPIPIv = isShow;
     mPiPIV.setVisibility((mIsShowPIPIv) && PictureInPictureHelper
-        .hasPipPermission((Activity) ContextUtils.getActivityFromContext(mContext)) ? VISIBLE : GONE);
+        .hasPipPermission((Activity) mContext) ? VISIBLE : GONE);
   }
 }

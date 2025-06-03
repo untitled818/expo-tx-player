@@ -158,7 +158,7 @@ public class SuperPlayerView extends RelativeLayout
   }
 
   private void initialize(Context context) {
-    mContext = context;
+    mContext = ContextUtils.getActivityFromContext(context);
     initView();
     initPlayer();
   }
@@ -969,11 +969,11 @@ public class SuperPlayerView extends RelativeLayout
   private void rotateScreenOrientation(SuperPlayerDef.Orientation orientation) {
     switch (orientation) {
       case LANDSCAPE:
-        ((Activity) ContextUtils.getActivityFromContext(mContext))
+        ((Activity) (mContext))
             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         break;
       case PORTRAIT:
-        ((Activity) ContextUtils.getActivityFromContext(mContext))
+        ((Activity) (mContext))
             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         break;
     }

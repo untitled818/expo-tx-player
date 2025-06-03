@@ -88,6 +88,7 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
 
     private void init(Context context) {
         mContext = context;
+        Log.d("VodMoreView", "init: mContext class = " + (mContext != null ? mContext.getClass().getName() : "null"));
         LayoutInflater.from(mContext).inflate(R.layout.superplayer_more_popup_view, this);
 
         mLayoutSpeed = (LinearLayout) findViewById(R.id.superplayer_ll_speed);
@@ -132,6 +133,9 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
     private void updateCurrentLightProgress() {
         Activity activity = ContextUtils.getActivityFromContext(mContext);
         float brightness = getActivityBrightness(activity);
+
+        Log.d("VodMoreView", "updateCurrentLightProgress: got activity = " + activity);
+        Log.d("VodMoreView", "updateCurrentLightProgress: current brightness = " + brightness);
         if (brightness == -1) {
             mSeekBarLight.setProgress(100);
             return;
@@ -210,7 +214,11 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
         Activity activity = ContextUtils.getActivityFromContext(mContext);
         Window window = activity.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
+
         params.screenBrightness = progress * 1.0f / 100;
+        Log.d("VodMoreView", "updateBrightProgress: got activity = " + activity);
+        Log.d("VodMoreView", "updateBrightProgress: set screen brightness to " + params.screenBrightness);
+
         if (params.screenBrightness > 1.0f) {
             params.screenBrightness = 1.0f;
         }
