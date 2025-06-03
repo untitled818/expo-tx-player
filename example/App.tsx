@@ -60,6 +60,9 @@ export default function App() {
       const suf = suffix[Math.floor(Math.random() * suffix.length)];
 
       // ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`, "green");
+
+      // android 测试弹幕
+      ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`, "green");
     }, 200);
   };
 
@@ -70,11 +73,11 @@ export default function App() {
     }
   };
 
-  // useEffect(() => {
-  //   return () => {
-  //     stopFiring(); // 组件卸载时清除定时器
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      stopFiring(); // 组件卸载时清除定时器
+    };
+  }, []);
   // const player = useTxPlayer(hls, (player) => {
   //   player.play();
   // });
@@ -157,22 +160,25 @@ export default function App() {
         }}
       /> */}
 
-      {/* <TextInput
+      <TextInput
         value={danmu}
         onChangeText={setDanmu}
         placeholder="请输入弹幕"
         style={{ borderWidth: 1, padding: 8 }}
-      /> */}
+      />
 
-      {/* <Button
+      <Button
         title="发送弹幕"
         onPress={() => {
-          ExpoTxPlayer.sendDanmaku(danmu, "blue", true);
+          ExpoTxPlayer.sendDanmaku(danmu, "white", true);
           setDanmu("");
         }}
-      /> */}
+      />
 
-      {/* <Button title="开始模拟高密度弹幕" onPress={startFiring} /> */}
+      <Button title="开始模拟高密度弹幕" onPress={startFiring} />
+
+      <Button title="关闭弹幕" onPress={() => ExpoTxPlayer.hideDanmaku()} />
+      <Button title="打开弹幕" onPress={() => ExpoTxPlayer.showDanmaku()} />
 
       {/* <Button title="停止弹幕" onPress={stopFiring} /> */}
 

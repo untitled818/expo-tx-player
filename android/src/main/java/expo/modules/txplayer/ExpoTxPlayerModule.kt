@@ -47,6 +47,30 @@ class ExpoTxPlayerModule : Module() {
       view.resetPlayer()
     }
 
+    // 关闭弹幕
+    Function("toggleDanmakuBarrage") {
+      ExpoTxPlayerHolder.playerView?.toggleDanmakuBarrage() ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法关闭弹幕")
+    }
+
+    // 发送弹幕
+    Function("sendDanmaku") { content: String, color: String?, isSelf: Boolean? ->
+      Log.d("ExpoTxPlayerModule", "收到 JS 弹幕内容: $content")
+      ExpoTxPlayerHolder.playerView?.sendDanmaku(content, isSelf ?: false)
+        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法发送弹幕")
+    }
+
+    // 关闭弹幕
+    Function("hideDanmaku") {
+      ExpoTxPlayerHolder.playerView?.hideDanmaku()
+        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法关闭弹幕")
+    }
+
+    // 开启弹幕
+    Function("showDanmaku") {
+      ExpoTxPlayerHolder.playerView?.showDanmaku()
+        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法开启弹幕")
+    }
+
     Function("setLicense") { params: LicenseParams ->
       val context = appContext.reactContext ?: return@Function
       Log.d(TAG, "setLicense() called with appId: ${params.appId}, url: ${params.url}")

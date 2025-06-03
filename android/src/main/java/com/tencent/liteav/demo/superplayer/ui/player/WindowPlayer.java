@@ -566,7 +566,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     switch (type) {
       case VOD:
         mTvBackToLive.setVisibility(View.GONE);
-        mTvDuration.setVisibility(View.VISIBLE);
+        // mTvDuration.setVisibility(View.VISIBLE);
         break;
       case LIVE:
         mTvBackToLive.setVisibility(View.GONE);
@@ -576,7 +576,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
       case LIVE_SHIFT:
         if (mLayoutBottom.getVisibility() == VISIBLE)
           mTvBackToLive.setVisibility(View.VISIBLE);
-        mTvDuration.setVisibility(View.GONE);
+        // mTvDuration.setVisibility(View.GONE);
         break;
     }
   }

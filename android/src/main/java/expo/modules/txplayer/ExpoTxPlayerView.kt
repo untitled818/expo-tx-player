@@ -14,6 +14,8 @@ import expo.modules.kotlin.views.ExpoView
 import com.tencent.liteav.demo.superplayer.SuperPlayerView
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel
 
+import android.graphics.Color
+
 class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
   // Creates and initializes an event dispatcher for the `onLoad` event.
   // The name of the event is inferred from the value and needs to match the event name defined in the module.
@@ -41,8 +43,64 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   fun resetPlayer() {
     playerView.resetPlayer()
   }
+
+
+  fun sendDanmaku(content: String, withBorder: Boolean = false) {
+    playerView.sendDanmu(content, withBorder);
+    Log.d("ExpoTxPlayer", "sendDanmaku called with content: $content")
+  }
+
+  fun hideDanmaku() {
+    playerView.closeDanmu();
+  }
+
+  fun showDanmaku() {
+    playerView.openDanmu();
+  }
+
+
+
+  fun toggleDanmakuBarrage() {
+    try {
+      val playerView = getFullScreenPlayer() ?: return  // 获取 FullScreenPlayer 实例
+      val method = playerView.javaClass.getDeclaredMethod("toggleBarrage")
+      Log.d("ExpoTxPlayer", "sendDanmaku called with content: 触发了吗")
+      method.isAccessible = true
+      method.invoke(playerView)
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
+
+  private fun getFullScreenPlayer(): Any? {
+    return try {
+      val field = playerView.javaClass.getDeclaredField("mFullScreenPlayer")
+      field.isAccessible = true
+      field.get(playerView)
+    } catch (e: Exception) {
+      e.printStackTrace()
+      null
+    }
+  }
+
+
+
+//  private fun tryInitDanmakuViewOnce() {
+//    if (!danmakuInited) {
+//      try {
+//        playerView.tryInitDanmakuView()
+//        danmakuInited = true
+//      } catch (e: Exception) {
+//        Log.e("ExpoTxPlayer", "弹幕初始化失败: ${e.message}")
+//      }
+//    }
+//  }
+
+
   init {
     addView(playerView)
+    playerView.openDanmu();
+    ExpoTxPlayerHolder.playerView = this
 
     playerView.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
       override fun onStartFullScreenPlay() {
@@ -82,5 +140,13 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
       }
     })
 
+  }
+
+  override fun onDetachedFromWindow() {
+    super.onDetachedFromWindow()
+    if (ExpoTxPlayerHolder.playerView === this) {
+      ExpoTxPlayerHolder.playerView = null
+      Log.d("ExpoTxPlayerView", "播放器已卸载并清除全局引用")
+    }
   }
 }

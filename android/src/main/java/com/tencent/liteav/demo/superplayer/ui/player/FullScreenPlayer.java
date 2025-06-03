@@ -157,7 +157,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   private Bitmap mWaterMarkBmp;
   private float mWaterMarkBmpX;
   private float mWaterMarkBmpY;
-  private boolean mBarrageOn; // Whether bullet screen is enabled
+  public boolean mBarrageOn; // Whether bullet screen is enabled
   private boolean mLockScreen;
   private TXImageSprite mTXImageSprite;
   private List<PlayKeyFrameDescInfo> mTXPlayKeyFrameDescInfoList;
@@ -942,6 +942,8 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
       mIvDanmu.setImageResource(R.drawable.superplayer_ic_danmuku_off);
     }
     if (mControllerCallback != null) {
+      Log.d("ExpoTxPlayer", "sendDanmaku called with content: 触发了吗333");
+
       mControllerCallback.onDanmuToggle(mBarrageOn);
     }
   }

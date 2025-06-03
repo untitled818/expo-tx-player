@@ -135,12 +135,12 @@ public class DanmuView extends DanmakuView {
    * @param withBorder Whether the danmaku has a border
    *                   弹幕是否有边框
    */
-  private void addDanmaku(String content, boolean withBorder) {
+  public void addDanmaku(String content, boolean withBorder) {
     BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
     if (danmaku != null) {
       danmaku.text = content;
       danmaku.padding = 5;
-      danmaku.textSize = sp2px(mContext, 20.0f);
+      danmaku.textSize = sp2px(mContext, 16.0f);
       danmaku.textColor = Color.WHITE;
       danmaku.setTime(getCurrentTime());
       if (withBorder) {
@@ -168,6 +168,7 @@ public class DanmuView extends DanmakuView {
     if (on) {
       mDanmuHandler.sendEmptyMessageAtTime(DanmuHandler.MSG_SEND_DANMU, 100);
     } else {
+      Log.i(TAG, "onToggleControllerView的test on:");
       mDanmuHandler.removeMessages(DanmuHandler.MSG_SEND_DANMU);
     }
   }
