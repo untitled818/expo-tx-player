@@ -908,6 +908,7 @@ public class SuperPlayerView extends RelativeLayout
     public void enterPictureInPictureMode() {
       Log.d("PiP_Debug", "enterPictureInPictureMode() called");
       if (mPlayerViewCallback != null) {
+        Log.d("PiP_Debug", "enterPictureInPictureMode() called111");
         mPlayerViewCallback.onEnterPictureInPicture(); // 让 Activity 来处理
       }
 //      mPictureInPictureHelper.enterPictureInPictureMode(getPlayerState(), mTXCloudVideoView);

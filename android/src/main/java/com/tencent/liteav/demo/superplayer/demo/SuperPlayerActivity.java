@@ -98,6 +98,7 @@ public class SuperPlayerActivity extends FragmentActivity {
     }
 
     private void tryEnterPip() {
+        Log.d("画中画", "SuperPlayerView 请求进入 PictureInPicture");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (PictureInPictureHelper.hasPipPermission(this)) {
                 try {
