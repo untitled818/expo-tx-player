@@ -343,7 +343,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mPiPIV.setVisibility((mIsShowPIPIv && PictureInPictureHelper
         .hasPipPermission((Activity) mContext)) ? VISIBLE : GONE);
     if (isAutoPlay) {
-      toggleView(mImageStartAndResume, false);
+      toggleView(mImageStartAndResume, true);
       toggleView(mPbLiveLoading, true);
     } else {
       toggleView(mImageStartAndResume, true);

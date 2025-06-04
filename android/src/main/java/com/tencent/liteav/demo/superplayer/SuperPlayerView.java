@@ -906,7 +906,11 @@ public class SuperPlayerView extends RelativeLayout
 
     @Override
     public void enterPictureInPictureMode() {
-      mPictureInPictureHelper.enterPictureInPictureMode(getPlayerState(), mTXCloudVideoView);
+      Log.d("PiP_Debug", "enterPictureInPictureMode() called");
+      if (mPlayerViewCallback != null) {
+        mPlayerViewCallback.onEnterPictureInPicture(); // 让 Activity 来处理
+      }
+//      mPictureInPictureHelper.enterPictureInPictureMode(getPlayerState(), mTXCloudVideoView);
     }
 
     @Override
@@ -1108,6 +1112,11 @@ public class SuperPlayerView extends RelativeLayout
      * 下载页面，点击了缓存列表按钮
      */
     void onShowCacheListClick();
+
+    /**
+     * pip回调
+     */
+    void onEnterPictureInPicture();
   }
 
   public void release() {

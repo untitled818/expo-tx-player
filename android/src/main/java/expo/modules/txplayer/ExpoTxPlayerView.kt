@@ -138,6 +138,9 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
       override fun onShowCacheListClick() {
         Log.d("ExpoTxPlayer", "点击缓存列表按钮")
       }
+
+      override fun onEnterPictureInPicture() {
+      }
     })
 
   }
