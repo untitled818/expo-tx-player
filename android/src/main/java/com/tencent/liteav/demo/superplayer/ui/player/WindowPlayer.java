@@ -182,7 +182,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     });
     mGestureDetector.setIsLongpressEnabled(false);
 
-    mVideoGestureDetector = new VideoGestureDetector(ContextUtils.getActivityFromContext(getContext()));
+    mVideoGestureDetector = new VideoGestureDetector(getContext());
     mVideoGestureListener = new VideoGestureDetector.VideoGestureListener() {
       @Override
       public void onBrightnessGesture(float newBrightness) {
@@ -285,7 +285,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mIvWatermark = (ImageView) findViewById(R.id.superplayer_small_iv_water_mark);
     mVipWatchView = findViewById(R.id.superplayer_vip_watch_view);
     mVipWatchView.setVipWatchViewClickListener(this);
-    mContext = ContextUtils.getActivityFromContext(context);
+    mContext = context;
   }
 
   /**
@@ -353,7 +353,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   }
 
   public void preparePlayVideo(SuperPlayerModel superPlayerModel) {
-    Activity activity = ContextUtils.getActivityFromContext(getContext());
+    Activity activity = (Activity) getContext();
     if (!isDestroy) {
       if (superPlayerModel.coverPictureUrl != null) {
         Glide.with(activity).load(superPlayerModel.coverPictureUrl)
@@ -616,7 +616,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
    * 设置目标ImageView显示的图片
    */
   private void setBitmap(ImageView view, Bitmap bitmap) {
-    Activity activity = ContextUtils.getActivityFromContext(getContext());
+    Activity activity = (Activity) (getContext());
 
     if (view == null || bitmap == null)
       return;

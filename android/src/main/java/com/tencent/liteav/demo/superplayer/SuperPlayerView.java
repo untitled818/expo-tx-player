@@ -158,7 +158,7 @@ public class SuperPlayerView extends RelativeLayout
   }
 
   private void initialize(Context context) {
-    mContext = ContextUtils.getActivityFromContext(context);
+    mContext = context;
     initView();
     initPlayer();
   }
@@ -231,7 +231,7 @@ public class SuperPlayerView extends RelativeLayout
           mLayoutParamFullScreenMode = (ViewGroup.LayoutParams) constructor.newInstance(
               ViewGroup.LayoutParams.MATCH_PARENT,
               ViewGroup.LayoutParams.MATCH_PARENT);
-          Log.d("SuperPlayerView", "mLayoutParamFullScreenMode = width: "
+          Log.d(TAG, "mLayoutParamFullScreenMode = width: "
                   + mLayoutParamFullScreenMode.width + ", height: " + mLayoutParamFullScreenMode.height);
 
         } catch (Exception e) {
@@ -550,12 +550,10 @@ public class SuperPlayerView extends RelativeLayout
    * 控制是否全屏显示
    */
   private void fullScreen(boolean isFull) {
-    if (getContext() instanceof Activity) {
-      Activity activity = (Activity) getContext();
-      if (isFull) {
+    Log.d(TAG, "fullScreen: " + isFull);
+    if (getContext() instanceof Activity activity) {
+        if (isFull) {
         View decorView = activity.getWindow().getDecorView();
-        if (decorView == null)
-          return;
         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
           decorView.setSystemUiVisibility(View.GONE);
         } else if (Build.VERSION.SDK_INT >= 19) {
@@ -593,22 +591,19 @@ public class SuperPlayerView extends RelativeLayout
   }
 
   private void onSwitchFullMode(SuperPlayerDef.PlayerMode playerMode) {
-    Log.d("SuperPlayerView", "Attempting to switch to full mode. playerMode = " + playerMode);
     if (mLayoutParamFullScreenMode == null) {
-      Log.w("SuperPlayerView", "mLayoutParamFullScreenMode is null. Aborting full screen switch.");
       return;
     }
     removeView(mWindowPlayer);
     addView(mFullScreenPlayer, mVodControllerFullScreenParams);
     setLayoutParams(mLayoutParamFullScreenMode);
-    Log.d("SuperPlayerView", "Applying full screen layout params: width = "
+    Log.d(TAG, "Applying full screen layout params: width = "
             + mLayoutParamFullScreenMode.width + ", height = " + mLayoutParamFullScreenMode.height);
     setLayoutParams(mLayoutParamFullScreenMode);
 
     if (mPlayerViewCallback != null) {
       mPlayerViewCallback.onStartFullScreenPlay();
     }
-    Log.d("SuperPlayerView", "Switching SuperPlayer mode to: " + playerMode);
     rotateScreenOrientation(SuperPlayerDef.Orientation.LANDSCAPE);
     mSuperPlayer.switchPlayMode(playerMode);
   }
@@ -712,10 +707,14 @@ public class SuperPlayerView extends RelativeLayout
   }
 
   private void handleSwitchPlayMode(SuperPlayerDef.PlayerMode playerMode) {
+    Log.d(TAG, "handleSwitchPlayMode: " + playerMode);
     fullScreen(playerMode == SuperPlayerDef.PlayerMode.FULLSCREEN);
-    mFullScreenPlayer.hide();
-    mWindowPlayer.hide();
-    mFloatPlayer.hide();
+    this.postDelayed(() -> {
+      Log.d(TAG, "Delayed hide views for mode: " + playerMode);
+      mFullScreenPlayer.hide();
+      mWindowPlayer.hide();
+      mFloatPlayer.hide();
+    }, 300); // 你可以根据测试情况调整延迟时间，比如 500ms
     if (playerMode == SuperPlayerDef.PlayerMode.FULLSCREEN) {
       onSwitchFullMode(playerMode);
     } else if (playerMode == SuperPlayerDef.PlayerMode.WINDOW) {
@@ -725,9 +724,10 @@ public class SuperPlayerView extends RelativeLayout
     }
   }
 
-  private Player.Callback mControllerCallback = new Player.Callback() {
+  private final Player.Callback mControllerCallback = new Player.Callback() {
     @Override
     public void onSwitchPlayMode(SuperPlayerDef.PlayerMode playerMode) {
+      Log.d(TAG, "onSwitchPlayMode: " + playerMode);
       handleSwitchPlayMode(playerMode);
     }
 
@@ -999,11 +999,11 @@ public class SuperPlayerView extends RelativeLayout
   private void rotateScreenOrientation(SuperPlayerDef.Orientation orientation) {
     switch (orientation) {
       case LANDSCAPE:
-        ((Activity) (mContext))
+        ((Activity) mContext)
             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         break;
       case PORTRAIT:
-        ((Activity) (mContext))
+        ((Activity) mContext)
             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         break;
     }
@@ -1152,21 +1152,16 @@ public class SuperPlayerView extends RelativeLayout
   }
 
   public void switchPlayMode(SuperPlayerDef.PlayerMode playerMode) {
-    Log.d("SuperPlayerView", "switchPlayMode called with mode: " + playerMode);
 
     if (playerMode == SuperPlayerDef.PlayerMode.WINDOW) {
-      Log.d("SuperPlayerView", "Switching to WINDOW mode");
 
       if (mControllerCallback != null) {
-        Log.d("SuperPlayerView", "Notifying controller callback for WINDOW mode");
 
         mControllerCallback.onSwitchPlayMode(SuperPlayerDef.PlayerMode.WINDOW);
       }
     } else if (playerMode == SuperPlayerDef.PlayerMode.FLOAT) {
-      Log.d("SuperPlayerView", "Switching to FLOAT mode");
 
       if (mPlayerViewCallback != null) {
-        Log.d("SuperPlayerView", "Calling mPlayerViewCallback.onStartFloatWindowPlay()");
 
         mPlayerViewCallback.onStartFloatWindowPlay();
       }

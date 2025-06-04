@@ -127,7 +127,7 @@ export default function App() {
 
       {/* <Button title="打开弹幕" onPress={() => ExpoTxPlayer.showDanmaku()} />
 
-      <Button title="关闭弹幕" onPress={() => ExpoTxPlayer.hideDanmaku()} />
+      {/* <Button title="关闭弹幕" onPress={() => ExpoTxPlayer.hideDanmaku()} /> */}
 
       {/* <Button
         title={isPlaying ? "Pause" : "Play"}
