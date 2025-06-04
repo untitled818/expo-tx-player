@@ -131,7 +131,7 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
     }
 
     private void updateCurrentLightProgress() {
-        Activity activity = ContextUtils.getActivityFromContext(mContext);
+        Activity activity = (Activity) mContext;
         float brightness = getActivityBrightness(activity);
 
         Log.d("VodMoreView", "updateCurrentLightProgress: got activity = " + activity);
@@ -211,7 +211,7 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
     };
 
     private void updateBrightProgress(int progress) {
-        Activity activity = ContextUtils.getActivityFromContext(mContext);
+        Activity activity = (Activity) mContext;
         Window window = activity.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
 
