@@ -17,10 +17,12 @@ import { useEffect, useState } from "react";
 //   key: "4c71bd88da95af202a8f3b2743c7e4e4",
 // });
 
+// test appId 1315081628
+
 ExpoTxPlayer.setLicense({
-  url: "https://license.vod2.myqcloud.com/license/v2/1308280968_1/v_cube.license",
-  key: "b371c6eb2f0a78f3a61b840db671f058",
-  appId: 1308280968,
+  url: "https://license.vod-control.com/license/v2/1315081628_1/v_cube.license",
+  key: "589c3bc57bfdf9a4ecd75687b163a054",
+  // appId: 1315081628,
 });
 const hls =
   "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";

@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "expo.modules.txplayer.example"
+      "bundleIdentifier": "com.rnvideo"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "expo.modules.txplayer.example"
+      "package": "com.rnvideo"
     },
     "web": {
       "favicon": "./assets/favicon.png"

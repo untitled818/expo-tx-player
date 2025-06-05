@@ -487,9 +487,19 @@ public class SuperPlayerView extends RelativeLayout
     }
   }
 
+  // 清除弹幕
+  public void removeAllDanmakus() {
+    mDanmuView.removeAllDanmakus(true); // 清空屏幕弹幕
+    mDanmuView.reprepareDanmaku();
+
+//    mDanmuView = (DanmuView) mRootView.findViewById(R.id.superplayer_danmuku_view);
+  }
+
+
   // 开启弹幕：允许发送
   public void openDanmu() {
-    mFullScreenPlayer.mBarrageOn = true;
+//    mFullScreenPlayer.mBarrageOn = true;
+    mFullScreenPlayer.toggleBarrage();
     if (mDanmuView != null) {
       mDanmuView.toggle(true); // 继续发送
     }
@@ -789,6 +799,7 @@ public class SuperPlayerView extends RelativeLayout
     public void onDanmuToggle(boolean isOpen) {
       if (mDanmuView != null) {
         mDanmuView.toggle(isOpen);
+        mDanmuView.removeAllDanmakus(true);
       }
     }
 

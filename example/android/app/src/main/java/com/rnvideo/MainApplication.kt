@@ -1,4 +1,4 @@
-package expo.modules.txplayer.example
+package com.rnvideo
 
 import android.app.Application
 import android.content.res.Configuration

@@ -378,7 +378,7 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "expo.modules.txplayer.example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rnvideo";
 				PRODUCT_NAME = "expotxplayerexample";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = devModulePf;
@@ -414,7 +414,7 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = "expo.modules.txplayer.example";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rnvideo";
 				PRODUCT_NAME = "expotxplayerexample";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = devModulePf;

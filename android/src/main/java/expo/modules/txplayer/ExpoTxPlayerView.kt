@@ -30,6 +30,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
   fun enterFullScreen() {
+    removeDanmaku();
     val activity = resolvedActivity ?: return
     val rootView = activity.findViewById<ViewGroup>(android.R.id.content) ?: return
 
@@ -69,7 +70,10 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     }
   }
 
+
   fun exitFullScreen() {
+    removeDanmaku();
+
     val activity = resolvedActivity ?: return
     val parent = originalParent ?: return
 
@@ -119,6 +123,11 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   fun showDanmaku() {
     playerView.openDanmu();
   }
+
+  fun removeDanmaku() {
+    playerView.removeAllDanmakus()
+  }
+
 
 
 

@@ -327,6 +327,7 @@
       android:text="00:00"
       android:ems="3"
       android:gravity="center"
+      android:visibility="gone"
       android:textColor="@android:color/white"
       android:textSize="11.0sp" />
 
@@ -341,6 +342,7 @@
       app:psb_backgroundColor="@color/superplayer_biz_audio_progress_second"
       app:psb_max="100"
       app:psb_progress="0"
+      android:visibility="gone"
       app:psb_progressColor="#FF584C"
       app:psb_progressHeight="2dp"
       app:psb_thumbBackground="@drawable/superplayer_ic_vod_thumb" />
@@ -352,6 +354,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
       android:text="00:00"
+      android:visibility="gone"
       android:textColor="@android:color/white"
       android:textSize="11.0sp" />
 

@@ -685,7 +685,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
       int progress = Math.round(percentage * mSeekBarProgress.getMax());
       if (!mIsChangingSeekBarProgress)
         mSeekBarProgress.setProgress(progress);
-      mTvDuration.setText(formattedTime(mDuration));
+      // mTvDuration.setText(formattedTime(mDuration));
     }
 
     float playAblePercentage = playable > 0 ? ((float) playable / (float) mDuration) : 1.0f;
@@ -712,11 +712,11 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
       case VOD:
         mTvBackToLive.setVisibility(View.GONE);
         mVodMoreView.updatePlayType(SuperPlayerDef.PlayerType.VOD);
-        mTvDuration.setVisibility(View.VISIBLE);
+        // mTvDuration.setVisibility(View.VISIBLE);
         break;
       case LIVE:
         mTvBackToLive.setVisibility(View.GONE);
-        mTvDuration.setVisibility(View.GONE);
+        // mTvDuration.setVisibility(View.GONE);
         mVodMoreView.updatePlayType(SuperPlayerDef.PlayerType.LIVE);
         mSeekBarProgress.setProgress(100);
         break;
@@ -724,7 +724,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
         if (mLayoutBottom.getVisibility() == VISIBLE) {
           mTvBackToLive.setVisibility(View.VISIBLE);
         }
-        mTvDuration.setVisibility(View.GONE);
+        // mTvDuration.setVisibility(View.GONE);
         mVodMoreView.updatePlayType(SuperPlayerDef.PlayerType.LIVE_SHIFT);
         break;
     }
@@ -934,7 +934,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
    *
    * 开关弹幕
    */
-  private void toggleBarrage() {
+  public void toggleBarrage() {
     mBarrageOn = !mBarrageOn;
     if (mBarrageOn) {
       mIvDanmu.setImageResource(R.drawable.superplayer_ic_danmuku_on);
@@ -942,8 +942,6 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
       mIvDanmu.setImageResource(R.drawable.superplayer_ic_danmuku_off);
     }
     if (mControllerCallback != null) {
-      Log.d("ExpoTxPlayer", "sendDanmaku called with content: 触发了吗333");
-
       mControllerCallback.onDanmuToggle(mBarrageOn);
     }
   }

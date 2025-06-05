@@ -150,6 +150,15 @@ public class DanmuView extends DanmakuView {
     }
   }
 
+  // 重新计算
+  public void reprepareDanmaku() {
+    stop(); // 停止之前的弹幕
+    if (mDanmakuContext != null) {
+      prepare(mParser, mDanmakuContext); // 重新准备
+    }
+//    start();
+  }
+
   /**
    * Convert sp unit to px
    *

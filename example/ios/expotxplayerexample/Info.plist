@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>expo.modules.txplayer.example</string>
+          <string>com.rnvideo</string>
         </array>
       </dict>
       <dict>
