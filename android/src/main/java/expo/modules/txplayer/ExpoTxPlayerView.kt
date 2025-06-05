@@ -30,7 +30,6 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
   fun enterFullScreen() {
-    removeDanmaku();
     val activity = resolvedActivity ?: return
     val rootView = activity.findViewById<ViewGroup>(android.R.id.content) ?: return
 
@@ -68,11 +67,11 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
         WindowManager.LayoutParams.FLAG_FULLSCREEN
       )
     }
+    removeDanmaku();
   }
 
 
   fun exitFullScreen() {
-    removeDanmaku();
 
     val activity = resolvedActivity ?: return
     val parent = originalParent ?: return
@@ -90,6 +89,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
       @Suppress("DEPRECATION")
       activity.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
+    removeDanmaku();
   }
 
   fun playWithUrl(url: String, appId: Int) {

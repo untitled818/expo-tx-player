@@ -65,7 +65,7 @@ export default function App() {
 
       // android 测试弹幕
       ExpoTxPlayer.sendDanmaku(`${emoji} 弹幕 ${count++} ${suf}`, "green");
-    }, 200);
+    }, 50);
   };
 
   const stopFiring = () => {

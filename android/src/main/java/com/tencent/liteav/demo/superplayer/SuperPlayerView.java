@@ -490,8 +490,7 @@ public class SuperPlayerView extends RelativeLayout
   // 清除弹幕
   public void removeAllDanmakus() {
     mDanmuView.removeAllDanmakus(true); // 清空屏幕弹幕
-    mDanmuView.reprepareDanmaku();
-
+//    mDanmuView.reprepareDanmaku();
 //    mDanmuView = (DanmuView) mRootView.findViewById(R.id.superplayer_danmuku_view);
   }
 

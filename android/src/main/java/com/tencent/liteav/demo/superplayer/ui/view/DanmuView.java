@@ -152,11 +152,29 @@ public class DanmuView extends DanmakuView {
 
   // 重新计算
   public void reprepareDanmaku() {
-    stop(); // 停止之前的弹幕
-    if (mDanmakuContext != null) {
-      prepare(mParser, mDanmakuContext); // 重新准备
-    }
-//    start();
+    stop();
+
+    Log.d("重新生成弹幕轨道", "重新生成弹幕轨道");
+
+    // 2. 手动重新 layout + redraw
+    post(() -> {
+      requestLayout();  // 重新测量和布局
+      invalidate();     // 强制重绘
+    });
+
+    // 3. 延迟一定时间，确保 layout 已完成再 prepare
+    postDelayed(() -> {
+      if (mDanmakuContext != null) {
+        // 必须重新 prepare，否则视图不会更新
+        prepare(mParser, mDanmakuContext);
+      }
+    }, 500); // 延迟执行是关键！确保尺寸变化完成
+
+    // 4. 准备完后重新 start
+    postDelayed(() -> {
+      if (!isPrepared()) return;
+      start();
+    }, 150);
   }
 
   /**
