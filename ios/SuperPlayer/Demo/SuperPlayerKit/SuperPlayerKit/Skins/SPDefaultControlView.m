@@ -662,12 +662,15 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 - (UIButton *)caseBtn {
     if (!_caseBtn) {
         _caseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        // 使用自定义图标
+        [_caseBtn setImage:SuperPlayerImage(@"superplayer_ic_cast") forState:(UIControlStateNormal)];
 
         // 使用系统图标（AirPlay）
-        UIImage *icon = [UIImage systemImageNamed:@"airplayvideo"];
-        icon = [icon imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [_caseBtn setImage:icon forState:UIControlStateNormal];
-        _caseBtn.tintColor = [UIColor whiteColor];
+//        UIImage *icon = [UIImage systemImageNamed:@"airplayvideo"];
+//        icon = [icon imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//        [_caseBtn setImage:icon forState:UIControlStateNormal];
+//        _caseBtn.tintColor = [UIColor whiteColor];
         [_caseBtn addTarget:self action:@selector(caseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _caseBtn;

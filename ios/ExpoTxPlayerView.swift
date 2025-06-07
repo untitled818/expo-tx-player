@@ -11,7 +11,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     }
     
     public static var currentInstance: ExpoTxPlayerView?
-    private var currentDanmakuDensity: CFDanmakuDensity = .medium
+    private var currentDanmakuDensity: CFDanmakuDensity = .high
     private var danmakuView: CFDanmakuView?
     private var danmakuBtn: UIButton?
     let playerView = SuperPlayerView()

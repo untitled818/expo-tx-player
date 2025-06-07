@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 于 传峰. All rights reserved.
 //
 
+#import "PaddingLabel.h"
 #import "CFDanmakuView.h"
 
 //#import "AppLocalized.h"
@@ -343,10 +344,18 @@ static NSTimeInterval const timeMargin = 0.5;
 //  动画播放和清理 + 触发队列恢复
 - (void)addAnimationToViewWithInfo:(CFDanmakuInfo *)info {
 //    UILabel *label = info.playLabel;
+    // 后续是否统一样式
     UILabel *label = [[UILabel alloc] init];
         label.attributedText = info.danmaku.contentStr;
         [label sizeToFit];
         label.backgroundColor = [UIColor clearColor];
+    // 如果是自己发送的弹幕，加绿色边框
+    if (info.danmaku.isSelf) {
+        label.layer.borderColor = [UIColor greenColor].CGColor;
+        label.layer.borderWidth = 1.0;
+        label.layer.cornerRadius = 4.0;
+        label.layer.masksToBounds = YES;
+    }
 
     info.playLabel = label; // 如果你后面需要用它
     NSInteger line = info.lineCount;
@@ -376,11 +385,12 @@ static NSTimeInterval const timeMargin = 0.5;
 
 //
 - (void)tryPlayNextDanmaku {
-    while (![self.waitingQueue isEmpty]) {
+    while (![self.selfDanmakuQueue isEmpty] || ![self.waitingQueue isEmpty]) {
         // 取出优先队列
         CFDanmakuInfo *nextInfo = ![self.selfDanmakuQueue isEmpty]
                     ? [self.selfDanmakuQueue peek]
                     : [self.waitingQueue peek];
+        
 //        CFDanmakuInfo *nextInfo = [self.waitingQueue peek];
         BOOL didPlay = NO;
 
@@ -432,43 +442,6 @@ static NSTimeInterval const timeMargin = 0.5;
     }
 }
 
-
-// 处理多轨道多弹幕，但是弹幕会消失
-//- (void)tryPlayNextDanmaku {
-//    if ([self.waitingQueue isEmpty]) return;
-//
-//    CFDanmakuInfo *nextInfo = [self.waitingQueue peek]; // 注意，是 peek！
-//
-//    for (NSInteger i = 0; i < self.maxShowLineCount; i++) {
-//        NSMutableArray *infosInLine = self.linesDict[@(i)] ?: [NSMutableArray new];
-//        self.linesDict[@(i)] = infosInLine;
-//
-//        BOOL available = YES;
-//        for (CFDanmakuInfo *oldInfo in infosInLine) {
-//            CALayer *layer = oldInfo.playLabel.layer.presentationLayer ?: oldInfo.playLabel.layer;
-//            CGFloat oldX = layer.frame.origin.x;
-//            CGFloat oldWidth = CGRectGetWidth(oldInfo.playLabel.bounds);
-//            CGFloat screenWidth = CGRectGetWidth(self.bounds);
-//            CGFloat minSpacing = 20;
-//            CGFloat distanceBetween = oldX + oldWidth - screenWidth;
-//            if (distanceBetween > -minSpacing) {
-//                available = NO;
-//                break;
-//            }
-//        }
-//
-//        if (available) {
-//            // 找到可用轨道：设置轨道、添加到轨道队列、出队、播放
-//            nextInfo.lineCount = i;
-//            [infosInLine addObject:nextInfo];
-//            [self.waitingQueue dequeue];
-//            [self addAnimationToViewWithInfo:nextInfo];
-//            return;
-//        }
-//    }
-//
-//    // 没有轨道，暂时不处理，等待已有弹幕播完后再触发 tryPlayNextDanmaku
-//}
 
 - (void)performAnimationWithDuration:(NSTimeInterval)duration danmakuInfo:(CFDanmakuInfo*)info {
     _isPlaying  = YES;
