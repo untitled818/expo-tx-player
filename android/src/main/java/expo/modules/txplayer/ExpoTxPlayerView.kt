@@ -1,5 +1,6 @@
 package expo.modules.txplayer
 
+
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
@@ -7,16 +8,30 @@ import android.os.Build
 import android.util.Log
 import android.view.*
 import android.view.WindowInsetsController
+import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel
 import com.tencent.liteav.demo.superplayer.SuperPlayerView
 import com.tencent.liteav.demo.superplayer.helper.ContextUtils
+import com.tencent.rtmp.TXLiveConstants
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.kotlin.views.ExpoView
 
 class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
+  val onFullscreenEnter by EventDispatcher()
+  val onFullscreenEnd by EventDispatcher()
+  val onPIPStart by EventDispatcher()
+  val onPIPStop by EventDispatcher()
+  val onPlayingChange by EventDispatcher()
+  val onStatusChange by EventDispatcher()
+  val onCastButtonPressed by EventDispatcher()
+  val onError by EventDispatcher()
+
+
   private var originalParent: ViewGroup? = null
   private var originalIndex: Int = -1
+
+  private var pendingContentFit: String? = null
 
   private val onLoad by EventDispatcher()
 
@@ -92,6 +107,15 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     removeDanmaku();
   }
 
+  private fun applyContentFitIfNeeded() {
+    val config = SuperPlayerGlobalConfig.getInstance()
+    when (pendingContentFit) {
+      "contain" -> config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION
+      "cover", "fill" -> config.renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN
+      else -> config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION
+    }
+  }
+
   fun playWithUrl(url: String, appId: Int) {
     val context = appContext.reactContext ?: return
     val model = SuperPlayerModel().apply {
@@ -128,7 +152,85 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     playerView.removeAllDanmakus()
   }
 
+  // 设置音量
+  fun setVolume(volume: Int) {
+    println("volume: $volume")
+    playerView.setVolume(volume);
+  }
 
+  // 设置静音
+  fun setMute(mute: Boolean) {
+    println("mute: $mute");
+    playerView.setMute(mute);
+  }
+
+  // 恢复播放
+  fun play() {
+    println("播放");
+    playerView.resume();
+  }
+
+  // 暂停播放
+  fun pause() {
+    println("暂停");
+    playerView.pause();
+  }
+
+  // 获取播放器状态
+  fun getStatus(): String {
+    println("获取播放器状态");
+    return playerView.status();
+  }
+
+  // 获取视频缓冲区
+  fun bufferedPosition(): Float {
+    println("获取视频缓冲区");
+    return playerView.playableDuration();
+  }
+
+  // 设置播放的url
+  fun setVideoURL(url: String) {
+    Log.d("ExpoTxPlayer", "🎬 设置视频地址: $url")
+
+    // 先重置播放器
+    playerView.resetPlayer()
+
+    // 创建 SuperPlayerModel 并设置 URL
+    val model = SuperPlayerModel().apply {
+      this.url = url
+    }
+
+    // 播放（如果你需要使用 license，可替换为 playWithModelNeedLicence）
+    playerView.playWithModelNeedLicence(model)
+
+    // 可选：触发 JS 端或事件回调
+    onLoad(mapOf("url" to url))
+  }
+
+  // 切换播放源
+  fun switchSource(url: String) {
+    Log.d("ExpoTxPlayer", "🎬 切换视频地址为: $url")
+
+    // 获取当前 model，如果为空则新建一个
+    val currentModel = playerView.currentSuperPlayerModel ?: SuperPlayerModel()
+
+    // 更新 URL
+    currentModel.url = url
+
+    // 重新播放（不重置播放器）
+    playerView.playWithModelNeedLicence(currentModel)
+
+    // 可选：通知前端
+    onLoad(mapOf("url" to url))
+  }
+
+  // 设置视频分布
+  fun setContentFit(mode: String) {
+    Log.d("ExpoTxPlayer", "设置 contentFit: $mode")
+//    playerView.setContentFit(mode);
+    pendingContentFit = mode  // 缓存
+    applyContentFitIfNeeded()  // 尝试立即应用（如果已经初始化)
+  }
 
 
   fun toggleDanmakuBarrage() {
@@ -155,20 +257,8 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
 
-
-//  private fun tryInitDanmakuViewOnce() {
-//    if (!danmakuInited) {
-//      try {
-//        playerView.tryInitDanmakuView()
-//        danmakuInited = true
-//      } catch (e: Exception) {
-//        Log.e("ExpoTxPlayer", "弹幕初始化失败: ${e.message}")
-//      }
-//    }
-//  }
-
-
   init {
+    applyContentFitIfNeeded();
     addView(playerView)
     playerView.openDanmu();
     ExpoTxPlayerHolder.playerView = this
@@ -176,11 +266,13 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     playerView.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
       override fun onStartFullScreenPlay() {
         Log.d("ExpoTxPlayer", "进入全屏播放，view size: ${playerView.width}x${playerView.height}")
+        onFullscreenEnter(mapOf());
         enterFullScreen()
       }
 
       override fun onStopFullScreenPlay() {
         Log.d("ExpoTxPlayer", "退出全屏播放")
+        onFullscreenEnd(mapOf());
         exitFullScreen()
       }
 
@@ -204,8 +296,11 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
         Log.d("ExpoTxPlayer", "播放结束")
       }
 
-      override fun onError(code: Int) {
-        Log.e("ExpoTxPlayer", "播放出错, code=$code")
+      override fun onError(code: Int, message: String) {
+        Log.e("ExpoTxPlayer", "播放出错, code=$code, message=$message")
+        onError(mapOf(
+          "message" to (message.ifEmpty { "未知错误" })
+        ))
       }
 
       override fun onShowCacheListClick() {
@@ -214,6 +309,25 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
 
       override fun onEnterPictureInPicture() {
         Log.d("ExpoTxPlayer", "onEnterPictureInPicture")
+        onPIPStart(mapOf())
+      }
+
+      override fun onExitPictureInPicture() {
+        TODO("Not yet implemented")
+      }
+
+      override fun onStatusChange(status: String?) {
+        Log.d("ExpoTxPlayer", "播放器状态变化: $status")
+        onStatusChange(mapOf("status" to (status ?: "unknown")))
+      }
+
+      override fun onCastButtonPressed() {
+        onCastButtonPressed(mapOf());
+      }
+
+      override fun onPlayingChange(isPlaying: Boolean) {
+        Log.d("ExpoTxPlayer", "播放状态变化: $isPlaying")
+        onPlayingChange(mapOf("value" to isPlaying))
       }
     })
   }

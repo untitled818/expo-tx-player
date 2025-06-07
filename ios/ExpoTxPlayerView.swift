@@ -128,7 +128,6 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     }
     
     @objc func danmakuButtonToggled(_ sender: UIButton) {
-        // 你只做行为，UI 交给腾讯原有的逻辑控制
             if sender.isSelected {
                 print("🔵 开启弹幕");
                 showDanmaku();

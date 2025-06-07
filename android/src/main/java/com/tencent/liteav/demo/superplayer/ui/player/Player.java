@@ -383,5 +383,6 @@ public interface Player {
          */
         void onActionUp();
 
+        void onCast();
     }
 }

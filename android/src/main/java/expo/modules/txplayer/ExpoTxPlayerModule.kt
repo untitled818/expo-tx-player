@@ -1,5 +1,8 @@
 package expo.modules.txplayer
 
+import android.health.connect.datatypes.units.Volume
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
@@ -27,7 +30,7 @@ class ExpoTxPlayerModule : Module() {
     )
 
     // Defines event names that the module can send to JavaScript.
-    Events("onChange")
+    Events("onChange", "onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd", "onPIPStart", "onPIPStop", "onError", "onPlayingChange", "onStatusChange")
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
@@ -80,6 +83,67 @@ class ExpoTxPlayerModule : Module() {
       appId = params.appId
     }
 
+    // 设置音量
+    Function("setVolume") { volume: Int ->
+      Log.d("ExpoTxPlayerModule", "setVolume 被调用，volume=$volume")
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.setVolume(volume)
+      }
+    }
+
+    // 设置静音
+    Function("setMute") { mute: Boolean ->
+      Log.d("ExpoTxPlayerModule", "setMute 被调用，mute=$mute")
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.setMute(mute)
+      }
+    }
+
+    // 播放
+    Function("play") {
+      Log.d("ExpoTxPlayerModule", "play 调用");
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.play();
+      }
+    }
+
+    // 暂停
+    Function("pause") {
+      Log.d("ExpoTxPlayerModule", "pause 调用");
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.pause();
+      }
+    }
+
+    // 获取播放器状态
+    Function("getStatus") {
+      Log.d("ExpoTxPlayerModule", "getStatus 调用");
+      ExpoTxPlayerHolder.playerView?.getStatus() ?: "unknown"
+    }
+
+    // 获取缓冲区
+    Function("bufferedPosition") {
+      Log.d("ExpoTxPlayerModule", "bufferedPosition 调用");
+      ExpoTxPlayerHolder.playerView?.bufferedPosition() ?: 0;
+    }
+
+    // 设置播放的url
+    Function("setVideoURL") { url: String ->
+      Log.d("ExpoTxPlayerModule", "setVideoURL 调用");
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.setVideoURL(url);
+      }
+    }
+
+    // 切换视频源
+    Function("switchSource") {url: String ->
+      Log.d("ExpoTxPlayerModule", "switchSource 调用");
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.switchSource(url);
+      }
+    }
+
+
     // Enables the module to be used as a native view. Definition components that are accepted as part of
     // the view definition: Prop, Events.
     View(ExpoTxPlayerView::class) {
@@ -89,8 +153,22 @@ class ExpoTxPlayerModule : Module() {
         Log.d(TAG, "Prop 'url' set to: $url with appId: $id")
         view.playWithUrl(url, id)
       }
+
+      Prop("contentFit") { view: ExpoTxPlayerView, contentFit: String ->
+        println("contentFit: $contentFit");
+        view.setContentFit(contentFit);
+      }
+
       // Defines an event that the view can send to JavaScript.
-      Events("onLoad")
+      Events("onLoad", "onCastButtonPressed",
+        "onFullscreenEnter",
+        "onFullscreenEnd",
+        "onPIPStart",
+        "onPIPStop",
+        "onError",
+        "onPlayingChange",
+        "onStatusChange");
+
     }
   }
 }

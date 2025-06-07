@@ -48,8 +48,7 @@ export const PlayerView: React.FC<Props> = ({
     <>
       <ExpoTxPlayerView
         onCastButtonPressed={() => {
-          castModalRef.current?.show();
-          castModalRef.current?.startSearch();
+          console.log("投屏触发");
         }}
         onFullscreenEnter={onFullscreenEnter}
         onFullscreenEnd={onFullscreenEnd}

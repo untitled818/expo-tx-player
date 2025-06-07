@@ -2,6 +2,7 @@ package com.tencent.liteav.demo.superplayer.model;
 
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel;
+import com.tencent.liteav.demo.superplayer.SuperPlayerView;
 import com.tencent.liteav.demo.superplayer.model.entity.VideoQuality;
 import com.tencent.liteav.txcplayer.model.TXSubtitleRenderModel;
 import com.tencent.rtmp.TXLivePlayer;
@@ -210,4 +211,6 @@ public interface SuperPlayer {
      * 恢复倍速和播放
      */
     void revertSpeedRate();
+
+    void setPlayerViewCallback(SuperPlayerView.OnSuperPlayerViewCallback callback);
 }

@@ -61,7 +61,7 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
     private Switch                  mSwitchMirror;
     private Switch                  mSwitchAccelerate;
     private Callback                mCallback;
-    private AudioManager            mAudioManager;
+    public AudioManager            mAudioManager;
     private RadioGroup              mRadioGroup;
     private RadioButton             mRbSpeed1;
     private RadioButton             mRbSpeed125;

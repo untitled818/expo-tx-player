@@ -15,6 +15,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -61,6 +62,7 @@ import com.tencent.liteav.demo.superplayer.ui.player.WindowPlayer;
 import com.tencent.liteav.demo.superplayer.ui.view.DanmuView;
 import com.tencent.liteav.demo.superplayer.ui.view.DynamicWatermarkView;
 import com.tencent.liteav.txcplayer.model.TXSubtitleRenderModel;
+import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.TXTrackInfo;
 import com.tencent.rtmp.ui.TXCloudVideoView;
@@ -141,6 +143,7 @@ public class SuperPlayerView extends RelativeLayout
   private VolumeChangeHelper mVolumeChangeHelper;
   private PictureInPictureHelper mPictureInPictureHelper;
   private long mPlayAble;
+  private float mPlayableDuration = 0f;
 
   public SuperPlayerView(Context context) {
     super(context);
@@ -537,6 +540,11 @@ public class SuperPlayerView extends RelativeLayout
    */
   public void setPlayerViewCallback(OnSuperPlayerViewCallback callback) {
     mPlayerViewCallback = callback;
+
+    // 把回调传进去 SuperPlayerImpl 里
+    if (mSuperPlayer != null) {
+      mSuperPlayer.setPlayerViewCallback(callback); // 👈 重点
+    }
   }
 
   /**
@@ -938,6 +946,13 @@ public class SuperPlayerView extends RelativeLayout
     public void onActionUp() {
       mSuperPlayer.revertSpeedRate();
     }
+
+    @Override
+    public void onCast() {
+      if (mPlayerViewCallback != null) {
+        mPlayerViewCallback.onCastButtonPressed();
+      }
+    }
   };
 
   private void handleResume() {
@@ -1087,14 +1102,16 @@ public class SuperPlayerView extends RelativeLayout
      */
     void onClickSmallReturnBtn();
 
-    /**
-     * Start floating window playback
-     *
-     * 开始悬浮窗播放
-     */
-    void onStartFloatWindowPlay();
+      /**
+       * Start floating window playback
+       * <p>
+       * 开始悬浮窗播放
+       */
+      default void onStartFloatWindowPlay() {
 
-    /**
+      }
+
+      /**
      * Playback start callback
      *
      * 开始播放回调
@@ -1115,7 +1132,7 @@ public class SuperPlayerView extends RelativeLayout
      *
      * @param code
      */
-    void onError(int code);
+    void onError(int code, String message);
 
     /**
      * Clicked on the cache list button on the download page.
@@ -1128,7 +1145,25 @@ public class SuperPlayerView extends RelativeLayout
      * pip回调
      */
     void onEnterPictureInPicture();
+
+    void onExitPictureInPicture();
+
+    /**
+     * 播放状态变更回调
+     * @param status
+     */
+    void onStatusChange(String status);
+
+    /**
+     * 视频是否正在播放回调
+     */
+
+    void onPlayingChange(Boolean isPlaying);
+
+    void onCastButtonPressed();
+
   }
+
 
   public void release() {
     if (mVolumeChangeHelper != null) {
@@ -1354,8 +1389,9 @@ public class SuperPlayerView extends RelativeLayout
 
     @Override
     public void onError(int code, String message) {
+
       showToast(message);
-      notifyCallbackPlayError(code);
+      notifyCallbackPlayError(code, message);
     }
 
     @Override
@@ -1415,9 +1451,9 @@ public class SuperPlayerView extends RelativeLayout
     }
   }
 
-  private void notifyCallbackPlayError(int code) {
+  private void notifyCallbackPlayError(int code, String message) {
     if (mPlayerViewCallback != null) {
-      mPlayerViewCallback.onError(code);
+      mPlayerViewCallback.onError(code, message);
     }
   }
 
@@ -1540,6 +1576,7 @@ public class SuperPlayerView extends RelativeLayout
 
   @Override
   public void onVolumeChange(int volume) {
+    Log.d("音量，" , "volume" + volume);
     mWindowPlayer.onVolumeChange(volume);
     mFullScreenPlayer.onVolumeChange(volume);
   }
@@ -1590,4 +1627,61 @@ public class SuperPlayerView extends RelativeLayout
     mWindowPlayer.showPIPIV(isShow);
   }
 
+
+  // 向外暴露音量方法
+  public void setVolume(int volume) {
+    Log.d("声音", "volume: " + volume );
+    mFullScreenPlayer.mVodMoreView.mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+  }
+
+  // 设置静音方法
+  public void setMute(boolean mute) {
+    ((SuperPlayerImpl) mSuperPlayer).setMute(mute);
+  }
+
+  // 恢复播放
+  public void resume() {
+    mSuperPlayer.resume();
+  }
+
+  // 暂停播放
+  public void pause() {
+    mSuperPlayer.pause();
+  }
+
+  // 获取播放器状态
+  public String status() {
+    SuperPlayerDef.PlayerState state = mSuperPlayer.getPlayerState();
+    Log.d("播放器状态", "当前状态是: " + state);
+      return switch (state) {
+          case PLAYING -> "playing";
+          case PAUSE -> "paused";
+          case LOADING -> "buffering";
+          case END -> "stopped";
+          case INIT -> "preparing";
+          case ERROR -> "failed";
+          default -> "unknown";
+      };
+  }
+
+  // 获取视频缓冲区
+  public Float playableDuration() {
+      return  ((SuperPlayerImpl) mSuperPlayer).playableDuration();
+  }
+
+  // 设置视频布局格式
+  public void setContentFit(String mode) {
+    Log.d("ExpoTxPlayer", "设置 contentFit: " + mode);
+
+    SuperPlayerGlobalConfig config = SuperPlayerGlobalConfig.getInstance();
+
+    if ("contain".equals(mode)) {
+      config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION; // 保持比例，可能留黑边
+    } else if ("cover".equals(mode) || "fill".equals(mode)) {
+      Log.d("设置mode", "mode, " + mode);
+      config.renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN; // 填充全屏，可能裁剪
+    } else {
+      config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION; // 默认 fallback
+    }
+  }
 }

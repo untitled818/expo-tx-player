@@ -31,6 +31,19 @@
             android:textSize="11dp" />
     </LinearLayout>
 
+    <!-- 投屏按钮（右上角） -->
+    <ImageView
+        android:id="@+id/superplayer_iv_cast"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/superplayer_ic_cast"
+        android:contentDescription="投屏"
+        android:visibility="visible" />
+
 
     <!--重播-->
     <LinearLayout

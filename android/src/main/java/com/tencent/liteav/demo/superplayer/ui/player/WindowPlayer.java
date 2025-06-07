@@ -66,6 +66,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
 
   private LinearLayout mLayoutTop; // Top title bar layout
   private LinearLayout mLayoutBottom; // Bottom progress bar layout
+  private ImageView mIvCast;
   private ImageView mIvPause;
   private ImageView mIvPlayNext;
   private ImageView mIvFullScreen;
@@ -251,6 +252,9 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mTvCurrent = (TextView) findViewById(R.id.superplayer_tv_current);
     mTvDuration = (TextView) findViewById(R.id.superplayer_tv_duration);
 
+    mIvCast = (ImageView) findViewById(R.id.superplayer_iv_cast);
+
+
     mSeekBarProgress = (PointSeekBar) findViewById(R.id.superplayer_seekbar_progress);
     mSeekBarProgress.setProgress(0);
     mSeekBarProgress.setMax(100);
@@ -271,6 +275,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mLayoutTop.setOnClickListener(this);
     mLayoutReplay.setOnClickListener(this);
     mPiPIV.setOnClickListener(this);
+    mIvCast.setOnClickListener(this);
 
     mSeekBarProgress.setOnSeekBarChangeListener(this);
 
@@ -781,6 +786,10 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     } else if (id == R.id.superplayer_iv_pip) {
       if (mControllerCallback != null) {
         mControllerCallback.enterPictureInPictureMode();
+      }
+    } else if (id == R.id.superplayer_iv_cast) {
+      if (mControllerCallback != null) {
+        mControllerCallback.onCast();
       }
     }
   }

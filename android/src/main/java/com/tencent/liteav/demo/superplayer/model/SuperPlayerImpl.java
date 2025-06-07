@@ -15,6 +15,7 @@ import com.tencent.liteav.demo.superplayer.SuperPlayerCode;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig;
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel;
+import com.tencent.liteav.demo.superplayer.SuperPlayerView;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayImageSpriteInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayKeyFrameDescInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.VideoQuality;
@@ -82,6 +83,13 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
     private int                        mCurrentPosition     = 0;
     private Handler                    mHandler;
     private float                      mCurrentSpeedRate    = 1;
+
+    private SuperPlayerView.OnSuperPlayerViewCallback mPlayerViewCallback;
+
+    @Override
+    public void setPlayerViewCallback(SuperPlayerView.OnSuperPlayerViewCallback callback) {
+        this.mPlayerViewCallback = callback;
+    }
 
     public SuperPlayerImpl(Context context, TXCloudVideoView videoView) {
         initialize(context, videoView);
@@ -168,6 +176,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         if (mSuperPlayerListener != null) {
             mSuperPlayerListener.onVodNetStatus(player, bundle);
         }
+
     }
 
     @Override
@@ -390,6 +399,26 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         mVodPlayer.setMute(config.mute);
         mVodPlayer.setMirror(config.mirror);
     }
+
+    public void setMute(boolean mute) {
+        if (mVodPlayer != null) {
+            mVodPlayer.setMute(mute);
+        } else {
+            mLivePlayer.setMute(mute);
+        }
+    }
+
+    public Float playableDuration() {
+        if (mVodPlayer != null) {
+            Float result = mVodPlayer.getBufferDuration();
+            Log.d("视频缓冲区大小", "result " + result);
+            return result;
+        } else {
+            return 0.0f;
+        }
+    }
+
+
 
     private void initLivePlayer(Context context) {
         mLivePlayer = new TXLivePlayer(context);
@@ -634,6 +663,10 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         if (mObserver == null) {
             return;
         }
+        if (mPlayerViewCallback != null) {
+            boolean isPlaying = (playState == SuperPlayerDef.PlayerState.PLAYING);
+            mPlayerViewCallback.onPlayingChange(isPlaying);
+        }
         switch (playState) {
             case INIT:
                 mObserver.onPlayPrepare();
@@ -653,6 +686,31 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             case END:
                 mObserver.onPlayStop();
                 break;
+        }
+        if (mPlayerViewCallback != null) {
+            mPlayerViewCallback.onStatusChange(mapPlayerStateToString(playState));
+        }
+
+
+
+    }
+
+    private String mapPlayerStateToString(SuperPlayerDef.PlayerState state) {
+        switch (state) {
+            case PLAYING:
+                return "playing";
+            case PAUSE:
+                return "paused";
+            case LOADING:
+                return "buffering";
+            case END:
+                return "stopped";
+            case INIT:
+                return "preparing";
+            case ERROR:
+                return "failed";
+            default:
+                return "unknown";
         }
     }
 

@@ -140,7 +140,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   private ImageView mImageStartAndResume;
   private ImageView mImageCover;
   private VodResolutionView mVodResolutionView;
-  private VodMoreView mVodMoreView;
+  public VodMoreView mVodMoreView;
   private TextView mTvVttText; // Keyframe marker information text
   private DownloadMenuListView mDownloadMenuView; // Series cache list
   private HideLockViewRunnable mHideLockViewRunnable;

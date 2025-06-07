@@ -77,7 +77,7 @@ public class SuperPlayerActivity extends FragmentActivity {
             }
 
             @Override
-            public void onError(int code) {
+            public void onError(int code, String message) {
 
             }
 
@@ -90,6 +90,26 @@ public class SuperPlayerActivity extends FragmentActivity {
             public void onEnterPictureInPicture() {
                 Log.d(TAG, "SuperPlayerView 请求进入 PictureInPicture");
                 tryEnterPip(); // 调用下面封装的方法
+            }
+
+            @Override
+            public void onExitPictureInPicture() {
+
+            }
+
+            @Override
+            public void onStatusChange(String status) {
+
+            }
+
+            @Override
+            public void onPlayingChange(Boolean isPlaying) {
+
+            }
+
+            @Override
+            public void onCastButtonPressed() {
+
             }
         });
         
