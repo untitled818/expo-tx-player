@@ -66,8 +66,8 @@ export class Player implements EventEmitterCompatible {
     this._status = ExpoTxPlayer.getStatus();
 
     ExpoTxPlayer.setLicense({
-      url: "https://license.vod2.myqcloud.com/license/v2/1258384072_1/v_cube.license",
-      key: "4c71bd88da95af202a8f3b2743c7e4e4",
+      url: "",
+      key: "",
     });
   }
 
