@@ -52,26 +52,26 @@ class ExpoTxPlayerModule : Module() {
 
     // 关闭弹幕
     Function("toggleDanmakuBarrage") {
-      ExpoTxPlayerHolder.playerView?.toggleDanmakuBarrage() ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法关闭弹幕")
+//      ExpoTxPlayerHolder.playerView?.toggleDanmakuBarrage() ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法关闭弹幕")
     }
 
     // 发送弹幕
     Function("sendDanmaku") { content: String, color: String?, isSelf: Boolean? ->
       Log.d("ExpoTxPlayerModule", "收到 JS 弹幕内容: $content")
-      ExpoTxPlayerHolder.playerView?.sendDanmaku(content, isSelf ?: false)
+//      ExpoTxPlayerHolder.playerView?.sendDanmaku(content, isSelf ?: false)
         ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法发送弹幕")
     }
 
     // 关闭弹幕
     Function("hideDanmaku") {
-      ExpoTxPlayerHolder.playerView?.hideDanmaku()
-        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法关闭弹幕")
+//      ExpoTxPlayerHolder.playerView?.hideDanmaku()
+//        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法关闭弹幕")
     }
 
     // 开启弹幕
     Function("showDanmaku") {
-      ExpoTxPlayerHolder.playerView?.showDanmaku()
-        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法开启弹幕")
+//      ExpoTxPlayerHolder.playerView?.showDanmaku()
+//        ?: Log.w("ExpoTxPlayerModule", "播放器实例未初始化，无法开启弹幕")
     }
 
     Function("setLicense") { params: LicenseParams ->

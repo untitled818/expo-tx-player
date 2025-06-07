@@ -10,11 +10,6 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 
 import expo.modules.ReactActivityDelegateWrapper
 
-import android.content.res.Configuration
-import android.util.Log
-import android.view.ViewGroup
-import expo.modules.txplayer.ExpoTxPlayerView
-
 class MainActivity : ReactActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     // Set the theme to AppTheme BEFORE onCreate to support
@@ -63,30 +58,4 @@ class MainActivity : ReactActivity() {
       // because it's doing more than [Activity.moveTaskToBack] in fact.
       super.invokeDefaultOnBackPressed()
   }
-
-
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Log.d("MainActivity", "onConfigurationChanged: orientation=${newConfig.orientation}")
-
-        val rootView = findViewById<ViewGroup>(android.R.id.content)
-        val playerView = findPlayerView(rootView)
-        playerView?.onHostConfigurationChanged(newConfig)
-    }
-
-    // 递归查找 ExpoTxPlayerView
-    private fun findPlayerView(viewGroup: ViewGroup): ExpoTxPlayerView? {
-        for (i in 0 until viewGroup.childCount) {
-            val child = viewGroup.getChildAt(i)
-            if (child is ExpoTxPlayerView) return child
-            if (child is ViewGroup) {
-                val result = findPlayerView(child)
-                if (result != null) return result
-            }
-        }
-        return null
-    }
-
-
 }

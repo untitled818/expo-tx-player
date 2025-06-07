@@ -51,27 +51,6 @@
       <true/>
       <key>NSExceptionDomains</key>
       <dict>
-        <key>New Exception Domain</key>
-        <dict>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>New Exception Domain 1</key>
-        <dict>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>New Exception Domain 2</key>
-        <dict>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
         <key>webrtc-signal-scheduler.tlivesource.com</key>
         <dict>
           <key>NSExceptionAllowsInsecureHTTPLoads</key>

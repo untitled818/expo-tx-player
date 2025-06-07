@@ -1,0 +1,128 @@
+package expo.modules.txplayer
+
+import android.content.res.Configuration
+import android.os.Bundle
+import android.util.Log
+import android.widget.LinearLayout.LayoutParams
+import androidx.appcompat.app.AppCompatActivity
+import com.tencent.liteav.demo.superplayer.SuperPlayerModel
+import com.tencent.liteav.demo.superplayer.SuperPlayerView
+
+class PipPlayerActivity : AppCompatActivity() {
+    private var playerView: SuperPlayerView? = null
+    companion object {
+        const val EXTRA_VIDEO_URL = "EXTRA_VIDEO_URL"
+        private const val TAG = "PipPlayerActivity"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 取出传入的视频地址
+        val videoUrl = intent.getStringExtra(EXTRA_VIDEO_URL)
+        val videoWidth = intent.getIntExtra("EXTRA_VIDEO_WIDTH", 16)
+        val videoHeight = intent.getIntExtra("EXTRA_VIDEO_HEIGHT", 9)
+        Log.d(TAG, "接收到播放器宽高: $videoWidth x $videoHeight")
+
+        if (videoUrl.isNullOrEmpty()) {
+            Log.e(TAG, "PipPlayerActivity启动失败，缺少视频URL")
+            finish()
+            return
+        }
+
+        // 创建播放器视图，传入当前Activity作为Context
+        playerView = SuperPlayerView(this).apply {
+            layoutParams = LayoutParams(videoWidth, videoHeight)
+        }
+
+        // 设置播放器参数，播放视频
+        val model = SuperPlayerModel().apply {
+            url = videoUrl
+        }
+        playerView?.playWithModelNeedLicence(model)
+
+        setContentView(playerView)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val validWidth = videoWidth.coerceAtLeast(1)
+//            val validHeight = videoHeight.coerceAtLeast(1)
+//            var ratio = validWidth.toFloat() / validHeight
+//            ratio = ratio.coerceIn(0.5f, 2.4f)
+//            val aspectRatio = Rational((ratio * 1000).toInt(), 1000)
+//            val pipParams = PictureInPictureParams.Builder()
+//                .setAspectRatio(aspectRatio)
+//                .build()
+//            Log.d(TAG, "设置画中画宽高比: $aspectRatio")
+//            setPictureInPictureParams(pipParams)
+//        }
+
+        playerView?.mPictureInPictureHelperEnterPIP()
+
+
+        // 设置回调监听
+        playerView?.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
+            override fun onEnterPictureInPicture() {
+                Log.d(TAG, "播放器请求进入画中画 onEnterPictureInPicture")
+            }
+
+            override fun onStopFullScreenPlay() {
+                Log.d(TAG, "退出全屏播放 onStopFullScreenPlay")
+            }
+
+            override fun onStartFullScreenPlay() {
+                Log.d(TAG, "进入全屏播放 onStartFullScreenPlay")
+            }
+
+            override fun onClickFloatCloseBtn() {
+                Log.d(TAG, "点击浮窗关闭按钮 onClickFloatCloseBtn")
+            }
+
+            override fun onClickSmallReturnBtn() {
+                Log.d(TAG, "点击小窗返回按钮 onClickSmallReturnBtn")
+            }
+
+            override fun onStartFloatWindowPlay() {
+                Log.d(TAG, "开始小窗播放 onStartFloatWindowPlay")
+            }
+
+            override fun onPlaying() {
+                Log.d(TAG, "播放中 onPlaying")
+            }
+
+            override fun onPlayEnd() {
+                Log.d(TAG, "播放结束 onPlayEnd")
+            }
+
+            override fun onError(code: Int) {
+                Log.e(TAG, "播放出错 onError，错误码: $code")
+            }
+
+            override fun onShowCacheListClick() {
+                Log.d(TAG, "点击缓存列表 onShowCacheListClick")
+            }
+        })
+
+    }
+
+
+
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration
+    ) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        Log.d(TAG, "画中画模式变化: $isInPictureInPictureMode")
+        if (!isInPictureInPictureMode) {
+            Log.d(TAG, "finish pipActivity")
+            // 退出画中画时关闭Activity
+            finish()
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        playerView?.resetPlayer()
+        playerView = null
+        Log.d(TAG, "onDestroy pipActivity")
+        PipPlayerManager.onPipClosed?.invoke()
+
+    }
+}
