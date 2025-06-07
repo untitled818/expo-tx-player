@@ -59,7 +59,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
   private fun initPlayer() {
-
+    ExpoTxPlayerHolder.playerView = this
     PipPlayerManager.onPipClosed = {
       Log.d("ExpoTxPlayerView", "PipPlayerActivity 已关闭")
 //      playerView.resetPlayer()
