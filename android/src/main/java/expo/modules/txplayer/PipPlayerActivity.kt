@@ -57,50 +57,6 @@ class PipPlayerActivity : AppCompatActivity() {
 
         playerView?.mPictureInPictureHelperEnterPIP()
 
-
-        // 设置回调监听
-        playerView?.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
-            override fun onEnterPictureInPicture() {
-                Log.d(TAG, "播放器请求进入画中画 onEnterPictureInPicture")
-            }
-
-            override fun onStopFullScreenPlay() {
-                Log.d(TAG, "退出全屏播放 onStopFullScreenPlay")
-            }
-
-            override fun onStartFullScreenPlay() {
-                Log.d(TAG, "进入全屏播放 onStartFullScreenPlay")
-            }
-
-            override fun onClickFloatCloseBtn() {
-                Log.d(TAG, "点击浮窗关闭按钮 onClickFloatCloseBtn")
-            }
-
-            override fun onClickSmallReturnBtn() {
-                Log.d(TAG, "点击小窗返回按钮 onClickSmallReturnBtn")
-            }
-
-            override fun onStartFloatWindowPlay() {
-                Log.d(TAG, "开始小窗播放 onStartFloatWindowPlay")
-            }
-
-            override fun onPlaying() {
-                Log.d(TAG, "播放中 onPlaying")
-            }
-
-            override fun onPlayEnd() {
-                Log.d(TAG, "播放结束 onPlayEnd")
-            }
-
-            override fun onError(code: Int) {
-                Log.e(TAG, "播放出错 onError，错误码: $code")
-            }
-
-            override fun onShowCacheListClick() {
-                Log.d(TAG, "点击缓存列表 onShowCacheListClick")
-            }
-        })
-
     }
 
 
