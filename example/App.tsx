@@ -92,8 +92,8 @@ export default function App() {
     <SafeAreaView>
       <PlayerView
         player={player}
-        style={{ width: "100%", height: 200 }}
-        contentFit="cover"
+        style={{ width: "100%", height: 220, marginTop: 20 }}
+        contentFit="contain"
         onFullscreenEnter={() => {
           console.log("fullscreen start");
         }}

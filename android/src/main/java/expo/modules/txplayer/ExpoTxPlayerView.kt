@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import android.view.View
@@ -37,9 +38,6 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   private var originalIndex: Int = -1
 
   private var pendingContentFit: String? = null
-  override val contextForBroadcast: Context
-    get() = context
-
 
   private val onLoad by EventDispatcher()
 
@@ -49,7 +47,9 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
 
   private val playerView = SuperPlayerView(resolvedActivity ?: context).apply {
     layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+    setBackgroundColor(Color.BLACK);
   }
+
 
   init {
     applyContentFitIfNeeded();
@@ -63,7 +63,9 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     PipPlayerManager.onPipClosed = {
       Log.d("ExpoTxPlayerView", "PipPlayerActivity 已关闭")
 //      playerView.resetPlayer()
-      playerView.onResume();
+//      playerView.onResume();
+      onPIPStop(mapOf());
+      play();
     }
     playerView.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
       override fun onStartFullScreenPlay() {
@@ -113,7 +115,9 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
         val width = this@ExpoTxPlayerView.width
         val height = this@ExpoTxPlayerView.height
         Log.d("SuperPlayer", "onEnterPictureInPicture 传递宽高: $width x $height")
-        playerView.onPause()
+//        playerView.onPause()
+//        playerView.pasue();
+        pause();
         val context = resolvedActivity ?: this@ExpoTxPlayerView.context
         val intent = Intent(context, PipPlayerActivity::class.java).apply {
           flags = Intent.FLAG_ACTIVITY_NEW_TASK
