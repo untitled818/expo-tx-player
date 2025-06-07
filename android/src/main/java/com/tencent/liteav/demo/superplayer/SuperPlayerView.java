@@ -81,11 +81,15 @@ import java.util.List;
 /**
  * Super player view
  * <p>
- * It has basic player functions, as well as functions such as screen orientation switching, floating window playback,
- * video quality switching, hardware acceleration, speed playback, mirror playback, and gesture control.
+ * It has basic player functions, as well as functions such as screen
+ * orientation switching, floating window playback,
+ * video quality switching, hardware acceleration, speed playback, mirror
+ * playback, and gesture control.
  * It supports both live and VOD. The usage is extremely simple.
- * Just import and get this control in the layout file, and pass in {@link SuperPlayerModel} through
- * {@link #playWithModelNeedLicence(SuperPlayerModel)} to achieve video playback.
+ * Just import and get this control in the layout file, and pass in
+ * {@link SuperPlayerModel} through
+ * {@link #playWithModelNeedLicence(SuperPlayerModel)} to achieve video
+ * playback.
  * <p>
  * 1. Play video {@link #playWithModelNeedLicence(SuperPlayerModel)}
  * 2. Set callback {@link #setPlayerViewCallback(OnSuperPlayerViewCallback)}
@@ -206,21 +210,21 @@ public class SuperPlayerView extends RelativeLayout
     mPictureInPictureHelper.setListener(this);
   }
 
-    private void initPlayer() {
-        mSuperPlayer = new SuperPlayerImpl(mContext, mTXCloudVideoView);
-        mSuperPlayer.setObserver(new PlayerObserver());
-        mSuperPlayer.setSubTitleView(mSubtitleView);
-        if (mSuperPlayer.getPlayerMode() == SuperPlayerDef.PlayerMode.FULLSCREEN) {
-            addView(mFullScreenPlayer);
-          mFullScreenPlayer.post(() -> {
-            mFullScreenPlayer.hide();
-          });
-        } else if (mSuperPlayer.getPlayerMode() == SuperPlayerDef.PlayerMode.WINDOW) {
-            addView(mWindowPlayer);
-          mWindowPlayer.post(() -> {
-            mWindowPlayer.hide();
-          });
-        }
+  private void initPlayer() {
+    mSuperPlayer = new SuperPlayerImpl(mContext, mTXCloudVideoView);
+    mSuperPlayer.setObserver(new PlayerObserver());
+    mSuperPlayer.setSubTitleView(mSubtitleView);
+    if (mSuperPlayer.getPlayerMode() == SuperPlayerDef.PlayerMode.FULLSCREEN) {
+      addView(mFullScreenPlayer);
+      mFullScreenPlayer.post(() -> {
+        mFullScreenPlayer.hide();
+      });
+    } else if (mSuperPlayer.getPlayerMode() == SuperPlayerDef.PlayerMode.WINDOW) {
+      addView(mWindowPlayer);
+      mWindowPlayer.post(() -> {
+        mWindowPlayer.hide();
+      });
+    }
 
     post(new Runnable() {
       @Override
@@ -235,7 +239,7 @@ public class SuperPlayerView extends RelativeLayout
               ViewGroup.LayoutParams.MATCH_PARENT,
               ViewGroup.LayoutParams.MATCH_PARENT);
           Log.d(TAG, "mLayoutParamFullScreenMode = width: "
-                  + mLayoutParamFullScreenMode.width + ", height: " + mLayoutParamFullScreenMode.height);
+              + mLayoutParamFullScreenMode.width + ", height: " + mLayoutParamFullScreenMode.height);
 
         } catch (Exception e) {
           e.printStackTrace();
@@ -493,14 +497,14 @@ public class SuperPlayerView extends RelativeLayout
   // 清除弹幕
   public void removeAllDanmakus() {
     mDanmuView.removeAllDanmakus(true); // 清空屏幕弹幕
-//    mDanmuView.reprepareDanmaku();
-//    mDanmuView = (DanmuView) mRootView.findViewById(R.id.superplayer_danmuku_view);
+    // mDanmuView.reprepareDanmaku();
+    // mDanmuView = (DanmuView)
+    // mRootView.findViewById(R.id.superplayer_danmuku_view);
   }
-
 
   // 开启弹幕：允许发送
   public void openDanmu() {
-//    mFullScreenPlayer.mBarrageOn = true;
+    // mFullScreenPlayer.mBarrageOn = true;
     mFullScreenPlayer.toggleBarrage();
     if (mDanmuView != null) {
       mDanmuView.toggle(true); // 继续发送
@@ -509,11 +513,10 @@ public class SuperPlayerView extends RelativeLayout
 
   // 发送弹幕
   public void sendDanmu(String content, boolean withBorder) {
-    if (!mFullScreenPlayer.mBarrageOn || mDanmuView == null) return;
+    if (!mFullScreenPlayer.mBarrageOn || mDanmuView == null)
+      return;
     mDanmuView.addDanmaku(content, withBorder);
   }
-
-
 
   /**
    * Stop playback.
@@ -569,7 +572,7 @@ public class SuperPlayerView extends RelativeLayout
   private void fullScreen(boolean isFull) {
     Log.d(TAG, "fullScreen: " + isFull);
     if (getContext() instanceof Activity activity) {
-        if (isFull) {
+      if (isFull) {
         View decorView = activity.getWindow().getDecorView();
         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
           decorView.setSystemUiVisibility(View.GONE);
@@ -615,7 +618,7 @@ public class SuperPlayerView extends RelativeLayout
     addView(mFullScreenPlayer, mVodControllerFullScreenParams);
     setLayoutParams(mLayoutParamFullScreenMode);
     Log.d(TAG, "Applying full screen layout params: width = "
-            + mLayoutParamFullScreenMode.width + ", height = " + mLayoutParamFullScreenMode.height);
+        + mLayoutParamFullScreenMode.width + ", height = " + mLayoutParamFullScreenMode.height);
     setLayoutParams(mLayoutParamFullScreenMode);
 
     if (mPlayerViewCallback != null) {
@@ -924,12 +927,12 @@ public class SuperPlayerView extends RelativeLayout
 
     @Override
     public void enterPictureInPictureMode() {
-      Log.d("PiP_Debug", "enterPictureInPictureMode() called");
+      Log.d(TAG, "enterPictureInPictureMode: 1");
       if (mPlayerViewCallback != null) {
-        Log.d("PiP_Debug", "enterPictureInPictureMode() called111");
         mPlayerViewCallback.onEnterPictureInPicture(); // 让 Activity 来处理
       }
-//      mPictureInPictureHelper.enterPictureInPictureMode(getPlayerState(), mTXCloudVideoView);
+      // mPictureInPictureHelper.enterPictureInPictureMode(getPlayerState(),
+      // mTXCloudVideoView);
     }
 
     @Override
@@ -1102,16 +1105,16 @@ public class SuperPlayerView extends RelativeLayout
      */
     void onClickSmallReturnBtn();
 
-      /**
-       * Start floating window playback
-       * <p>
-       * 开始悬浮窗播放
-       */
-      default void onStartFloatWindowPlay() {
+    /**
+     * Start floating window playback
+     * <p>
+     * 开始悬浮窗播放
+     */
+    default void onStartFloatWindowPlay() {
 
-      }
+    }
 
-      /**
+    /**
      * Playback start callback
      *
      * 开始播放回调
@@ -1150,6 +1153,7 @@ public class SuperPlayerView extends RelativeLayout
 
     /**
      * 播放状态变更回调
+     * 
      * @param status
      */
     void onStatusChange(String status);
@@ -1163,7 +1167,6 @@ public class SuperPlayerView extends RelativeLayout
     void onCastButtonPressed();
 
   }
-
 
   public void release() {
     if (mVolumeChangeHelper != null) {
@@ -1194,6 +1197,10 @@ public class SuperPlayerView extends RelativeLayout
     } catch (Throwable e) {
       Log.e(TAG, Log.getStackTraceString(e));
     }
+  }
+
+  public void mPictureInPictureHelperEnterPIP() {
+    mPictureInPictureHelper.enterPictureInPictureMode(getPlayerState(), mTXCloudVideoView);
   }
 
   public void switchPlayMode(SuperPlayerDef.PlayerMode playerMode) {
@@ -1576,7 +1583,7 @@ public class SuperPlayerView extends RelativeLayout
 
   @Override
   public void onVolumeChange(int volume) {
-    Log.d("音量，" , "volume" + volume);
+    Log.d("音量，", "volume" + volume);
     mWindowPlayer.onVolumeChange(volume);
     mFullScreenPlayer.onVolumeChange(volume);
   }
@@ -1627,10 +1634,9 @@ public class SuperPlayerView extends RelativeLayout
     mWindowPlayer.showPIPIV(isShow);
   }
 
-
   // 向外暴露音量方法
   public void setVolume(int volume) {
-    Log.d("声音", "volume: " + volume );
+    Log.d("声音", "volume: " + volume);
     mFullScreenPlayer.mVodMoreView.mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
   }
 
@@ -1653,20 +1659,20 @@ public class SuperPlayerView extends RelativeLayout
   public String status() {
     SuperPlayerDef.PlayerState state = mSuperPlayer.getPlayerState();
     Log.d("播放器状态", "当前状态是: " + state);
-      return switch (state) {
-          case PLAYING -> "playing";
-          case PAUSE -> "paused";
-          case LOADING -> "buffering";
-          case END -> "stopped";
-          case INIT -> "preparing";
-          case ERROR -> "failed";
-          default -> "unknown";
-      };
+    return switch (state) {
+      case PLAYING -> "playing";
+      case PAUSE -> "paused";
+      case LOADING -> "buffering";
+      case END -> "stopped";
+      case INIT -> "preparing";
+      case ERROR -> "failed";
+      default -> "unknown";
+    };
   }
 
   // 获取视频缓冲区
   public Float playableDuration() {
-      return  ((SuperPlayerImpl) mSuperPlayer).playableDuration();
+    return ((SuperPlayerImpl) mSuperPlayer).playableDuration();
   }
 
   // 设置视频布局格式

@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_plugins_1 = require("expo/config-plugins");
-const { getMainApplicationOrThrow, addMetaDataItemToMainApplication } = config_plugins_1.AndroidConfig.Manifest;
+const { getMainApplicationOrThrow } = config_plugins_1.AndroidConfig.Manifest;
 const withPlayerAppConfig = (config) => {
     config = (0, config_plugins_1.withInfoPlist)(config, (config) => {
-        // config.modResults["MY_CUSTOM_API_KEY"] = apiKey;
         // webrtc-signal-scheduler.tlivesource.com域名http请求
         const ats = config.modResults.NSAppTransportSecurity ?? {};
         const exceptionDomains = ats.NSExceptionDomains ?? {};
@@ -71,11 +70,23 @@ const withPlayerAppConfig = (config) => {
             mainApplication.$["android:networkSecurityConfig"] =
                 "@xml/network_security_config";
         }
-        // AndroidConfig.Manifest.addMetaDataItemToMainApplication(
-        //   mainApplication,
-        //   "MY_CUSTOM_API_KEY",
-        //   apiKey
-        // );
+        // 添加 PipPlayerActivity,画中画
+        const activityExists = mainApplication.activity?.some((activity) => activity.$["android:name"] === "expo.modules.txplayer.PipPlayerActivity");
+        if (!activityExists) {
+            mainApplication.activity = [
+                ...(mainApplication.activity ?? []),
+                {
+                    $: {
+                        "android:name": "expo.modules.txplayer.PipPlayerActivity",
+                        "android:resizeableActivity": "true",
+                        "android:supportsPictureInPicture": "true",
+                        "android:documentLaunchMode": "intoExisting",
+                        "android:excludeFromRecents": "true",
+                        "android:configChanges": "orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout",
+                    },
+                },
+            ];
+        }
         return config;
     });
     return config;

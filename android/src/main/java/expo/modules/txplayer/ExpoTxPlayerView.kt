@@ -1,13 +1,17 @@
 package expo.modules.txplayer
 
-
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Build
 import android.util.Log
-import android.view.*
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel
 import com.tencent.liteav.demo.superplayer.SuperPlayerView
@@ -17,6 +21,7 @@ import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.kotlin.views.ExpoView
 
+@SuppressLint("MissingConstructor")
 class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
   val onFullscreenEnter by EventDispatcher()
   val onFullscreenEnd by EventDispatcher()
@@ -32,6 +37,9 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   private var originalIndex: Int = -1
 
   private var pendingContentFit: String? = null
+  override val contextForBroadcast: Context
+    get() = context
+
 
   private val onLoad by EventDispatcher()
 
@@ -41,7 +49,103 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
 
   private val playerView = SuperPlayerView(resolvedActivity ?: context).apply {
     layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-    setBackgroundColor(Color.BLACK) // 确保背景不透明
+  }
+
+  init {
+    applyContentFitIfNeeded();
+    addView(playerView)
+    playerView.openDanmu();
+    initPlayer();
+  }
+
+  private fun initPlayer() {
+    ExpoTxPlayerHolder.playerView = this
+    PipPlayerManager.onPipClosed = {
+      Log.d("ExpoTxPlayerView", "PipPlayerActivity 已关闭")
+//      playerView.resetPlayer()
+      playerView.onResume();
+    }
+    playerView.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
+      override fun onStartFullScreenPlay() {
+        Log.d("ExpoTxPlayer", "进入全屏播放，view size: ${playerView.width}x${playerView.height}")
+        onFullscreenEnter(mapOf());
+        enterFullScreen()
+      }
+
+      override fun onStopFullScreenPlay() {
+        Log.d("ExpoTxPlayer", "退出全屏播放")
+        onFullscreenEnd(mapOf());
+        exitFullScreen()
+      }
+
+      override fun onClickFloatCloseBtn() {
+        Log.d("ExpoTxPlayer", "点击悬浮窗关闭按钮")
+      }
+
+      override fun onClickSmallReturnBtn() {
+        Log.d("ExpoTxPlayer", "点击小窗口返回按钮")
+      }
+
+      override fun onStartFloatWindowPlay() {
+        Log.d("ExpoTxPlayer", "开始悬浮窗播放")
+      }
+
+      override fun onPlaying() {
+        Log.d("ExpoTxPlayer", "开始播放")
+      }
+
+      override fun onPlayEnd() {
+        Log.d("ExpoTxPlayer", "播放结束")
+      }
+
+      override fun onError(code: Int, message: String) {
+        Log.e("ExpoTxPlayer", "播放出错, code=$code, message=$message")
+        onError(mapOf(
+          "message" to (message.ifEmpty { "未知错误" })
+        ))
+      }
+
+      override fun onShowCacheListClick() {
+        Log.d("ExpoTxPlayer", "点击缓存列表按钮")
+      }
+
+      override fun onEnterPictureInPicture() {
+        val width = this@ExpoTxPlayerView.width
+        val height = this@ExpoTxPlayerView.height
+        Log.d("SuperPlayer", "onEnterPictureInPicture 传递宽高: $width x $height")
+        playerView.onPause()
+        val context = resolvedActivity ?: this@ExpoTxPlayerView.context
+        val intent = Intent(context, PipPlayerActivity::class.java).apply {
+          flags = Intent.FLAG_ACTIVITY_NEW_TASK
+          putExtra(
+            PipPlayerActivity.EXTRA_VIDEO_URL,
+            "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971"
+          )
+          putExtra("EXTRA_VIDEO_WIDTH", width)
+          putExtra("EXTRA_VIDEO_HEIGHT", height)
+        }
+        context.startActivity(intent)
+        onPIPStart(mapOf())
+      }
+
+      override fun onExitPictureInPicture() {
+        TODO("Not yet implemented")
+      }
+
+      override fun onStatusChange(status: String?) {
+        Log.d("ExpoTxPlayer", "播放器状态变化: $status")
+        onStatusChange(mapOf("status" to (status ?: "unknown")))
+      }
+
+      override fun onCastButtonPressed() {
+        onCastButtonPressed(mapOf());
+      }
+
+      override fun onPlayingChange(isPlaying: Boolean) {
+        Log.d("ExpoTxPlayer", "播放状态变化: $isPlaying")
+        onPlayingChange(mapOf("value" to isPlaying))
+      }
+    })
   }
 
   fun enterFullScreen() {
@@ -58,8 +162,8 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     rootView.addView(
       playerView,
       ViewGroup.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.MATCH_PARENT
+        MATCH_PARENT,
+        MATCH_PARENT
       )
     )
 
@@ -117,7 +221,6 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
   fun playWithUrl(url: String, appId: Int) {
-    val context = appContext.reactContext ?: return
     val model = SuperPlayerModel().apply {
       this.appId = appId
       this.url = url
@@ -133,7 +236,6 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   fun resetPlayer() {
     playerView.resetPlayer()
   }
-
 
   fun sendDanmaku(content: String, withBorder: Boolean = false) {
     playerView.sendDanmu(content, withBorder);
@@ -256,87 +358,8 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     }
   }
 
-
-  init {
-    applyContentFitIfNeeded();
-    addView(playerView)
-    playerView.openDanmu();
-    ExpoTxPlayerHolder.playerView = this
-
-    playerView.setPlayerViewCallback(object : SuperPlayerView.OnSuperPlayerViewCallback {
-      override fun onStartFullScreenPlay() {
-        Log.d("ExpoTxPlayer", "进入全屏播放，view size: ${playerView.width}x${playerView.height}")
-        onFullscreenEnter(mapOf());
-        enterFullScreen()
-      }
-
-      override fun onStopFullScreenPlay() {
-        Log.d("ExpoTxPlayer", "退出全屏播放")
-        onFullscreenEnd(mapOf());
-        exitFullScreen()
-      }
-
-      override fun onClickFloatCloseBtn() {
-        Log.d("ExpoTxPlayer", "点击悬浮窗关闭按钮")
-      }
-
-      override fun onClickSmallReturnBtn() {
-        Log.d("ExpoTxPlayer", "点击小窗口返回按钮")
-      }
-
-      override fun onStartFloatWindowPlay() {
-        Log.d("ExpoTxPlayer", "开始悬浮窗播放")
-      }
-
-      override fun onPlaying() {
-        Log.d("ExpoTxPlayer", "开始播放")
-      }
-
-      override fun onPlayEnd() {
-        Log.d("ExpoTxPlayer", "播放结束")
-      }
-
-      override fun onError(code: Int, message: String) {
-        Log.e("ExpoTxPlayer", "播放出错, code=$code, message=$message")
-        onError(mapOf(
-          "message" to (message.ifEmpty { "未知错误" })
-        ))
-      }
-
-      override fun onShowCacheListClick() {
-        Log.d("ExpoTxPlayer", "点击缓存列表按钮")
-      }
-
-      override fun onEnterPictureInPicture() {
-        Log.d("ExpoTxPlayer", "onEnterPictureInPicture")
-        onPIPStart(mapOf())
-      }
-
-      override fun onExitPictureInPicture() {
-        TODO("Not yet implemented")
-      }
-
-      override fun onStatusChange(status: String?) {
-        Log.d("ExpoTxPlayer", "播放器状态变化: $status")
-        onStatusChange(mapOf("status" to (status ?: "unknown")))
-      }
-
-      override fun onCastButtonPressed() {
-        onCastButtonPressed(mapOf());
-      }
-
-      override fun onPlayingChange(isPlaying: Boolean) {
-        Log.d("ExpoTxPlayer", "播放状态变化: $isPlaying")
-        onPlayingChange(mapOf("value" to isPlaying))
-      }
-    })
-  }
-
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
-    if (ExpoTxPlayerHolder.playerView === this) {
-      ExpoTxPlayerHolder.playerView = null
-      Log.d("ExpoTxPlayerView", "播放器已卸载并清除全局引用")
-    }
+    Log.d("ExpoTxPlayerView", "onDetachedFromWindow")
   }
 }
