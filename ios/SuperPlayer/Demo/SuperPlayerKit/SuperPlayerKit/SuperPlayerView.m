@@ -1640,17 +1640,17 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
  */
 - (void)horizontalMoved:(CGFloat)value {
     // 每次滑动需要叠加时间
-    CGFloat totalMovieDuration = [self playDuration];
-    self.sumTime += value / 10000 * totalMovieDuration;
-
-    if (self.sumTime > totalMovieDuration) {
-        self.sumTime = totalMovieDuration;
-    }
-    if (self.sumTime < 0) {
-        self.sumTime = 0;
-    }
-
-    [self fastViewProgressAvaliable:self.sumTime];
+//    CGFloat totalMovieDuration = [self playDuration];
+//    self.sumTime += value / 10000 * totalMovieDuration;
+//
+//    if (self.sumTime > totalMovieDuration) {
+//        self.sumTime = totalMovieDuration;
+//    }
+//    if (self.sumTime < 0) {
+//        self.sumTime = 0;
+//    }
+//
+//    [self fastViewProgressAvaliable:self.sumTime];
 }
 
 - (void)volumeChanged:(NSNotification *)notification {
@@ -2285,7 +2285,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
 }
 
 - (void)onLongPressAction:(UILongPressGestureRecognizer *)gesture{
-    [self longPressAction:gesture];
+//    [self longPressAction:gesture];
 }
 
 - (void)setTimer{
