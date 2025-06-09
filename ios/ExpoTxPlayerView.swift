@@ -258,9 +258,9 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
             print("触发 cover");
             playerView.playerConfig.renderMode = 0;
           case "fill":
-            playerView.playerConfig.renderMode = 0; // 你也可以自己定义逻辑
+            playerView.playerConfig.renderMode = 0;
           default:
-            playerView.playerConfig.renderMode = 1; // 默认 fallback
+            playerView.playerConfig.renderMode = 1;
           }
     }
     

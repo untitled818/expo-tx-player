@@ -75,7 +75,7 @@ export default function App() {
   }, []);
   const [inputUrl, setInputUrl] = useState("");
 
-  const player = useTxPlayer(rtc, (player) => {
+  const player = useTxPlayer(hls, (player) => {
     player.play();
   });
 

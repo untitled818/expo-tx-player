@@ -1,4 +1,4 @@
-package com.rnvideo
+package com.live.module
 
 import android.app.Application
 import android.content.res.Configuration

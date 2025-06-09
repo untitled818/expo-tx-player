@@ -1,4 +1,4 @@
-package com.rnvideo
+package com.live.module
 
 import android.os.Build
 import android.os.Bundle

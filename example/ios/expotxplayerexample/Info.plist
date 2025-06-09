@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.rnvideo</string>
+          <string>com.live.module</string>
         </array>
       </dict>
       <dict>

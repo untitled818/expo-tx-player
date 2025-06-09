@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rnvideo"
+      "bundleIdentifier": "com.live.module"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.rnvideo"
+      "package": "com.live.module"
     },
     "web": {
       "favicon": "./assets/favicon.png"
