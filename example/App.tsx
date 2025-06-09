@@ -93,7 +93,7 @@ export default function App() {
       <PlayerView
         player={player}
         style={{ width: "100%", height: 220, marginTop: 20 }}
-        contentFit="contain"
+        contentFit="cover"
         onFullscreenEnter={() => {
           console.log("fullscreen start");
         }}

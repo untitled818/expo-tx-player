@@ -350,7 +350,9 @@ public class SuperPlayerView extends RelativeLayout
 
   private void playWithModelInner(SuperPlayerModel model, boolean needChangeUI) {
     if (needChangeUI) {
-      mWindowPlayer.showPIPIV(model.vipWatchMode == null && TextUtils.isEmpty(model.coverPictureUrl));
+      // 默认不展示 pip 图标
+    //  mWindowPlayer.showPIPIV(false);
+     mWindowPlayer.showPIPIV(model.vipWatchMode == null && TextUtils.isEmpty(model.coverPictureUrl));
     }
     mPlayAction = mCurrentSuperPlayerModel.playAction;
     if (mPlayAction == PLAY_ACTION_AUTO_PLAY || mPlayAction == PLAY_ACTION_PRELOAD) {
@@ -1406,9 +1408,9 @@ public class SuperPlayerView extends RelativeLayout
       super.onRcvFirstIframe();
       mWindowPlayer.toggleCoverView(false);
       boolean curIsInPipMode = mPictureInPictureHelper != null && mPictureInPictureHelper.isInPipMode();
-      if (!TextUtils.isEmpty(mCurrentSuperPlayerModel.coverPictureUrl) && !curIsInPipMode) {
-        mWindowPlayer.showPIPIV(mCurrentSuperPlayerModel.vipWatchMode == null);
-      }
+     if (!TextUtils.isEmpty(mCurrentSuperPlayerModel.coverPictureUrl) && !curIsInPipMode) {
+       mWindowPlayer.showPIPIV(mCurrentSuperPlayerModel.vipWatchMode == null);
+     }
       mFullScreenPlayer.toggleCoverView(false);
       if (mDynamicWatermarkView != null) {
         mDynamicWatermarkView.show();

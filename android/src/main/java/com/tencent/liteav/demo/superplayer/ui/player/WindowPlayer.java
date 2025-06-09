@@ -431,7 +431,8 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     }
     mLayoutTop.setVisibility(View.VISIBLE);
     mLayoutBottom.setVisibility(View.VISIBLE);
-
+    showPIPIV(true);
+    
     if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
       mTvBackToLive.setVisibility(View.VISIBLE);
     }
@@ -452,6 +453,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     isShowing = false;
     mLayoutTop.setVisibility(View.GONE);
     mLayoutBottom.setVisibility(View.GONE);
+    showPIPIV(false);
 
     if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
       mTvBackToLive.setVisibility(View.GONE);
