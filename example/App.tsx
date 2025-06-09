@@ -80,19 +80,19 @@ export default function App() {
   });
 
   const isPlaying = useEvent(player, "playingChange", player.playing);
-  console.log(isPlaying, "playingChange");
+  // console.log(isPlaying, "playingChange");
   const error = useEvent(player, "error", null);
-  console.log(error, "error");
+  // console.log(error, "error");
 
   const status = useEvent(player, "statusChange", player.status);
 
-  console.log(status, "statusChange");
+  // console.log(status, "statusChange");
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ paddingTop: 48 }}>
       <PlayerView
         player={player}
-        style={{ width: "100%", height: 220, marginTop: 20 }}
+        style={{ width: "100%", height: 220 }}
         contentFit="cover"
         onFullscreenEnter={() => {
           console.log("fullscreen start");

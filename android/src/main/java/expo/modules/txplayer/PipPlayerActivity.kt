@@ -1,8 +1,11 @@
 package expo.modules.txplayer
 
+import android.app.PictureInPictureParams
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Rational
 import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.app.AppCompatActivity
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel
@@ -32,7 +35,7 @@ class PipPlayerActivity : AppCompatActivity() {
 
         // 创建播放器视图，传入当前Activity作为Context
         playerView = SuperPlayerView(this).apply {
-            layoutParams = LayoutParams(videoWidth, videoHeight)
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         }
 
         // 设置播放器参数，播放视频
@@ -42,18 +45,14 @@ class PipPlayerActivity : AppCompatActivity() {
         playerView?.playWithModelNeedLicence(model)
 
         setContentView(playerView)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val validWidth = videoWidth.coerceAtLeast(1)
-//            val validHeight = videoHeight.coerceAtLeast(1)
-//            var ratio = validWidth.toFloat() / validHeight
-//            ratio = ratio.coerceIn(0.5f, 2.4f)
-//            val aspectRatio = Rational((ratio * 1000).toInt(), 1000)
-//            val pipParams = PictureInPictureParams.Builder()
-//                .setAspectRatio(aspectRatio)
-//                .build()
-//            Log.d(TAG, "设置画中画宽高比: $aspectRatio")
-//            setPictureInPictureParams(pipParams)
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val aspectRatio = Rational(16, 9)
+            val pipParams = PictureInPictureParams.Builder()
+                .setAspectRatio(aspectRatio)
+                .build()
+            Log.d(TAG, "设置画中画宽高比: $aspectRatio")
+            setPictureInPictureParams(pipParams)
+        }
 
         playerView?.mPictureInPictureHelperEnterPIP()
 

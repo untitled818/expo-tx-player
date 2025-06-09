@@ -27,7 +27,7 @@ export function destroyPlayer() {
     currentPlayer.pause();
     currentPlayer.removeAllListeners();
     currentPlayer = null;
-    ExpoTxPlayer.resetPlayer();
+    // ExpoTxPlayer.resetPlayer();
   }
 }
 

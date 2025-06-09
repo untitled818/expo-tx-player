@@ -22,8 +22,10 @@ import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.kotlin.views.ExpoView
 
-@SuppressLint("MissingConstructor")
+@SuppressLint("MissingConstructor", "ViewConstructor")
 class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
+  override val contextForBroadcast: Context
+    get() = context
   val onFullscreenEnter by EventDispatcher()
   val onFullscreenEnd by EventDispatcher()
   val onPIPStart by EventDispatcher()
@@ -112,21 +114,15 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
       }
 
       override fun onEnterPictureInPicture() {
-        val width = this@ExpoTxPlayerView.width
-        val height = this@ExpoTxPlayerView.height
-        Log.d("SuperPlayer", "onEnterPictureInPicture 传递宽高: $width x $height")
-//        playerView.onPause()
-//        playerView.pasue();
+        Log.d("SuperPlayer", "onEnterPictureInPicture")
         pause();
         val context = resolvedActivity ?: this@ExpoTxPlayerView.context
         val intent = Intent(context, PipPlayerActivity::class.java).apply {
           flags = Intent.FLAG_ACTIVITY_NEW_TASK
           putExtra(
             PipPlayerActivity.EXTRA_VIDEO_URL,
-            "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971"
+            playerView.currentSuperPlayerModel?.url
           )
-          putExtra("EXTRA_VIDEO_WIDTH", width)
-          putExtra("EXTRA_VIDEO_HEIGHT", height)
         }
         context.startActivity(intent)
         onPIPStart(mapOf())
