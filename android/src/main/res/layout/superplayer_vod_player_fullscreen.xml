@@ -308,6 +308,7 @@
     android:layout_alignParentBottom="true"
     android:background="@drawable/superplayer_bottom_shadow"
     android:paddingEnd="15dp"
+    android:paddingBottom='20dp'
     android:orientation="horizontal">
 
     <!--播放/暂停-->
