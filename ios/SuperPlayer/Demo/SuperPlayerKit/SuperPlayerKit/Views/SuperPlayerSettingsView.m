@@ -51,7 +51,7 @@
 
     [self addSubview:[self soundCell]];
     [self addSubview:[self lightCell]];
-    [self addSubview:[self speedCell]];
+    // [self addSubview:[self speedCell]];
     [self addSubview:[self mirrorCell]];
     // 不现实硬件加速 ui 
 //    [self addSubview:[self hwCell]];
@@ -86,16 +86,17 @@
     _contentHeight += _ligthCell.mm_h;
 
     if (self.enableSpeedAndMirrorControl) {
-        _speedCell.m_top(_contentHeight);
+        // 隐藏 播放器的加速 ui
+//        _speedCell.m_top(_contentHeight);
         _contentHeight += _speedCell.mm_h;
 
         _mirrorCell.m_top(_contentHeight);
         _contentHeight += _mirrorCell.mm_h;
 
-        _speedCell.hidden  = NO;
+//        _speedCell.hidden  = NO;
         _mirrorCell.hidden = NO;
     } else {
-        _speedCell.hidden  = YES;
+//        _speedCell.hidden  = YES;
         _mirrorCell.hidden = YES;
     }
 
