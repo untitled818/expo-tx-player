@@ -215,7 +215,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
             progress = 0;
           }
           mGestureVideoProgressLayout.setProgress(progress);
-          mGestureVideoProgressLayout.show();
+          // mGestureVideoProgressLayout.show();
 
           float percentage = ((float) progress) / mSeekBarProgress.getMax();
           float currentTime = (mDuration * percentage);
@@ -799,7 +799,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   @Override
   public void onProgressChanged(PointSeekBar seekBar, int progress, boolean fromUser) {
     if (mGestureVideoProgressLayout != null && fromUser) {
-      mGestureVideoProgressLayout.show();
+//      mGestureVideoProgressLayout.show();
       float percentage = ((float) progress) / seekBar.getMax();
       float currentTime = (mDuration * percentage);
       if (mPlayType == SuperPlayerDef.PlayerType.LIVE || mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {

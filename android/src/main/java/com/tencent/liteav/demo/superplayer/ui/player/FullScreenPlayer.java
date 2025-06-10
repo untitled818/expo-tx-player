@@ -303,7 +303,8 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
             progress = 0;
           }
           mGestureVideoProgressLayout.setProgress(progress);
-          mGestureVideoProgressLayout.show();
+          // 不显示手势拉动进度条
+          // mGestureVideoProgressLayout.show();
 
           float percentage = ((float) progress) / mSeekBarProgress.getMax();
           float currentTime = (mDuration * percentage);
@@ -1057,7 +1058,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   @Override
   public void onProgressChanged(PointSeekBar seekBar, int progress, boolean isFromUser) {
     if (mGestureVideoProgressLayout != null && isFromUser) {
-      mGestureVideoProgressLayout.show();
+      // mGestureVideoProgressLayout.show();
       float percentage = ((float) progress) / seekBar.getMax();
       float currentTime = (mDuration * percentage);
       if (mPlayType == SuperPlayerDef.PlayerType.LIVE || mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
