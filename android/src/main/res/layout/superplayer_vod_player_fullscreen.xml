@@ -27,7 +27,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:gravity="right"
-        android:visibility="visible"
+        android:visibility="gone"
         android:src="@drawable/superplayer_multi_audio" />
 
       <ImageView
@@ -37,7 +37,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:gravity="right"
-        android:visibility="visible"
+        android:visibility="gone"
         android:src="@drawable/superplayer_multi_subtitle" />
 
       <ImageView
@@ -66,6 +66,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:gravity="right"
+        android:visibility="gone"
         android:src="@drawable/superplayer_ic_vod_snapshot_normal" />
 
       <ImageView

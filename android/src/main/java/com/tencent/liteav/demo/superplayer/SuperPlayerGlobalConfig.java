@@ -67,7 +67,7 @@ public class SuperPlayerGlobalConfig {
      *
      * 是否开启快进快退手势
      */
-    public boolean enableFingerTapFastPlay = true;
+    public boolean enableFingerTapFastPlay = false;
 
     /**
      * Whether to enable hardware acceleration (enabled by default)
