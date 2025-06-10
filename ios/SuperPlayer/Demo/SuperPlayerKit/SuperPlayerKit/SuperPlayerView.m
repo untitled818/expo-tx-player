@@ -1586,7 +1586,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
             switch (self.panDirection) {
                 case PanDirectionHorizontalMoved: {
                     self.isPauseByUser = NO;
-                    [self seekToTime:self.sumTime];
+//                    [self seekToTime:self.sumTime];
                     // 把sumTime滞空，不然会越加越多
                     self.sumTime = 0;
                     break;
@@ -2120,7 +2120,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
             [self.vodPlayer setStartTime:dragedSeconds];
             [self.vodPlayer startVodPlay:_currentVideoUrl];
         } else {
-            [self seekToTime:dragedSeconds];
+//            [self seekToTime:dragedSeconds];
         }
         
         [self.controlView setPlayState:YES];
@@ -2184,7 +2184,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     }
     if (!self.isFullScreen) {
         isShowVipWatchView = NO;
-        [self seekToTime:0];
+//        [self seekToTime:0];
     } else {
         isShowVipWatchView = YES;
         ///返回小屏状态
@@ -2201,7 +2201,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     self.isCanShowVipTipView = NO;
     isShowVipWatchView = NO;
     [self.vipWatchView removeFromSuperview];
-    [self seekToTime:0];
+//    [self seekToTime:0];
 }
 
 - (void)onOpenVIPClick {

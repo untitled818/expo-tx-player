@@ -314,7 +314,7 @@ typedef NS_ENUM(NSInteger, SuperPlayerLayoutStyle) {
 /**
  *  从xx秒开始播放视频跳转
  *
- *  @param dragedSeconds 视频跳转的秒数
+ *  @param dragedSeconds 视频跳转的秒数 ， 手势滑动加载（去掉）
  */
 - (void)seekToTime:(NSInteger)dragedSeconds;
 /**
