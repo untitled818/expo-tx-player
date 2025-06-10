@@ -105,6 +105,8 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
         mLayoutMirror = (LinearLayout) findViewById(R.id.superplayer_ll_mirror);
         mSwitchMirror = (Switch) findViewById(R.id.superplayer_switch_mirror);
 
+        // mLayoutAccelerate = (LinearLayout) findViewById(R.id.superplayer_ll_accelerate)
+
         mSwitchAccelerate = (Switch) findViewById(R.id.superplayer_switch_accelerate);
         SuperPlayerGlobalConfig config = SuperPlayerGlobalConfig.getInstance();
         mSwitchAccelerate.setChecked(config.enableHWAcceleration);
@@ -317,11 +319,11 @@ public class VodMoreView extends RelativeLayout implements RadioGroup.OnCheckedC
      */
     public void updatePlayType(SuperPlayerDef.PlayerType playType) {
         if (playType == SuperPlayerDef.PlayerType.VOD) {
-            mLayoutSpeed.setVisibility(View.VISIBLE);
-            mLayoutMirror.setVisibility(View.VISIBLE);
+            // mLayoutSpeed.setVisibility(View.VISIBLE);
+            // mLayoutMirror.setVisibility(View.VISIBLE);
         } else {
-            mLayoutSpeed.setVisibility(View.GONE);
-            mLayoutMirror.setVisibility(View.GONE);
+            // mLayoutSpeed.setVisibility(View.GONE);
+            // mLayoutMirror.setVisibility(View.GONE);
         }
     }
 

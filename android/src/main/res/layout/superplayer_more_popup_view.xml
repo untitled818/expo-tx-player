@@ -101,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -167,6 +168,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -191,9 +193,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/superplayer_ll_accelerate"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
