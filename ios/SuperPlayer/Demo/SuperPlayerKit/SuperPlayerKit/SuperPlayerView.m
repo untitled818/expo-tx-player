@@ -1650,7 +1650,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
 //        self.sumTime = 0;
 //    }
 //
-//    [self fastViewProgressAvaliable:self.sumTime];
+//    [self x:self.sumTime];
 }
 
 - (void)volumeChanged:(NSNotification *)notification {
