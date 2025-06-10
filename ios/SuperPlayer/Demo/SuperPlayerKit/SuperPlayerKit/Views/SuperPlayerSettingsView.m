@@ -58,7 +58,8 @@
 //    [self addSubview:[self mirrorCell]];
     // 不显示硬件加速 ui
 //    [self addSubview:[self hwCell]];
-    [self addSubview:[self pipCell]];
+    // 不显示 自动开启画中画按钮
+//    [self addSubview:[self pipCell]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeSettingChanged:) name:VOLUME_NOTIFICATION_NAME object:nil];
 
@@ -106,7 +107,7 @@
 //    _hwCell.m_top(_contentHeight);
     _contentHeight += _hwCell.mm_h;
     
-    _pipCell.m_top(_contentHeight);
+//    _pipCell.m_top(_contentHeight);
     _contentHeight += _pipCell.mm_h;
 }
 
