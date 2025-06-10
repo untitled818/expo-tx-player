@@ -51,9 +51,12 @@
 
     [self addSubview:[self soundCell]];
     [self addSubview:[self lightCell]];
+    // 不显示 hls 切换播放速度
     // [self addSubview:[self speedCell]];
-    [self addSubview:[self mirrorCell]];
-    // 不现实硬件加速 ui 
+    
+    // 不显示 镜像 按钮
+//    [self addSubview:[self mirrorCell]];
+    // 不显示硬件加速 ui
 //    [self addSubview:[self hwCell]];
     [self addSubview:[self pipCell]];
 
@@ -90,14 +93,14 @@
 //        _speedCell.m_top(_contentHeight);
         _contentHeight += _speedCell.mm_h;
 
-        _mirrorCell.m_top(_contentHeight);
+//        _mirrorCell.m_top(_contentHeight);
         _contentHeight += _mirrorCell.mm_h;
 
 //        _speedCell.hidden  = NO;
         _mirrorCell.hidden = NO;
     } else {
 //        _speedCell.hidden  = YES;
-        _mirrorCell.hidden = YES;
+//        _mirrorCell.hidden = YES;
     }
 
 //    _hwCell.m_top(_contentHeight);
