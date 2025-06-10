@@ -53,7 +53,8 @@
     [self addSubview:[self lightCell]];
     [self addSubview:[self speedCell]];
     [self addSubview:[self mirrorCell]];
-    [self addSubview:[self hwCell]];
+    // 不现实硬件加速 ui 
+//    [self addSubview:[self hwCell]];
     [self addSubview:[self pipCell]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeSettingChanged:) name:VOLUME_NOTIFICATION_NAME object:nil];
@@ -98,7 +99,7 @@
         _mirrorCell.hidden = YES;
     }
 
-    _hwCell.m_top(_contentHeight);
+//    _hwCell.m_top(_contentHeight);
     _contentHeight += _hwCell.mm_h;
     
     _pipCell.m_top(_contentHeight);
