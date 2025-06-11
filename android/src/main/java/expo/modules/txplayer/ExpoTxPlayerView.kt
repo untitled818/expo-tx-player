@@ -24,7 +24,7 @@ import expo.modules.kotlin.views.ExpoView
 
 @SuppressLint("MissingConstructor", "ViewConstructor")
 class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
-  override val contextForBroadcast: Context
+  val contextForBroadcast: Context
     get() = context
   val onFullscreenEnter by EventDispatcher()
   val onFullscreenEnd by EventDispatcher()

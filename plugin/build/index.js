@@ -70,6 +70,7 @@ const withPlayerAppConfig = (config) => {
             mainApplication.$["android:networkSecurityConfig"] =
                 "@xml/network_security_config";
         }
+        mainApplication.$["android:usesCleartextTraffic"] = "true";
         // 添加 PipPlayerActivity,画中画
         const activityExists = mainApplication.activity?.some((activity) => activity.$["android:name"] === "expo.modules.txplayer.PipPlayerActivity");
         if (!activityExists) {
