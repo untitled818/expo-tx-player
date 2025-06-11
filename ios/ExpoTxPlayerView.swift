@@ -36,6 +36,8 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         playerView.frame = self.bounds
         playerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         playerView.delegate = self;
+        
+        playerView.disableGesture = true;
 
         playerView.fatherView = self
                 
