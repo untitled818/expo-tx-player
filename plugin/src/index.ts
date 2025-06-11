@@ -88,6 +88,8 @@ const withPlayerAppConfig: ConfigPlugin = (config) => {
         "@xml/network_security_config";
     }
 
+    mainApplication.$["android:usesCleartextTraffic"] = "true";
+
     // 添加 PipPlayerActivity,画中画
     const activityExists = mainApplication.activity?.some(
       (activity) =>

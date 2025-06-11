@@ -3,6 +3,8 @@ package com.tencent.liteav.demo.superplayer;
 import static com.tencent.liteav.demo.superplayer.SuperPlayerModel.PLAY_ACTION_AUTO_PLAY;
 import static com.tencent.liteav.demo.superplayer.SuperPlayerModel.PLAY_ACTION_MANUAL_PLAY;
 import static com.tencent.liteav.demo.superplayer.SuperPlayerModel.PLAY_ACTION_PRELOAD;
+
+import expo.modules.txplayer.PipPlayerActivity;
 import expo.modules.txplayer.R;
 
 import android.app.Activity;
@@ -205,9 +207,10 @@ public class SuperPlayerView extends RelativeLayout
     addView(mSubtitleView);
     mStoragePermissionManager = new PermissionManager(getContext(), PermissionManager.PermissionType.STORAGE);
     mStoragePermissionManager.setOnStoragePermissionGrantedListener(this);
-
-    mPictureInPictureHelper = new PictureInPictureHelper(mContext);
-    mPictureInPictureHelper.setListener(this);
+    if (mContext instanceof PipPlayerActivity) {
+      mPictureInPictureHelper = new PictureInPictureHelper(mContext);
+      mPictureInPictureHelper.setListener(this);
+    }
   }
 
   private void initPlayer() {
@@ -351,8 +354,8 @@ public class SuperPlayerView extends RelativeLayout
   private void playWithModelInner(SuperPlayerModel model, boolean needChangeUI) {
     if (needChangeUI) {
       // 默认不展示 pip 图标
-    //  mWindowPlayer.showPIPIV(false);
-     mWindowPlayer.showPIPIV(model.vipWatchMode == null && TextUtils.isEmpty(model.coverPictureUrl));
+      // mWindowPlayer.showPIPIV(false);
+      mWindowPlayer.showPIPIV(model.vipWatchMode == null && TextUtils.isEmpty(model.coverPictureUrl));
     }
     mPlayAction = mCurrentSuperPlayerModel.playAction;
     if (mPlayAction == PLAY_ACTION_AUTO_PLAY || mPlayAction == PLAY_ACTION_PRELOAD) {
@@ -1262,8 +1265,11 @@ public class SuperPlayerView extends RelativeLayout
       mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PLAYING);
       mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.PLAYING);
       // sync Start-State to PIP when automatically playing the next episode
-      mPictureInPictureHelper.updatePictureInPictureActions(R.drawable.superplayer_ic_vod_pause_normal, "",
-          PictureInPictureHelper.PIP_CONTROL_TYPE_PAUSE, PictureInPictureHelper.PIP_REQUEST_TYPE_PAUSE);
+      if (mPictureInPictureHelper != null) {
+        mPictureInPictureHelper.updatePictureInPictureActions(R.drawable.superplayer_ic_vod_pause_normal, "",
+            PictureInPictureHelper.PIP_CONTROL_TYPE_PAUSE, PictureInPictureHelper.PIP_REQUEST_TYPE_PAUSE);
+      }
+
       updateTitle(name);
       mWindowPlayer.hideBackground();
       if (mDanmuView != null && mDanmuView.isPrepared() && mDanmuView.isPaused()) {
@@ -1291,9 +1297,12 @@ public class SuperPlayerView extends RelativeLayout
       } else {
         mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.END);
         mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.END);
+        if (mPictureInPictureHelper != null) {
+          mPictureInPictureHelper.updatePictureInPictureActions(R.drawable.superplayer_ic_vod_play_normal, "",
+              PictureInPictureHelper.PIP_CONTROL_TYPE_PLAY, PictureInPictureHelper.PIP_REQUEST_TYPE_PLAY);
+        }
         // sync End-State to PIP
-        mPictureInPictureHelper.updatePictureInPictureActions(R.drawable.superplayer_ic_vod_play_normal, "",
-            PictureInPictureHelper.PIP_CONTROL_TYPE_PLAY, PictureInPictureHelper.PIP_REQUEST_TYPE_PLAY);
+
         if (mWatcher != null) {
           mWatcher.stop();
         }
@@ -1408,9 +1417,9 @@ public class SuperPlayerView extends RelativeLayout
       super.onRcvFirstIframe();
       mWindowPlayer.toggleCoverView(false);
       boolean curIsInPipMode = mPictureInPictureHelper != null && mPictureInPictureHelper.isInPipMode();
-     if (!TextUtils.isEmpty(mCurrentSuperPlayerModel.coverPictureUrl) && !curIsInPipMode) {
-       mWindowPlayer.showPIPIV(mCurrentSuperPlayerModel.vipWatchMode == null);
-     }
+      if (!TextUtils.isEmpty(mCurrentSuperPlayerModel.coverPictureUrl) && !curIsInPipMode) {
+        mWindowPlayer.showPIPIV(mCurrentSuperPlayerModel.vipWatchMode == null);
+      }
       mFullScreenPlayer.toggleCoverView(false);
       if (mDynamicWatermarkView != null) {
         mDynamicWatermarkView.show();

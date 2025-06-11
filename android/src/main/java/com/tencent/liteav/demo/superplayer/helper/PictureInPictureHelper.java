@@ -15,6 +15,7 @@ import android.content.ServiceConnection;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.util.Rational;
 
 import androidx.annotation.DrawableRes;
@@ -27,7 +28,6 @@ import com.tencent.rtmp.ui.TXCloudVideoView;
 import java.util.ArrayList;
 
 public class PictureInPictureHelper implements ServiceConnection {
-
   private static final String PIP_ACTION_MEDIA_CONTROL = "media_control";
   private static final String PIP_EXTRA_CONTROL_TYPE = "control_type";
   public static final int PIP_CONTROL_TYPE_PLAY = 1;
@@ -41,14 +41,14 @@ public class PictureInPictureHelper implements ServiceConnection {
   private static final int PIP_TIME_SHIFT_INTERVAL = 15;
   private BroadcastReceiver mReceiver;
   private PictureInPictureParams.Builder mPictureInPictureParamsBuilder;
-  private Context mContext;
+  private final Context mContext;
   private OnPictureInPictureClickListener mListener;
   private boolean mIsBindService = false;
   private boolean isInPipMode;
 
   @SuppressLint({ "WrongConstant", "UnspecifiedRegisterReceiverFlag" })
   public PictureInPictureHelper(Context context) {
-    mContext =  context;
+    mContext = context;
     mReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
@@ -145,19 +145,40 @@ public class PictureInPictureHelper implements ServiceConnection {
 
       final ArrayList<RemoteAction> actions = new ArrayList<>();
       int defaultFlag = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_IMMUTABLE : 0;
-      final PendingIntent intentNext = PendingIntent.getBroadcast(mContext, PIP_REQUEST_TYPE_LAST,
-          new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE, PIP_CONTROL_TYPE_NEXT), defaultFlag);
-      actions.add(new RemoteAction(Icon.createWithResource(activity, R.drawable.superplayer_seek_left),
-          "", "", intentNext));
+      // final PendingIntent intentNext = PendingIntent.getBroadcast(mContext,
+      // PIP_REQUEST_TYPE_LAST,
+      // new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE,
+      // PIP_CONTROL_TYPE_NEXT), defaultFlag);
+      // actions.add(new RemoteAction(Icon.createWithResource(activity,
+      // R.drawable.superplayer_seek_left),
+      // "", "", intentNext));
 
-      final PendingIntent intentPause = PendingIntent.getBroadcast(mContext, requestCode,
-          new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE, controlType), defaultFlag);
-      actions.add(new RemoteAction(Icon.createWithResource(activity, iconId), title, title, intentPause));
+      Intent pauseIntent = new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE, controlType)
+          .setPackage(mContext.getPackageName());
+      PendingIntent intentPause = PendingIntent.getBroadcast(
+          mContext,
+          requestCode,
+          pauseIntent,
+          defaultFlag);
+      actions.add(new RemoteAction(
+          Icon.createWithResource(activity, iconId),
+          title,
+          title,
+          intentPause));
+      // final PendingIntent intentPause = PendingIntent.getBroadcast(mContext,
+      // requestCode,
+      // new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE,
+      // controlType), defaultFlag);
+      // actions.add(new RemoteAction(Icon.createWithResource(activity, iconId),
+      // title, title, intentPause));
 
-      final PendingIntent intentLast = PendingIntent.getBroadcast(activity, PIP_REQUEST_TYPE_NEXT,
-          new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE, PIP_CONTROL_TYPE_LAST), defaultFlag);
-      actions.add(new RemoteAction(Icon.createWithResource(activity, R.drawable.superplayer_seek_right),
-          "", "", intentLast));
+      // final PendingIntent intentLast = PendingIntent.getBroadcast(activity,
+      // PIP_REQUEST_TYPE_NEXT,
+      // new Intent(PIP_ACTION_MEDIA_CONTROL).putExtra(PIP_EXTRA_CONTROL_TYPE,
+      // PIP_CONTROL_TYPE_LAST), defaultFlag);
+      // actions.add(new RemoteAction(Icon.createWithResource(activity,
+      // R.drawable.superplayer_seek_right),
+      // "", "", intentLast));
 
       mPictureInPictureParamsBuilder.setActions(actions);
 
