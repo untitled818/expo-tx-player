@@ -2140,6 +2140,13 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
 
 //画中画
 - (void)controlViewPip:(UIView *)controlView {
+    NSString *urlString = self.playerModel.videoURL;
+    if ([urlString.lowercaseString hasPrefix:@"webrtc://"]) {
+        // 这里给个 Toast 提示
+        [self setPipLoadingWithText:PIP_WEBRTC_NOT_SUPPORT_TEXT];
+        return;
+    }
+
     if (![TXVodPlayer isSupportPictureInPicture]) {
         [self setPipLoadingWithText:superPlayerLocalized(@"SuperPlayer.notsupportpip")];
         [self.pipLoadingView startAnimating];
@@ -2166,6 +2173,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
         [self setPipLoadingWithText:PIP_START_LOADING_TEXT];
         [self.pipLoadingView startAnimating];
         _hasStartPipLoading = YES;
+        NSLog(@"[PlayerView] 开启画中画");
         [_vodPlayer enterPictureInPicture];
     }
 }

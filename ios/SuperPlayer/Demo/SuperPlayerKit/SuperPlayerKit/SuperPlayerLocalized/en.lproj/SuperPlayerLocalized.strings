@@ -27,6 +27,7 @@
 "SuperPlayer.pipAutomatic" = "Automatically turn on picture-in-picture";
 "SuperPlayer.piploading" = "Enabling picture-in-picture";
 "SuperPlayer.pipfailed" = "Failed to enable picture-in-picture";
+"SuperPlayer.pipWebrtcNotSupport" = "Video not support picture-in-picture.";
 "SuperPlayer.trywactchtitle" = "You can try it for 15s, open VIP to watch the full video.";
 "SuperPlayer.trywactchend" = "The trial is over, VIP members can watch the full video.";
 "SuperPlayer.openvip" = "Open VIP membership";

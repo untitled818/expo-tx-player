@@ -30,7 +30,10 @@ Pod::Spec.new do |s|
 
   s.source_files = "**/*.{h,m,mm,swift,hpp,cpp}"
   s.resource_bundles = {
-    'SuperPlayerKitBundle' => ['SuperPlayer/Demo/SuperPlayerKit/Resource/**/*']
+    'SuperPlayerKitBundle' => [
+      'SuperPlayer/Demo/SuperPlayerKit/Resource/**/*',
+      'SuperPlayer/Demo/SuperPlayerKit/SuperPlayerKit/SuperPlayerLocalized/**/*.lproj/*'
+  ]
   }
 
 end
