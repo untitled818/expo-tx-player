@@ -26,6 +26,7 @@
 "SuperPlayer.pipAutomatic" = "退后台自动开启画中画";
 "SuperPlayer.piploading" = "正在开启画中画";
 "SuperPlayer.pipfailed" = "开启画中画失败了";
+"SuperPlayer.pipWebrtcNotSupport" = "该视频暂不支持画中画";
 "SuperPlayer.trywactchtitle" = "可试看15秒，开通VIP观看完整视频";
 "SuperPlayer.trywactchend" = "试看结束，VIP会员可观看完整视频";
 "SuperPlayer.openvip" = "开通VIP会员";

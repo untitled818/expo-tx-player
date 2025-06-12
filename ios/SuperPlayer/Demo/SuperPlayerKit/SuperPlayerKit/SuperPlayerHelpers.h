@@ -99,8 +99,9 @@
 #define VOLUME_CHANGE_KEY        (IS_MORE_THAN_15 ? @"Volume" : @"AudioVolume")
 #define VOLUME_EXPLICIT_CHANGE   @"ExplicitVolumeChange"
 
-#define PIP_START_LOADING_TEXT superPlayerLocalized(@"SuperPlayer.piploading")
+#define PIP_START_LOADING_TEXT SuperPlayerLocalized(@"SuperPlayer.piploading")
 #define PIP_ERROR_LOADING_TEXT superPlayerLocalized(@"SuperPlayer.pipfailed")
+#define PIP_WEBRTC_NOT_SUPPORT_TEXT superPlayerLocalized(@"SuperPlayer.pipWebrtcNotSupport")
 #define DEFAULT_PIP_LOADING_WIDTH_MARGIN 20
 #define DEFAULT_PIP_LOADING_HEIGHT 50
 #define DEFAULT_PIP_LOADING_LABEL_MARGIN 10
