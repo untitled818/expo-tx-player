@@ -18,7 +18,7 @@
   <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">10.0.0.25</domain>
   </domain-config>
-  <!-- <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">192.168.0.98</domain>
-  </domain-config>  -->
+  <domain-config cleartextTrafficPermitted="true">
+    <domain includeSubdomains="true">192.168.0.69</domain>
+  </domain-config> 
 </network-security-config>

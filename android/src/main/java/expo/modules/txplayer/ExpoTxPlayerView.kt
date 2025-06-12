@@ -18,14 +18,15 @@ import com.tencent.liteav.demo.superplayer.SuperPlayerModel
 import com.tencent.liteav.demo.superplayer.SuperPlayerView
 import com.tencent.liteav.demo.superplayer.helper.ContextUtils
 import com.tencent.rtmp.TXLiveConstants
+import com.tencent.rtmp.TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.kotlin.views.ExpoView
 
 @SuppressLint("MissingConstructor", "ViewConstructor")
 class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
-  val contextForBroadcast: Context
-    get() = context
+//  val contextForBroadcast: Context
+//    get() = context
   val onFullscreenEnter by EventDispatcher()
   val onFullscreenEnd by EventDispatcher()
   val onPIPStart by EventDispatcher()
@@ -61,7 +62,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
   private fun initPlayer() {
-    ExpoTxPlayerHolder.playerView = this
+//    ExpoTxPlayerHolder.playerView = this
     PipPlayerManager.onPipClosed = {
       Log.d("ExpoTxPlayerView", "PipPlayerActivity 已关闭")
 //      playerView.resetPlayer()
@@ -215,7 +216,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     val config = SuperPlayerGlobalConfig.getInstance()
     when (pendingContentFit) {
       "contain" -> config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION
-      "cover", "fill" -> config.renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN
+      "cover", "fill" -> config.renderMode = RENDER_MODE_FULL_FILL_SCREEN
       else -> config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION
     }
   }

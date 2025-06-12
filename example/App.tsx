@@ -75,9 +75,11 @@ export default function App() {
   }, []);
   const [inputUrl, setInputUrl] = useState("");
 
-  const player = useTxPlayer(hls, (player) => {
+  const player = useTxPlayer(rtc, (player) => {
     player.play();
   });
+
+  player.muted = true;
 
   const isPlaying = useEvent(player, "playingChange", player.playing);
   // console.log(isPlaying, "playingChange");
@@ -92,8 +94,8 @@ export default function App() {
     <SafeAreaView style={{ paddingTop: 48 }}>
       <PlayerView
         player={player}
-        style={{ width: "100%", height: 220 }}
-        contentFit="cover"
+        style={{ width: "100%", height: 800 }}
+        contentFit="contain"
         onFullscreenEnter={() => {
           console.log("fullscreen start");
         }}
