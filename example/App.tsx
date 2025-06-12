@@ -79,8 +79,6 @@ export default function App() {
     player.play();
   });
 
-  player.muted = true;
-
   const isPlaying = useEvent(player, "playingChange", player.playing);
   // console.log(isPlaying, "playingChange");
   const error = useEvent(player, "error", null);
@@ -94,7 +92,7 @@ export default function App() {
     <SafeAreaView style={{ paddingTop: 48 }}>
       <PlayerView
         player={player}
-        style={{ width: "100%", height: 800 }}
+        style={{ width: "100%", height: 220 }}
         contentFit="contain"
         onFullscreenEnter={() => {
           console.log("fullscreen start");

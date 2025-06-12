@@ -32,7 +32,7 @@ public class SuperPlayerGlobalConfig {
      *
      * 默认播放填充模式 （ 默认播放模式为 自适应模式 ）
      */
-    public int renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN;
+    public int renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
 
     /**
      * The maximum number of buffers for the player.
