@@ -4,12 +4,14 @@ import android.health.connect.datatypes.units.Volume
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.records.Record
 import expo.modules.kotlin.records.Field
 import java.net.URL
 import com.tencent.rtmp.TXLiveBase
+import com.tencent.rtmp.TXLiveConstants
 
 class ExpoTxPlayerModule : Module() {
   private var appId: Int? = null
@@ -140,6 +142,16 @@ class ExpoTxPlayerModule : Module() {
       Log.d("ExpoTxPlayerModule", "switchSource 调用");
       Handler(Looper.getMainLooper()).post {
         ExpoTxPlayerHolder.playerView?.switchSource(url);
+      }
+    }
+
+    // 设置布局方式
+    Function("setContentFit") { mode: String ->
+      Log.d("ExpoTxPlayerModule", "switchSource 调用");
+      Handler(Looper.getMainLooper()).post {
+        val config: SuperPlayerGlobalConfig = SuperPlayerGlobalConfig.getInstance();
+
+        config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION;
       }
     }
 

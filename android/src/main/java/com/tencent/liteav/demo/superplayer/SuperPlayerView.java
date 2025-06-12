@@ -1688,19 +1688,16 @@ public class SuperPlayerView extends RelativeLayout
 
   // 设置视频布局格式
   public void setContentFit(String mode) {
-     Log.d("ExpoTxPlayer", "设置 contentFit: " + mode);
+    SuperPlayerGlobalConfig config = SuperPlayerGlobalConfig.getInstance();
+    if ("contain".equals(mode)) {
+      config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION; // 保持比例，可能留黑边
+    } else if ("cover".equals(mode) || "fill".equals(mode)) {
+      config.renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN; // 填充全屏，可能裁剪
+    } else {
+      config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION; // 默认 fallback
+    }
 
-     SuperPlayerGlobalConfig config = SuperPlayerGlobalConfig.getInstance();
+    ((SuperPlayerImpl) mSuperPlayer).setContentFit();
 
-     Log.d("config...", "config " + config);
-
-     if ("contain".equals(mode)) {
-       config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION; // 保持比例，可能留黑边
-     } else if ("cover".equals(mode) || "fill".equals(mode)) {
-       Log.d("设置mode", "mode, " + mode);
-       config.renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN; // 填充全屏，可能裁剪
-     } else {
-       config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION; // 默认 fallback
-     }
   }
 }

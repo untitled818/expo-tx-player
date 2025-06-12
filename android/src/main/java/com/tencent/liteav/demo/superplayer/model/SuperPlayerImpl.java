@@ -433,6 +433,16 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         mLivePlayer.setMute(config.mute);
     }
 
+    public void setContentFit() {
+        SuperPlayerGlobalConfig config = SuperPlayerGlobalConfig.getInstance();
+        if (mLivePlayer != null) {
+            mLivePlayer.setRenderMode(config.renderMode);
+        } else {
+            mVodPlayer.setRenderMode(config.renderMode);
+        }
+    }
+
+
     /**
      * Play video
      *

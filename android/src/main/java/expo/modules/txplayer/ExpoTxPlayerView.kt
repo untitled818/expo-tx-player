@@ -48,13 +48,16 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     Log.d("ExpoTxPlayer", "ContextUtils.getActivityFromContext(context) -> $it")
   }
 
-  private val playerView = SuperPlayerView(resolvedActivity ?: context).apply {
-    layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-    setBackgroundColor(Color.BLACK);
-  }
+
+  private val playerView: SuperPlayerView;
 
 
   init {
+    playerView = SuperPlayerView(resolvedActivity ?: context).apply {
+      layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+      setBackgroundColor(Color.BLACK);
+    }
+    playerView
     applyContentFitIfNeeded();
     addView(playerView)
     playerView.openDanmu();
@@ -62,7 +65,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   }
 
   private fun initPlayer() {
-//    ExpoTxPlayerHolder.playerView = this
+    ExpoTxPlayerHolder.playerView = this
     PipPlayerManager.onPipClosed = {
       Log.d("ExpoTxPlayerView", "PipPlayerActivity 已关闭")
 //      playerView.resetPlayer()
@@ -216,7 +219,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     val config = SuperPlayerGlobalConfig.getInstance()
     when (pendingContentFit) {
       "contain" -> config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION
-      "cover", "fill" -> config.renderMode = RENDER_MODE_FULL_FILL_SCREEN
+      "cover", "fill" -> config.renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN
       else -> config.renderMode = TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION
     }
   }
@@ -330,9 +333,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   // 设置视频分布
   fun setContentFit(mode: String) {
     Log.d("ExpoTxPlayer", "设置 contentFit: $mode")
-//    playerView.setContentFit(mode);
-    pendingContentFit = mode  // 缓存
-    applyContentFitIfNeeded()  // 尝试立即应用（如果已经初始化)
+    playerView.setContentFit(mode);
   }
 
 
