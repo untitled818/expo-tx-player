@@ -56,6 +56,10 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         playerView.play(withModelNeedLicence: model)
     }
     
+    public func resetPlayer() {
+        playerView.resetPlayer();
+    }
+    
     public func switchSource(_ url: String) {
         print("[ExpoTxPlayer] 🎬 切换视频地址为: \(url)")
 

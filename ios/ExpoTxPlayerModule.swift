@@ -101,6 +101,7 @@ public class ExpoTxPlayerModule: Module {
                 ExpoTxPlayerView.currentInstance?.pause()
                 ExpoTxPlayerView.currentInstance?.removeFromSuperview()
                 ExpoTxPlayerView.currentInstance = nil
+                ExpoTxPlayerView.currentInstance?.resetPlayer();
             }
         }
         
