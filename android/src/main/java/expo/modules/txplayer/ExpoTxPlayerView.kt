@@ -53,11 +53,11 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
 
 
   init {
+    ExpoTxPlayerHolder.updatePlayerView(this)
     playerView = SuperPlayerView(resolvedActivity ?: context).apply {
       layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
       setBackgroundColor(Color.BLACK);
     }
-    playerView
     applyContentFitIfNeeded();
     addView(playerView)
     playerView.openDanmu();

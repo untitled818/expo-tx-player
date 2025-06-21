@@ -23,22 +23,21 @@ let currentPlayer: Player | null = null;
 
 export function destroyPlayer() {
   if (currentPlayer) {
-    console.log("[Player] 🧹 清理播放器实例");
+    console.log("[Player] 清理播放器实例");
     currentPlayer.pause();
     currentPlayer.removeAllListeners();
     currentPlayer = null;
-    // ExpoTxPlayer.resetPlayer();
+    ExpoTxPlayer.resetPlayer(); // 通知原生释放 native 实例
   }
 }
 
 type PlayerListeners = {
   [event: string]: Listener<any>[];
 };
-
 export class Player implements EventEmitterCompatible {
   static _isLicenseSet = false;
   private _url: string;
-  public _playing = false;
+  private _playing = false;
   private _status = "unknown";
   private _buffered = 0;
   private _muted = false;
@@ -66,6 +65,10 @@ export class Player implements EventEmitterCompatible {
     const p = new Player(url);
     currentPlayer = p;
     return p;
+  }
+
+  get playing() {
+    return this._playing;
   }
 
   get url() {
@@ -99,10 +102,6 @@ export class Player implements EventEmitterCompatible {
 
   get status() {
     return ExpoTxPlayer.getStatus();
-  }
-
-  get playing() {
-    return this._playing;
   }
 
   play() {

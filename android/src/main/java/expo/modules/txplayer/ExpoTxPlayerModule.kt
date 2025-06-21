@@ -48,8 +48,8 @@ class ExpoTxPlayerModule : Module() {
       ))
     }
 
-    Function("reset") { view: ExpoTxPlayerView ->
-      view.resetPlayer()
+    Function("resetPlayer") {
+      ExpoTxPlayerHolder.playerView?.resetPlayer() ?: Log.w("ExpoTxPlayerModule", "清除播放器实例")
     }
 
     // 关闭弹幕

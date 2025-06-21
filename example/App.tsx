@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useTxPlayer } from "./components/useTxPlayer";
 import { PlayerView } from "./components";
+import { destroyPlayer } from "./components/Player";
 
 const hls =
   "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
@@ -167,6 +168,8 @@ export default function App() {
             // setCurrentUrl(inputUrl);
           }}
         />
+
+        <Button title="销毁实例" onPress={() => destroyPlayer()} />
       </View>
     </SafeAreaView>
   );
