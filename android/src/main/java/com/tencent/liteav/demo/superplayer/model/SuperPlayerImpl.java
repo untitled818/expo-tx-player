@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ViewTreeObserver;
 
 import com.tencent.liteav.demo.superplayer.SubtitleSourceModel;
 import com.tencent.liteav.demo.superplayer.SuperPlayerCode;
@@ -442,6 +443,50 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
     }
 
+    public void vodPlayerRefreshView() {
+        if(mVodPlayer != null) {
+            Log.d("test", "test...");
+            mVodPlayer.setPlayerView(mVideoView);
+        }
+//        forceRefreshVideoView();
+        forceResetRenderView();
+
+    }
+
+    public void forceResetRenderView() {
+        if (mVideoView != null) {
+            Log.d("SurfaceFix", "🔥 正在移除并重建内部渲染视图");
+
+            // 先移除内部 SurfaceView / TextureView
+            mVideoView.removeAllViews();
+
+            // 然后重新添加渲染视图
+//            mVideoView.addVideoView();
+
+            // 最后重新绑定播放器
+            mVodPlayer.setPlayerView(mVideoView);
+        }
+    }
+
+    public void forceRefreshVideoView() {
+        if (mVideoView != null) {
+            mVideoView.requestLayout();
+            mVideoView.invalidate();
+            mVideoView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Log.d("SuperPlayerImpl", "🔄 Global layout triggered");
+                    mVideoView.invalidate();
+                    mVideoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        } else {
+            Log.w("SuperPlayerImpl", "⚠️ mVideoView is null, cannot refresh");
+        }
+    }
+
+
+
 
     /**
      * Play video
@@ -489,6 +534,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         // Live player: normal RTMP stream playback and webrtc
         if (isRTMPPlay(videoURL) || isWebrtcPlay(videoURL)) {
             mLivePlayer.setPlayerView(mVideoView);
+            Log.d("SurfaceDebugqqqqqq", "rtc = " + mVideoView.getSurfaceView());
             playLiveURL(videoURL, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
         } else if (isFLVPlay(videoURL)) {
             // Live player: live FLV stream playback
@@ -499,6 +545,9 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             }
         } else {
             // On-demand player: play on-demand files
+            Log.d("mVodPlayer", "重新绑定视图");
+            Log.d("SurfaceDebug", "isSurfaceAvailable = " + mVideoView.getSurfaceView());
+            Log.d("SurfaceDebug", "HLS 切换后 SurfaceView isAttachedToWindow = ${mVideoView.isAttachedToWindow}" + mVideoView.isAttachedToWindow());
             mVodPlayer.setPlayerView(mVideoView);
             playVodURL(videoURL);
         }

@@ -115,10 +115,12 @@ export class Player implements EventEmitterCompatible {
     this.emit("playingChange", false);
     ExpoTxPlayer.pause();
   }
+  // ExpoTxPlayer.setVideoURL(url);
 
   switchSource(url: string) {
     this._url = url;
-    ExpoTxPlayer.setVideoURL(url);
+    ExpoTxPlayer.switchSource(url);
+    // ExpoTxPlayer.setVideoURL(url);
   }
 
   addListener(event: string, cb: (value: any) => void): EventSubscription {

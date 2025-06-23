@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -323,12 +325,19 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     // 更新 URL
     currentModel.url = url
 
-    // 重新播放（不重置播放器）
+//    Handler(Looper.getMainLooper()).postDelayed({
+//      Log.d("ExpoTxPlayer", "⏱ 延迟后播放 HLS")
+//      playerView.playWithModelNeedLicence(currentModel)
+////      playerView.refreshVodView() // 确保再绑定一次
+//      onLoad(mapOf("url" to url))
+//    }, 150) // 100~200ms 比较保险
+
     playerView.playWithModelNeedLicence(currentModel)
 
     // 可选：通知前端
     onLoad(mapOf("url" to url))
   }
+  //    playerView.refreshVodView();
 
   // 设置视频分布
   fun setContentFit(mode: String) {

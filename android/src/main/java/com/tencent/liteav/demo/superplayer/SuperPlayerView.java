@@ -1700,4 +1700,8 @@ public class SuperPlayerView extends RelativeLayout
     ((SuperPlayerImpl) mSuperPlayer).setContentFit();
 
   }
+
+  public void refreshVodView() {
+    ((SuperPlayerImpl) mSuperPlayer).vodPlayerRefreshView();
+  }
 }

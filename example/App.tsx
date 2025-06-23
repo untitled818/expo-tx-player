@@ -76,7 +76,7 @@ export default function App() {
   }, []);
   const [inputUrl, setInputUrl] = useState("");
 
-  const player = useTxPlayer(rtc, (player) => {
+  const player = useTxPlayer(hls, (player) => {
     player.play();
   });
 
@@ -167,6 +167,26 @@ export default function App() {
             player.switchSource(inputUrl);
             // setCurrentUrl(inputUrl);
           }}
+        />
+
+        <Button
+          title="切换hls播放源"
+          onPress={() => {
+            console.log("[JS] 🎯 即将切换视频源hls");
+            player.switchSource(hls);
+          }}
+        />
+
+        <Button
+          title="切换rtc播放源"
+          onPress={() => {
+            console.log("[JS] 🎯 即将切换视频源");
+            player.switchSource(rtc);
+          }}
+        />
+        <Button
+          title="获取当前播放源"
+          onPress={() => console.log(player.url, "url.....")}
         />
 
         <Button title="销毁实例" onPress={() => destroyPlayer()} />
