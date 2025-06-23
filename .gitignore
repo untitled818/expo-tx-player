@@ -11,6 +11,7 @@ jsconfig.json
 build/
 # 但不忽略 plugin/build
 !plugin/build/
+!/build
 *.pbxuser
 !default.pbxuser
 *.mode1v3
