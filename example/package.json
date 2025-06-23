@@ -7,7 +7,8 @@
     "android": "npx expo run:android --variant debug",
     "ios": "npx expo run:ios",
     "prebuild": "npx expo prebuild",
-    "web": "npx expo start --web"
+    "web": "npx expo start --web",
+    "build:test": "NODE_ENV=production eas build --local --profile release-local --platform android"
   },
   "dependencies": {
     "expo": "~53.0.9",
