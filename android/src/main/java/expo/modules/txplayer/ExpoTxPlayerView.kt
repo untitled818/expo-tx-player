@@ -325,13 +325,6 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     // 更新 URL
     currentModel.url = url
 
-//    Handler(Looper.getMainLooper()).postDelayed({
-//      Log.d("ExpoTxPlayer", "⏱ 延迟后播放 HLS")
-//      playerView.playWithModelNeedLicence(currentModel)
-////      playerView.refreshVodView() // 确保再绑定一次
-//      onLoad(mapOf("url" to url))
-//    }, 150) // 100~200ms 比较保险
-
     playerView.playWithModelNeedLicence(currentModel)
 
     // 可选：通知前端
