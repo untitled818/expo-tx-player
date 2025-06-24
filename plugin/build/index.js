@@ -66,10 +66,10 @@ const withPlayerAppConfig = (config) => {
         }
         // 尝试添加 android:networkSecurityConfig
         // ⚠️ 注意：此属性不会自动合并进宿主 app 的 AndroidManifest.xml，最终仍需宿主 app 手动配置
-        if (!mainApplication.$["android:networkSecurityConfig"]) {
-            mainApplication.$["android:networkSecurityConfig"] =
-                "@xml/network_security_config";
-        }
+        // if (!mainApplication.$["android:networkSecurityConfig"]) {
+        //   mainApplication.$["android:networkSecurityConfig"] =
+        //     "@xml/network_security_config";
+        // }
         mainApplication.$["android:usesCleartextTraffic"] = "true";
         // 添加 PipPlayerActivity,画中画
         const activityExists = mainApplication.activity?.some((activity) => activity.$["android:name"] === "expo.modules.txplayer.PipPlayerActivity");
