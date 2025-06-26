@@ -39,6 +39,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         playerView.delegate = self;
         
         playerView.disableGesture = true;
+        playerView.disableVolumControl = true;
 
         playerView.fatherView = self
                 
