@@ -134,7 +134,7 @@ public class ExpoTxPlayerModule: Module {
         
         
         View(ExpoTxPlayerView.self) {
-            Events("onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd","onPIPStart", "onPIPStop", "onError", "onStatusChange", "onBufferedChange", "onPlayingChange")
+            Events("onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd","onPIPStart", "onPIPStop", "onError", "onStatusChange", "onBufferedChange", "onPlayingChange", "onBack")
 //            Events("onLoad")
             // Defines a setter for the `url` prop.
             Prop("url") { (view: ExpoTxPlayerView, url: String) in

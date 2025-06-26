@@ -16,6 +16,7 @@ type Props = {
   onPIPStop?: () => void;
   onScreenCastStart?: () => void;
   onScreenCastStop?: () => void;
+  onBack?: () => void;
 };
 
 const url =
@@ -37,6 +38,7 @@ export const PlayerView: React.FC<Props> = ({
   onPIPStop,
   onScreenCastStart,
   onScreenCastStop,
+  onBack,
 }) => {
   const castModalRef = useRef<any>(null);
   useEffect(() => {
@@ -54,6 +56,7 @@ export const PlayerView: React.FC<Props> = ({
         onFullscreenEnd={onFullscreenEnd}
         onPIPStart={onPIPStart}
         onPIPStop={onPIPStop}
+        onBack={onBack}
         style={[style]}
         url={player.url}
         contentFit={contentFit}

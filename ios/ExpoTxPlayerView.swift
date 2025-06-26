@@ -23,6 +23,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     public let onError = EventDispatcher()
     public let onPlayingChange = EventDispatcher()
     public let onStatusChange = EventDispatcher()
+    public let onBack = EventDispatcher()
     
     @objc enum DanmakuDensity: Int {
         case low, medium, high
@@ -204,6 +205,7 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     
     func superPlayerBackAction(_ player: SuperPlayerView) {
         print("[ExpoTxPlayer] 竖屏视频返回触发");
+        onBack();
         
     }
     

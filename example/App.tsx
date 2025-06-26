@@ -76,7 +76,7 @@ export default function App() {
   }, []);
   const [inputUrl, setInputUrl] = useState("");
 
-  const player = useTxPlayer(hls, (player) => {
+  const player = useTxPlayer(rtc, (player) => {
     player.play();
   });
 
@@ -112,6 +112,9 @@ export default function App() {
         }}
         onScreenCastStop={() => {
           console.log("cast stop");
+        }}
+        onBack={() => {
+          console.log("视频返回回调");
         }}
       />
       <Button

@@ -20,6 +20,7 @@ export type ExpoTxPlayerViewProps = {
   onFullscreenEnd?: () => void;
   onPIPStart?: () => void;
   onPIPStop?: () => void;
+  onBack?: () => void;
 
   onError?: (e: { nativeEvent: { message: string } }) => void;
   onStatusChange?: (e: { nativeEvent: { status: string } }) => void;
