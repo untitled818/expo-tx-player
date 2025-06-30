@@ -273,6 +273,10 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
           }
     }
     
+    func detachPlayerView() {
+        playerView.detachOnly();
+    }
+    
     
     deinit {
         print("[ExpoTxPlayer] 🧹 资源释放")

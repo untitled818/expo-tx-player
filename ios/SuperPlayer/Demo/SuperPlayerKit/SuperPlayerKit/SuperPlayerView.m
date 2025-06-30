@@ -514,6 +514,15 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     [self.vodPlayer removeVideoWidget];
 }
 
+- (void)detachViewOnly {
+    // 1. 暂停，让状态停在 StatePause
+    [self.vodPlayer pause];
+    self.state = StatePause;
+    // 2. 移除画面
+//    [self.vodPlayer removeVideoWidget];
+}
+
+
 - (void)showOrHideBackBtn:(BOOL)isShow {
     [self.controlView showOrHideBackBtn:isShow];
 }

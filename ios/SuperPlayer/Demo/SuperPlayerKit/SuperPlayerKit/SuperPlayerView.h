@@ -385,5 +385,7 @@ typedef NS_ENUM(NSInteger, SuperPlayerLayoutStyle) {
 - (float)playableDuration;
 
 - (NSString *)status;
+
+- (void) detachViewOnly;
 @end
 #pragma clang diagnostic pop

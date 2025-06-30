@@ -131,6 +131,12 @@ public class ExpoTxPlayerModule: Module {
             }
         }
         
+        Function("detachPlayerView") {
+            runOnMain {
+                ExpoTxPlayerView.currentInstance?.detachPlayerView();
+            }
+        }
+        
         
         
         View(ExpoTxPlayerView.self) {
