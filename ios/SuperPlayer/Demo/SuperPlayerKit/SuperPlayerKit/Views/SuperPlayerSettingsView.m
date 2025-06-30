@@ -119,6 +119,8 @@
         // 声音
         UILabel *sound  = [UILabel new];
         sound.text      = superPlayerLocalized(@"SuperPlayer.volume");
+        
+//        sound.text = @"音量";
         sound.textColor = [UIColor whiteColor];
         [sound sizeToFit];
         [_soundCell addSubview:sound];

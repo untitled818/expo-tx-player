@@ -9,7 +9,12 @@
 
 NSString *superPlayerLocalizeFromTable(NSString *key, NSString *table) {
     NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"SuperPlayerKitBundle" ofType:@"bundle"];
+//    NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"SuperPlayerLocalized" ofType:@"bundle"];
+    NSLog(@"[Debug] Bundle 路径：%@", resourcePath);
     NSBundle *bundle = [NSBundle bundleWithPath:resourcePath];
+    NSLog(@"[Debug] bundle = %@", bundle);
+    NSLog(@"[Debug] bundle localizations = %@", [bundle localizations]);
+    NSLog(@"[Debug] preferred localizations = %@", [bundle preferredLocalizations]);
     return [bundle localizedStringForKey:key value:@"" table:table];
 }
 
