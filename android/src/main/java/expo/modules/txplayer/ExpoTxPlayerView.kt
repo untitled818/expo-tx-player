@@ -37,6 +37,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   val onStatusChange by EventDispatcher()
   val onCastButtonPressed by EventDispatcher()
   val onError by EventDispatcher()
+  val onBack by EventDispatcher()
 
 
   private var originalParent: ViewGroup? = null
@@ -93,6 +94,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
       }
 
       override fun onClickSmallReturnBtn() {
+        onBack(mapOf());
         Log.d("ExpoTxPlayer", "点击小窗口返回按钮")
       }
 
