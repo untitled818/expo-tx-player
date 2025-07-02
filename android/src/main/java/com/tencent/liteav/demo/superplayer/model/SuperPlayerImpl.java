@@ -831,6 +831,20 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
     }
 
     /**
+     * Whether it is hls m3u8 protocol
+     */
+
+    private boolean isLiveHLSPlay(String videoURL) {
+        if (TextUtils.isEmpty(videoURL)) return false;
+
+        boolean isHLS = videoURL.contains(".m3u8");
+        boolean hasLiveParams = videoURL.contains("txTime") && videoURL.contains("txSecret");
+        boolean hasLivePath = videoURL.contains("/live/");
+
+        return isHLS && (hasLiveParams || hasLivePath);
+    }
+
+    /**
      * Whether it is HTTP-FLV protocol
      *
      * 是否是HTTP-FLV协议
