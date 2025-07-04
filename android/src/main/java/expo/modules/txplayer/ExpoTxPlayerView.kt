@@ -353,6 +353,11 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     }
   }
 
+  fun detachPlayerView() {
+    playerView.detachPlayerView();
+  }
+
+
   private fun getFullScreenPlayer(): Any? {
     return try {
       val field = playerView.javaClass.getDeclaredField("mFullScreenPlayer")
@@ -363,6 +368,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
       null
     }
   }
+
 
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()

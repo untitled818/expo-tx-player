@@ -858,6 +858,15 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
                 || videoURL.startsWith("https://")) && videoURL.contains(".flv");
     }
 
+    public void detachPlayerView() {
+        if (mVodPlayer != null) {
+            mVodPlayer.setPlayerView((TXCloudVideoView) null); // 解绑视图
+        } else {
+            mLivePlayer.setPlayerView(null);
+        }
+    }
+
+
     @Override
     public void play(SuperPlayerModel model) {
         mPlayAction = model.playAction;

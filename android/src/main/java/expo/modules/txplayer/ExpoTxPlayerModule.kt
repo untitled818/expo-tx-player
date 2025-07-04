@@ -155,6 +155,14 @@ class ExpoTxPlayerModule : Module() {
       }
     }
 
+    // 移除原生视图
+    Function("detachPlayerView") {
+      Log.d("ExpoTxPlayerModule", "detachPlayerView 调用，移除原生视图");
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.detachPlayerView();
+      }
+    }
+
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of
     // the view definition: Prop, Events.

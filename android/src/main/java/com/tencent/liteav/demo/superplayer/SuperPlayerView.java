@@ -1701,6 +1701,10 @@ public class SuperPlayerView extends RelativeLayout
 
   }
 
+  public void detachPlayerView() {
+    ((SuperPlayerImpl) mSuperPlayer).detachPlayerView();
+  }
+
   public void refreshVodView() {
     ((SuperPlayerImpl) mSuperPlayer).vodPlayerRefreshView();
   }
