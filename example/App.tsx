@@ -1,13 +1,6 @@
 import { useEvent } from "expo";
 import ExpoTxPlayer, { ExpoTxPlayerView } from "expo-tx-player";
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Button, SafeAreaView, Text, TextInput, View } from "react-native";
 import { useEffect, useState } from "react";
 import { useTxPlayer } from "./components/useTxPlayer";
 import { PlayerView } from "./components";

@@ -534,8 +534,10 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         // Live player: normal RTMP stream playback and webrtc
         if (isRTMPPlay(videoURL) || isWebrtcPlay(videoURL)) {
             mLivePlayer.setPlayerView(mVideoView);
-            Log.d("SurfaceDebugqqqqqq", "rtc = " + mVideoView.getSurfaceView());
             playLiveURL(videoURL, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
+        } else if (isLiveHLSPlay(videoURL)) {
+            mLivePlayer.setPlayerView(mVideoView);
+            playLiveURL(videoURL, TXLivePlayer.PLAY_TYPE_LIVE_HLS);
         } else if (isFLVPlay(videoURL)) {
             // Live player: live FLV stream playback
             mLivePlayer.setPlayerView(mVideoView);
@@ -551,7 +553,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             mVodPlayer.setPlayerView(mVideoView);
             playVodURL(videoURL);
         }
-        boolean isLivePlay = (isRTMPPlay(videoURL) || isFLVPlay(videoURL) || isWebrtcPlay(videoURL));
+        boolean isLivePlay = (isRTMPPlay(videoURL) || isFLVPlay(videoURL) || isWebrtcPlay(videoURL) || isLiveHLSPlay(videoURL));
         updatePlayerType(isLivePlay ? SuperPlayerDef.PlayerType.LIVE : SuperPlayerDef.PlayerType.VOD);
         updatePlayProgress(0, model.duration,0);
         updateVideoQualityList(videoQualities, defaultVideoQuality);
@@ -634,6 +636,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         if (url == null || "".equals(url)) {
             return;
         }
+
         mCurrentPlayVideoURL = url;
         if (mVodPlayer != null) {
             mVodPlayer.setStartTime(mStartPos);
@@ -649,6 +652,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             if (mCurrentIndex != -1) {
                 mVodPlayer.setBitrateIndex(mCurrentIndex);
             }
+            Log.d("test,", "走 VodPlayer");
             mVodPlayer.startVodPlay(url);
         }
         mIsPlayWithFileId = false;
