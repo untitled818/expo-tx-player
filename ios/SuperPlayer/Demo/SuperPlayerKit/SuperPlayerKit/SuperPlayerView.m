@@ -1041,7 +1041,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
         [self.spinner startAnimating];
     }
     
-    [self.controlView setDisableOfflineBtn:!self.playerModel.isEnableCache];
+//    [self.controlView setDisableOfflineBtn:!self.playerModel.isEnableCache];
     self.repeatBtn.hidden     = YES;
     // 播放时添加监听
     [self addNotifications];
@@ -1270,9 +1270,9 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
 - (void)setFullScreen:(BOOL)fullScreen {
     if (fullScreen) {
         if (self.vodPlayer.getSubtitleTrackInfo.count <= 0) {
-            [self.controlView setSubtitlesBtnState:NO];
+//            [self.controlView setSubtitlesBtnState:NO];
         } else {
-            [self.controlView setSubtitlesBtnState:YES];
+//            [self.controlView setSubtitlesBtnState:YES];
         }
         [[UIApplication sharedApplication] setStatusBarHidden:fullScreen];
         [self.controlView setTopViewState:YES];

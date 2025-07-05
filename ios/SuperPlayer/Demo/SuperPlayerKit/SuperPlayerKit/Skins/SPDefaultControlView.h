@@ -32,6 +32,9 @@
 /// Case button
 /// 投屏按钮
 @property(nonatomic, strong) UIButton *caseBtn;
+/// share button
+///  分享按钮
+@property(nonatomic, strong) UIButton *shareBtn;
 /// Whether to disable the return
 /// 是否禁用返回
 @property(nonatomic, assign) BOOL disableBackBtn;
