@@ -75,7 +75,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 
 //        self.captureBtn.hidden      = YES;
         self.pipBtn.hidden          = YES;
-        self.danmakuBtn.hidden      = YES;
+//        self.danmakuBtn.hidden      = YES;
         self.offlineBtn.hidden      = YES;
 //        self.trackBtn.hidden        = YES;
         self.subtitlesBtn.hidden    = YES;
@@ -597,7 +597,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     self.resolutionBtn.hidden   = YES;
     self.moreBtn.hidden         = YES;
 //    self.captureBtn.hidden      = YES;
-    self.danmakuBtn.hidden      = YES;
+    // self.danmakuBtn.hidden      = YES;
     self.offlineBtn.hidden      = YES;
 //    self.trackBtn.hidden        = YES;
     self.subtitlesBtn.hidden    = YES;
