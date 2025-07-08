@@ -3089,6 +3089,10 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     }
 }
 
+- (void)setCategoryAndTitle:(NSString *)category title:(NSString *)title {
+        [(SPDefaultControlView *)self.controlView setCategory:category title:title];
+}
+
 - (NSString *)stringForState:(SuperPlayerState)state {
     switch (state) {
         case StateFailed: return @"failed";

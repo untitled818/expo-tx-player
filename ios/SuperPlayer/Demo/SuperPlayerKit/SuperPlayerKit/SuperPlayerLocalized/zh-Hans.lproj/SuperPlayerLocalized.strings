@@ -31,7 +31,8 @@
 "SuperPlayer.trywactchend" = "试看结束，VIP会员可观看完整视频";
 "SuperPlayer.openvip" = "开通VIP会员";
 "SuperPlayer.tryagain" = "重新试看";
-"SuperPlayer.backtolive" = "返回直播";
+//"SuperPlayer.backtolive" = "返回直播";
+"SuperPlayer.backtolive" = "";
 "SuperPlayer.notsupportpip" = "该设备不支持画中画";
 "SuperPlayer.off" = "关闭";
 "SuperPlayer.subtitles" = "字幕";

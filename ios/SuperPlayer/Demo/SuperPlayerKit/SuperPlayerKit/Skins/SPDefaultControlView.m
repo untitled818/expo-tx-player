@@ -45,10 +45,13 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         [self.bottomImageView addSubview:self.videoSlider];
         self.videoSlider.hidden = YES;
         [self.bottomImageView addSubview:self.resolutionBtn];
+        [self.bottomImageView addSubview:self.muteBtn];
         [self.bottomImageView addSubview:self.fullScreenBtn];
         [self.bottomImageView addSubview:self.totalTimeLabel];
         self.totalTimeLabel.hidden = YES;
         [self.bottomImageView addSubview:self.nextBtn];
+        
+        [self.bottomImageView addSubview:self.categoryTitleLabel];
 
         // 隐藏 截图 按钮
 //        [self.topImageView addSubview:self.captureBtn];
@@ -61,6 +64,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         [self addSubview:self.lockBtn];
         [self addSubview:self.pipBtn];
         [self.topImageView addSubview:self.backBtn];
+        [self.topImageView addSubview:self.homeBtn];
+        [self.topImageView addSubview:self.customPipBtn];
         [self.topImageView addSubview:self.caseBtn];
         [self.topImageView addSubview:self.shareBtn];
         
@@ -73,6 +78,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 
         // 添加子控件的约束
         [self makeSubViewsConstraints];
+        
+        self.startBtn.hidden = YES;
 
 //        self.captureBtn.hidden      = YES;
         self.pipBtn.hidden          = YES;
@@ -83,7 +90,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 //        self.trackBtn.hidden        = YES;
 //        self.subtitlesBtn.hidden    = YES;
 //        self.moreBtn.hidden         = YES;
-        self.resolutionBtn.hidden   = YES;
+//        self.resolutionBtn.hidden   = YES;
+        self.resolutionBtn.hidden   = NO;
         self.moreContentView.hidden = YES;
         self.trackView.hidden       = YES;
         self.subtitlesView.hidden   = YES;
@@ -126,14 +134,20 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         make.top.equalTo(self.topImageView.mas_top).offset(3);
         make.width.height.mas_equalTo(40);
     }];
-
     
-    // shareBtn 靠最右边
-//    [self.shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.trailing.equalTo(self.topImageView.mas_trailing).offset(-5); // 靠右边留5的边距
-//        make.top.equalTo(self.topImageView.mas_top).offset(3);
-//        make.width.height.mas_equalTo(40);
-//    }];
+    [self.homeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.backBtn.mas_trailing).offset(10); // 紧邻 backBtn
+        make.top.equalTo(self.backBtn.mas_top);
+        make.width.height.mas_equalTo(40);
+    }];
+    
+    [self.customPipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.homeBtn.mas_trailing).offset(10); // 紧邻 settingBtn
+        make.top.equalTo(self.backBtn.mas_top);
+        make.width.height.mas_equalTo(40);
+    }];
+    
+    
     
     [self.shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(40);
@@ -179,7 +193,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.backBtn.mas_trailing).offset(5);
         make.centerY.equalTo(self.backBtn.mas_centerY);
-//        make.trailing.equalTo(self.captureBtn.mas_leading).offset(-10);
+//      make.trailing.equalTo(self.captureBtn.mas_leading).offset(-10);
     }];
 
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -197,6 +211,24 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
             make.bottom.equalTo(self.mas_bottom).offset(-10);
         }
     }];
+    
+//    [_categoryTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.equalTo(self.bottomImageView.mas_leading).offset(5);
+//        make.top.equalTo(self.bottomImageView.mas_top).offset(10);
+//        make.width.mas_lessThanOrEqualTo(200); // 宽度控制在合理范围
+//        if (@available(iOS 11.0, *)) {
+//            make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-10);
+//        } else {
+//            make.bottom.equalTo(self.mas_bottom).offset(-10);
+//        }
+//    }];
+    
+    [_categoryTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.bottomImageView.mas_leading).offset(15); // 左边距离更宽松
+        make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-20); // 底部下沉一点
+        make.width.mas_lessThanOrEqualTo(250);
+        make.height.mas_equalTo(40);
+    }];
 
     [self.currentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.startBtn.mas_trailing);
@@ -208,6 +240,12 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         make.width.height.mas_equalTo(30);
         make.trailing.equalTo(self.bottomImageView.mas_trailing).offset(-5);
         make.centerY.equalTo(self.startBtn.mas_centerY);
+    }];
+    
+    [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.mas_equalTo(30);
+        make.trailing.equalTo(self.fullScreenBtn.mas_leading).offset(-20); // 间距10，你可以根据美观调整
+        make.centerY.equalTo(self.fullScreenBtn.mas_centerY); // 垂直居中对齐
     }];
 
     [self.resolutionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -302,6 +340,24 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 }
 
 - (void) shareBtnClick:(UIButton *)sender {
+    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
+        [self.delegate controlViewCase:self];
+    }
+}
+
+- (void) homeBtnClick:(UIButton *)sender {
+    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
+        [self.delegate controlViewCase:self];
+    }
+}
+
+- (void) customPipBtnClick:(UIButton *)sender {
+    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
+        [self.delegate controlViewCase:self];
+    }
+}
+
+- (void) muteBtnClick:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
         [self.delegate controlViewCase:self];
     }
@@ -565,9 +621,11 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     self.fullScreenBtn.selected = self.isLockScreen;
     self.fullScreenBtn.hidden   = YES;
     if (self.disableResolutionBtn) {
-        self.resolutionBtn.hidden   = YES;
+//        self.resolutionBtn.hidden   = YES;
+        self.resolutionBtn.hidden   = NO;
     } else {
-        self.resolutionBtn.hidden   = self.resolutionArray.count == 0;
+//        self.resolutionBtn.hidden   = self.resolutionArray.count == 0;
+        self.resolutionBtn.hidden   = NO;
     }
 //    self.moreBtn.hidden         = self.disableMoreBtn;
 //    self.captureBtn.hidden      = self.disableCaptureBtn;
@@ -626,7 +684,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     self.shareBtn.hidden        = NO;
     self.fullScreenBtn.selected = NO;
     self.fullScreenBtn.hidden   = NO;
-    self.resolutionBtn.hidden   = YES;
+//    self.resolutionBtn.hidden   = YES;
+    self.resolutionBtn.hidden = NO;
 //    self.moreBtn.hidden         = YES;
 //    self.captureBtn.hidden      = YES;
      self.danmakuBtn.hidden      = NO;
@@ -697,6 +756,73 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     return _titleLabel;
 }
 
+//- (UILabel *)categoryTitleLabel {
+//    if (!_categoryTitleLabel) {
+//        _categoryTitleLabel = [[UILabel alloc] init];
+//        _categoryTitleLabel.textColor = [UIColor whiteColor];
+//        _categoryTitleLabel.font = [UIFont systemFontOfSize:14.0f];
+//        _categoryTitleLabel.numberOfLines = 2; // 支持上下两行显示分类和标题
+//        _categoryTitleLabel.textAlignment = NSTextAlignmentLeft;
+//        // 方便调试时看位置，可以临时加背景色
+////        _categoryTitleLabel.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
+//        _categoryTitleLabel.text = @"美洲杯女\n巴西女篮 vs 美国女篮"; // 测试文字
+//    }
+//    return _categoryTitleLabel;
+//}
+
+//- (UILabel *)categoryTitleLabel {
+//    if (!_categoryTitleLabel) {
+//        _categoryTitleLabel = [[UILabel alloc] init];
+//        _categoryTitleLabel.textColor = [UIColor whiteColor];
+//        _categoryTitleLabel.numberOfLines = 2; // 支持两行
+//        _categoryTitleLabel.textAlignment = NSTextAlignmentLeft;
+//
+//        // 构建富文本
+//        NSString *category = @"美洲杯女";
+//        NSString *title = @"巴西女篮 vs 美国女篮";
+//
+//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//        paragraphStyle.lineSpacing = 4.0; // 设置行间距
+//        paragraphStyle.alignment = NSTextAlignmentLeft;
+//
+//        NSDictionary *categoryAttributes = @{
+//            NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
+//            NSForegroundColorAttributeName: [UIColor whiteColor]
+//        };
+//
+//        NSDictionary *titleAttributes = @{
+//            NSFontAttributeName: [UIFont systemFontOfSize:13],
+//            NSForegroundColorAttributeName: [UIColor whiteColor]
+//        };
+//
+//        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", category] attributes:categoryAttributes];
+//
+//        NSAttributedString *titleAttrStr = [[NSAttributedString alloc] initWithString:title attributes:titleAttributes];
+//
+//        [attributedText appendAttributedString:titleAttrStr];
+//
+//        // 应用段落样式到整个文本
+//        [attributedText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, attributedText.length)];
+//
+//        _categoryTitleLabel.attributedText = attributedText;
+//
+//        // 可选：调试时看到位置
+//        // _categoryTitleLabel.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
+//    }
+//    return _categoryTitleLabel;
+//}
+
+- (UILabel *)categoryTitleLabel {
+    if (!_categoryTitleLabel) {
+        _categoryTitleLabel = [[UILabel alloc] init];
+        _categoryTitleLabel.textColor = [UIColor whiteColor];
+        _categoryTitleLabel.numberOfLines = 2;
+        _categoryTitleLabel.textAlignment = NSTextAlignmentLeft;
+        _categoryTitleLabel.font = [UIFont systemFontOfSize:14];
+    }
+    return _categoryTitleLabel;
+}
+
 - (UIButton *)backBtn {
     if (!_backBtn) {
         _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -732,6 +858,37 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         [_shareBtn addTarget:self action:@selector(shareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _shareBtn;
+}
+
+- (UIButton *)homeBtn {
+    if (!_homeBtn) {
+        // use custom home icon
+        _homeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_homeBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
+        [_homeBtn addTarget:self action:@selector(homeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _homeBtn;
+}
+
+- (UIButton *)customPipBtn {
+    if (!_customPipBtn) {
+        // use custom pip icon
+        _customPipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_customPipBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
+        [_customPipBtn addTarget:self action:@selector(customPipBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _customPipBtn;
+}
+
+- (UIButton *)muteBtn {
+    if (!_muteBtn) {
+        // use custom pip icon
+        _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_muteBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
+        [_muteBtn setImage:SuperPlayerImage(@"danmu_pressed") forState:UIControlStateSelected];
+        [_muteBtn addTarget:self action:@selector(muteBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _muteBtn;
 }
 
 - (UIImageView *)topImageView {
@@ -893,6 +1050,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         _resolutionBtn                 = [UIButton buttonWithType:UIButtonTypeCustom];
         _resolutionBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         _resolutionBtn.backgroundColor = [UIColor clearColor];
+        // test layout
+//        _resolutionBtn.backgroundColor = [UIColor redColor];
         [_resolutionBtn addTarget:self action:@selector(resolutionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _resolutionBtn;
@@ -1043,6 +1202,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     self.isShowSecondView    = NO;
     self.pointJumpBtn.hidden = YES;
 }
+
+
 
 /** 重置ControlView */
 - (void)playerResetControlView {
@@ -1241,6 +1402,32 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 
 - (void)fullScreenButtonSelectState:(BOOL)state{
     self.fullScreenBtn.selected = state;
+}
+
+- (void)setCategory:(NSString *)category title:(NSString *)title {
+    if (!category) category = @"";
+    if (!title) title = @"";
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 4.0;
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+
+    NSDictionary *categoryAttributes = @{
+        NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
+        NSForegroundColorAttributeName: [UIColor whiteColor]
+    };
+
+    NSDictionary *titleAttributes = @{
+        NSFontAttributeName: [UIFont systemFontOfSize:13],
+        NSForegroundColorAttributeName: [UIColor whiteColor]
+    };
+
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", category] attributes:categoryAttributes];
+    NSAttributedString *titleAttrStr = [[NSAttributedString alloc] initWithString:title attributes:titleAttributes];
+    [attributedText appendAttributedString:titleAttrStr];
+    [attributedText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, attributedText.length)];
+
+    self.categoryTitleLabel.attributedText = attributedText;
 }
 
 #pragma clang diagnostic pop

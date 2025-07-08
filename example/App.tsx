@@ -7,7 +7,7 @@ import { PlayerView } from "./components";
 import { destroyPlayer } from "./components/Player";
 
 const hls =
-  "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
+  "https://tpull-uat.appsix24.com/live/UCjvmxg2phmM_base.m3u8?txSecret=113ef6a79f3da13b190d848bee8889cb&txTime=686E14ED";
 
 const rtc =
   "webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
@@ -73,6 +73,8 @@ export default function App() {
     player.play();
   });
 
+  player.setVideoCategoryAndTitle("英超", "利物浦 vs 曼联");
+
   const isPlaying = useEvent(player, "playingChange", player.playing);
   // console.log(isPlaying, "playingChange");
   const error = useEvent(player, "error", null);
@@ -110,6 +112,7 @@ export default function App() {
           console.log("视频返回回调");
         }}
       />
+
       <Button
         title={isPlaying ? "Pause" : "Play"}
         onPress={() => {

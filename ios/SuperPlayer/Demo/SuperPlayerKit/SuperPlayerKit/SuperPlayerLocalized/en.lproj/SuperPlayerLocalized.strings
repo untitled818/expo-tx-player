@@ -32,7 +32,8 @@
 "SuperPlayer.trywactchend" = "The trial is over, VIP members can watch the full video.";
 "SuperPlayer.openvip" = "Open VIP membership";
 "SuperPlayer.tryagain" = "Try Again";
-"SuperPlayer.backtolive" = "Back to Live Streaming";
+//"SuperPlayer.backtolive" = "Back to Live Streaming";
+"SuperPlayer.backtolive" = "";
 "SuperPlayer.notsupportpip" = "This device does not support picture-in-picture";
 "SuperPlayer.off" = "OFF";
 "SuperPlayer.subtitles" = "Subtitles";

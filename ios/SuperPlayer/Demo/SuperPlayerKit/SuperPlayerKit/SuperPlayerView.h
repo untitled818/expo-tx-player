@@ -387,5 +387,8 @@ typedef NS_ENUM(NSInteger, SuperPlayerLayoutStyle) {
 - (NSString *)status;
 
 - (void) detachViewOnly;
+
+- (void)setCategoryAndTitle:(NSString *)category title:(NSString *)title;
+
 @end
 #pragma clang diagnostic pop

@@ -111,7 +111,8 @@
     if (!_resolutionBtn) {
         _resolutionBtn                 = [UIButton buttonWithType:UIButtonTypeCustom];
         _resolutionBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        _resolutionBtn.backgroundColor = [UIColor clearColor];
+//        _resolutionBtn.backgroundColor = [UIColor clearColor];
+        _resolutionBtn.backgroundColor = [UIColor redColor];
         [_resolutionBtn addTarget:self action:@selector(resolutionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _resolutionBtn;

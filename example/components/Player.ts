@@ -117,6 +117,10 @@ export class Player implements EventEmitterCompatible {
   }
   // ExpoTxPlayer.setVideoURL(url);
 
+  setVideoCategoryAndTitle(category: string, title: string) {
+    ExpoTxPlayer.setCategoryAndTitle(category, title);
+  }
+
   switchSource(url: string) {
     this._url = url;
     ExpoTxPlayer.switchSource(url);

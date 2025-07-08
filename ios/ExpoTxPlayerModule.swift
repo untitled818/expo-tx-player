@@ -137,6 +137,13 @@ public class ExpoTxPlayerModule: Module {
             }
         }
         
+        // set video category and title
+        Function("setCategoryAndTitle") { (category: String, title: String) in
+              runOnMain {
+                ExpoTxPlayerView.currentInstance?.setCategoryAndTitle(category: category, title: title)
+              }
+            }
+        
         
         
         View(ExpoTxPlayerView.self) {

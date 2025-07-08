@@ -14,6 +14,9 @@
 /// Start play button
 /// 开始播放按钮
 @property(nonatomic, strong) UIButton *startBtn;
+/// Category and Title label
+///  视频分类和标题
+@property (nonatomic, strong) UILabel *categoryTitleLabel;
 /// Current playback duration label
 /// 当前播放时长label
 @property(nonatomic, strong) UILabel *currentTimeLabel;
@@ -35,6 +38,15 @@
 /// share button
 ///  分享按钮
 @property(nonatomic, strong) UIButton *shareBtn;
+/// home button
+/// 主页按钮
+@property(nonatomic, strong) UIButton *homeBtn;
+/// pipBtn
+///  画中画按钮
+@property(nonatomic, strong) UIButton *customPipBtn;
+///  mute button
+///   静音按钮
+@property(nonatomic, strong) UIButton *muteBtn;
 /// Whether to disable the return
 /// 是否禁用返回
 @property(nonatomic, assign) BOOL disableBackBtn;
@@ -142,5 +154,7 @@
 /// Set the selected state of the landscape button
 /// 设置横屏按钮的选中状态
 - (void)fullScreenButtonSelectState:(BOOL)state;
+
+- (void)setCategory:(NSString *)category title:(NSString *)title;
 
 @end
