@@ -26,6 +26,7 @@ import expo.modules.txplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig;
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel;
+import com.tencent.liteav.demo.superplayer.SuperPlayerView;
 import com.tencent.liteav.demo.superplayer.helper.ContextUtils;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayImageSpriteInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayKeyFrameDescInfo;
@@ -112,6 +113,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     VodSubtitlesSettingView.OnClickBackButtonListener {
 
   private Context mContext;
+  private SuperPlayerView mSuperPlayerView;
   private RelativeLayout mLayoutTop; // Top title bar layout.
   private LinearLayout mLayoutBottom; // Bottom progress bar layout.
   private ImageView mIvPause;
@@ -190,6 +192,16 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   public FullScreenPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     initialize(context);
+  }
+
+  public void setSuperPlayerView(SuperPlayerView view) {
+    this.mSuperPlayerView = view;
+  }
+
+  public void updateBarrageUI(boolean on) {
+    mIvDanmu.setImageResource(
+            on ? R.drawable.superplayer_ic_danmuku_on : R.drawable.superplayer_ic_danmuku_off
+    );
   }
 
   /**
@@ -882,7 +894,10 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     } else if (i == R.id.superplayer_iv_pause || i == R.id.superplayer_resume) {
       togglePlayState();
     } else if (i == R.id.superplayer_iv_danmuku) {
-      toggleBarrage();
+      if (mSuperPlayerView != null) {
+        mSuperPlayerView.toggleBarrage(); // 🔁 统一状态管理 + 刷新 UI
+      }
+//      toggleBarrage();
     } else if (i == R.id.superplayer_iv_snapshot) {
       if (mControllerCallback != null) {
         mControllerCallback.onSnapshot();

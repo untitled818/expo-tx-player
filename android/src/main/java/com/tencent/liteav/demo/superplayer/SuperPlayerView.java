@@ -141,6 +141,8 @@ public class SuperPlayerView extends RelativeLayout
   private long mProgress;
   private boolean mIsPlayInit;
   private boolean isCallResume = false;
+  // set danmaku State default true
+  private boolean mIsBarrageOn = false;
   private LinearLayout mDynamicWatermarkLayout;
   private DynamicWatermarkView mDynamicWatermarkView;
   private ISuperPlayerListener mSuperPlayerListener;
@@ -172,11 +174,34 @@ public class SuperPlayerView extends RelativeLayout
     initPlayer();
   }
 
+  public boolean isBarrageOn() {
+    return mIsBarrageOn;
+  }
+
+  public void toggleBarrage() {
+    mIsBarrageOn = !mIsBarrageOn;
+
+    // 通知 UI 更新
+    if (mWindowPlayer != null) {
+      mWindowPlayer.updateBarrageUI(mIsBarrageOn);
+    }
+    if (mFullScreenPlayer != null) {
+      mFullScreenPlayer.updateBarrageUI(mIsBarrageOn);
+    }
+
+    // 通知其他逻辑（比如显示/隐藏弹幕）
+    if (mControllerCallback != null) {
+      mControllerCallback.onDanmuToggle(mIsBarrageOn);
+    }
+  }
+
   private void initView() {
     mRootView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.superplayer_vod_view, null);
     mTXCloudVideoView = (TXCloudVideoView) mRootView.findViewById(R.id.superplayer_cloud_video_view);
     mFullScreenPlayer = (FullScreenPlayer) mRootView.findViewById(R.id.superplayer_controller_large);
     mWindowPlayer = (WindowPlayer) mRootView.findViewById(R.id.superplayer_controller_small);
+    mWindowPlayer.setSuperPlayerView(this);
+    mFullScreenPlayer.setSuperPlayerView(this);
     mFloatPlayer = (FloatPlayer) mRootView.findViewById(R.id.superplayer_controller_float);
     mDanmuView = (DanmuView) mRootView.findViewById(R.id.superplayer_danmuku_view);
     mSubtitleView = (TXSubtitleView) mRootView.findViewById(R.id.subtitle_view);
@@ -510,7 +535,8 @@ public class SuperPlayerView extends RelativeLayout
   // 开启弹幕：允许发送
   public void openDanmu() {
     // mFullScreenPlayer.mBarrageOn = true;
-    mFullScreenPlayer.toggleBarrage();
+//    mFullScreenPlayer.toggleBarrage();
+    toggleBarrage();
     if (mDanmuView != null) {
       mDanmuView.toggle(true); // 继续发送
     }
@@ -518,7 +544,9 @@ public class SuperPlayerView extends RelativeLayout
 
   // 发送弹幕
   public void sendDanmu(String content, boolean withBorder) {
-    if (!mFullScreenPlayer.mBarrageOn || mDanmuView == null)
+//    if (!mFullScreenPlayer.mBarrageOn || mDanmuView == null)
+//      return;
+    if (!mIsBarrageOn || mDanmuView == null)
       return;
     mDanmuView.addDanmaku(content, withBorder);
   }

@@ -25,6 +25,7 @@ import expo.modules.txplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig;
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel;
+import com.tencent.liteav.demo.superplayer.SuperPlayerView;
 import com.tencent.liteav.demo.superplayer.helper.ContextUtils;
 import com.tencent.liteav.demo.superplayer.helper.PictureInPictureHelper;
 import com.tencent.liteav.demo.superplayer.model.utils.VideoGestureDetector;
@@ -64,6 +65,8 @@ import com.tencent.liteav.demo.superplayer.ui.view.VolumeBrightnessProgressLayou
 public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     PointSeekBar.OnSeekBarChangeListener, VipWatchView.VipWatchViewClickListener {
 
+  private SuperPlayerView mSuperPlayerView;
+
   private LinearLayout mLayoutTop; // Top title bar layout
   private LinearLayout mLayoutBottom; // Bottom progress bar layout
   private ImageView mIvCast;
@@ -72,6 +75,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   private ImageView mIvFullScreen;
   private TextView mTvTitle;
   private TextView mTvVideoCategory;
+  private ImageView mIvDanmu;
   private TextView mTvVideoTitle;
   private TextView mTvBackToLive;
   private ImageView mBackground;
@@ -122,6 +126,10 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   public WindowPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     initialize(context);
+  }
+
+  public void setSuperPlayerView(SuperPlayerView superPlayerView) {
+    this.mSuperPlayerView = superPlayerView;
   }
 
   /**
@@ -250,6 +258,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mLayoutReplay = (LinearLayout) findViewById(R.id.superplayer_ll_replay);
     mTvTitle = (TextView) findViewById(R.id.superplayer_tv_title);
     mTvVideoCategory = (TextView) findViewById(R.id.superplayer_tv_video_category);
+    mIvDanmu = (ImageView) findViewById(R.id.superplayer_iv_danmuku);
     mTvVideoTitle = (TextView) findViewById(R.id.superplayer_tv_video_title);
     mIvPause = (ImageView) findViewById(R.id.superplayer_iv_pause);
     mIvBack = (ImageView) findViewById(R.id.superplayer_iv_back);
@@ -280,6 +289,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mLayoutReplay.setOnClickListener(this);
     mPiPIV.setOnClickListener(this);
     mIvCast.setOnClickListener(this);
+    mIvDanmu.setOnClickListener(this);
 
     mSeekBarProgress.setOnSeekBarChangeListener(this);
 
@@ -359,6 +369,12 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
       toggleView(mPbLiveLoading, false);
     }
     toggleView(mLayoutReplay, false);
+  }
+
+  public void updateBarrageUI(boolean on) {
+    mIvDanmu.setImageResource(
+        on ? R.drawable.superplayer_ic_danmuku_on : R.drawable.superplayer_ic_danmuku_off
+    );
   }
 
   public void preparePlayVideo(SuperPlayerModel superPlayerModel) {
@@ -781,6 +797,10 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
       }
     } else if (id == R.id.superplayer_iv_pause || id == R.id.superplayer_resume) {
       togglePlayState();
+    } else if (id == R.id.superplayer_iv_danmuku) {
+      if (mSuperPlayerView != null) {
+        mSuperPlayerView.toggleBarrage();
+      }
     } else if (id == R.id.superplayer_iv_fullscreen) {
       if (mControllerCallback != null) {
         mControllerCallback.onSwitchPlayMode(SuperPlayerDef.PlayerMode.FULLSCREEN);
