@@ -1012,6 +1012,13 @@ public class SuperPlayerView extends RelativeLayout
         mPlayerViewCallback.onCastButtonPressed();
       }
     }
+
+    @Override
+    public void onHomeClick() {
+      if (mPlayerViewCallback != null) {
+        mPlayerViewCallback.onHomeClick();
+      }
+    }
   };
 
   private void handleResume() {
@@ -1221,6 +1228,8 @@ public class SuperPlayerView extends RelativeLayout
     void onPlayingChange(Boolean isPlaying);
 
     void onCastButtonPressed();
+
+    void onHomeClick();
 
   }
 

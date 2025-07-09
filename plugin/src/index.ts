@@ -95,6 +95,7 @@ const withPlayerAppConfig: ConfigPlugin = (config) => {
       (activity) =>
         activity.$["android:name"] === "expo.modules.txplayer.PipPlayerActivity"
     );
+    console.log("pip test...");
     if (!activityExists) {
       mainApplication.activity = [
         ...(mainApplication.activity ?? []),

@@ -73,6 +73,7 @@ const withPlayerAppConfig = (config) => {
         mainApplication.$["android:usesCleartextTraffic"] = "true";
         // 添加 PipPlayerActivity,画中画
         const activityExists = mainApplication.activity?.some((activity) => activity.$["android:name"] === "expo.modules.txplayer.PipPlayerActivity");
+        console.log("pip test...");
         if (!activityExists) {
             mainApplication.activity = [
                 ...(mainApplication.activity ?? []),

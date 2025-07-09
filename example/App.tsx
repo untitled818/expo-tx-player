@@ -124,6 +124,9 @@ export default function App() {
         onBack={() => {
           console.log("视频返回回调");
         }}
+        onHomeClick={() => {
+          console.log("home icon callback");
+        }}
       />
 
       <Button

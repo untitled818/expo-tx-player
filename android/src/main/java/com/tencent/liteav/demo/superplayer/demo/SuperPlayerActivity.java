@@ -111,6 +111,11 @@ public class SuperPlayerActivity extends FragmentActivity {
             public void onCastButtonPressed() {
 
             }
+
+            @Override
+            public void onHomeClick() {
+
+            }
         });
         
         // 加载并播放默认视频

@@ -32,7 +32,7 @@ class ExpoTxPlayerModule : Module() {
     )
 
     // Defines event names that the module can send to JavaScript.
-    Events("onChange", "onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd", "onPIPStart", "onPIPStop", "onError", "onPlayingChange", "onStatusChange","onBack")
+    Events("onChange", "onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd", "onPIPStart", "onPIPStop", "onError", "onPlayingChange", "onStatusChange","onBack","onHomeClick")
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
@@ -195,7 +195,8 @@ class ExpoTxPlayerModule : Module() {
         "onError",
         "onPlayingChange",
         "onStatusChange",
-        "onBack");
+        "onBack",
+        "onHomeClick");
 
     }
   }

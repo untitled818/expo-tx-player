@@ -139,6 +139,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   private ImageView mIvDanmu;
 
   private ImageView mIvMute;
+  private ImageView mIvHome;
   private ImageView mIvSnapshot;
   private ImageView mIvLock;
   private ImageView mIvDownload;
@@ -377,6 +378,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     mIvPause = (ImageView) findViewById(R.id.superplayer_iv_pause);
     mIvDanmu = (ImageView) findViewById(R.id.superplayer_iv_danmuku);
     mIvMute =  (ImageView) findViewById(R.id.superplayer_ic_muted);
+    mIvHome =   (ImageView) findViewById(R.id.superplayer_iv_home);
     mIvMore = (ImageView) findViewById(R.id.superplayer_iv_more);
     mIvDownload = (ImageView) findViewById(R.id.superplayer_iv_download);
     mIvSnapshot = (ImageView) findViewById(R.id.superplayer_iv_snapshot);
@@ -423,6 +425,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     mIvPause.setOnClickListener(this);
     mIvDanmu.setOnClickListener(this);
     mIvMute.setOnClickListener(this);
+    mIvHome.setOnClickListener(this);
     mIvDownload.setOnClickListener(this);
     mIvSnapshot.setOnClickListener(this);
     mIvMore.setOnClickListener(this);
@@ -940,6 +943,10 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
       showSoundTrackView();
     } else if (i == R.id.superplayer_iv_subtitle) {
       showSubTitleView();
+    } else if (i == R.id.superplayer_iv_home) {
+      if (mControllerCallback != null) {
+        mControllerCallback.onHomeClick();
+      }
     }
   }
 

@@ -384,5 +384,7 @@ public interface Player {
         void onActionUp();
 
         void onCast();
+
+        void onHomeClick();
     }
 }

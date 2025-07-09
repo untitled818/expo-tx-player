@@ -38,6 +38,7 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
   val onCastButtonPressed by EventDispatcher()
   val onError by EventDispatcher()
   val onBack by EventDispatcher()
+  val onHomeClick by EventDispatcher()
 
 
   private var originalParent: ViewGroup? = null
@@ -147,6 +148,10 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
 
       override fun onCastButtonPressed() {
         onCastButtonPressed(mapOf());
+      }
+
+      override fun onHomeClick() {
+        onHomeClick(mapOf());
       }
 
       override fun onPlayingChange(isPlaying: Boolean) {
