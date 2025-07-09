@@ -116,6 +116,8 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   private LinearLayout mLayoutBottom; // Bottom progress bar layout.
   private ImageView mIvPause;
   private TextView mTvTitle;
+  private TextView mTvVideoCategory;
+  private TextView mTvVideoTitle;
   // Layout of the return button and title.
   private LinearLayout mLlTitle;
   private TextView mTvBackToLive;
@@ -350,6 +352,8 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     mIvBack = (ImageView) findViewById(R.id.superplayer_iv_back);
     mIvLock = (ImageView) findViewById(R.id.superplayer_iv_lock);
     mTvTitle = (TextView) findViewById(R.id.superplayer_tv_title_full_screen);
+    mTvVideoCategory = (TextView) findViewById(R.id.superplayer_tv_video_category);
+    mTvVideoTitle = (TextView) findViewById(R.id.superplayer_tv_video_title);
     mIvPause = (ImageView) findViewById(R.id.superplayer_iv_pause);
     mIvDanmu = (ImageView) findViewById(R.id.superplayer_iv_danmuku);
     mIvMore = (ImageView) findViewById(R.id.superplayer_iv_more);
@@ -597,6 +601,14 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   public void prepareLoading() {
     toggleView(mPbLiveLoading, true);
     toggleView(mImageStartAndResume, false);
+  }
+
+  // set the category and title
+  public void updateCategoryAndTitle(String category, String title) {
+    mTvVideoCategory.setText(category);
+    mTvVideoCategory.setVisibility(View.VISIBLE);
+    mTvVideoTitle.setText(title);
+    mTvVideoTitle.setVisibility(View.VISIBLE);
   }
 
   @Override

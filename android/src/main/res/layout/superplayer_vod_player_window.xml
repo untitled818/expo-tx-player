@@ -22,6 +22,24 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/superplayer_btn_back_play" />
 
+        <!-- 模拟图标 -->
+        <ImageView
+            android:id="@+id/superplayer_iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/superplayer_btn_back_play" />
+
+        <ImageView
+            android:id="@+id/superplayer_iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/superplayer_btn_back_play" />
+
+        
+
+        <!-- video top left title -->
         <TextView
             android:id="@+id/superplayer_tv_title"
             android:layout_width="wrap_content"
@@ -30,6 +48,18 @@
             android:text="@string/superplayer_small_video_special_effects_editing"
             android:textColor="@android:color/white"
             android:textSize="11dp" />
+<!-- 
+        <TextView
+            android:id="@+id/superplayer_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="测试标题"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginLeft="8dp"/> -->
 
         <Space
         android:layout_width="0dp"
@@ -46,6 +76,26 @@
             android:layout_marginRight="14dp"
             android:src="@drawable/superplayer_ic_cast"
             android:contentDescription="投屏" />
+
+        <ImageView
+            android:id="@+id/superplayer_iv_danmuku"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/superplayer_ic_danmuku_off" />
+        
+        <ImageView
+            android:id="@+id/superplayer_iv_cast"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/superplayer_ic_cast"
+            android:contentDescription="投屏" />
+        
     </LinearLayout>
 
 
@@ -136,8 +186,53 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/superplayer_ic_vod_pause_normal" 
+            android:src="@drawable/superplayer_ic_vod_pause_normal"
+            android:visibility="gone" 
             />
+
+        <!-- <TextView
+            android:id="@+id/superplayer_iv_category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:minWidth="800dp"
+            android:text=""
+            android:textColor="@android:color/white" /> -->
+
+<LinearLayout
+    android:id="@+id/superplayer_ll_category_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+    android:gravity="start"
+    android:padding="8dp">
+
+    <TextView
+    android:id="@+id/superplayer_tv_video_category"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="占"
+    android:visibility="invisible"
+    android:minWidth="80dp"
+    android:textColor="@android:color/white"
+    android:textSize="18sp"
+    android:maxLines="1"
+    android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/superplayer_tv_video_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="占"
+        android:visibility="invisible"
+        android:minWidth="280dp"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
+</LinearLayout>
         <!--播放位置-->
         <TextView
             android:id="@+id/superplayer_tv_current"
@@ -194,6 +289,16 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
             android:src="@drawable/superplayer_play_next"/>
+
+        <!-- 模拟音量图标 -->
+        <ImageView
+            android:id="@+id/superplayer_iv_fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/superplayer_ic_vod_fullscreen" />
 
         <ImageView
             android:id="@+id/superplayer_iv_fullscreen"

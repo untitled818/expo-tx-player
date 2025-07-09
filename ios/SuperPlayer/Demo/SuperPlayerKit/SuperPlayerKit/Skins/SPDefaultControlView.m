@@ -242,16 +242,30 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         make.centerY.equalTo(self.startBtn.mas_centerY);
     }];
     
+//    [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.height.mas_equalTo(30);
+//        make.trailing.equalTo(self.fullScreenBtn.mas_leading).offset(-20); // 间距10，你可以根据美观调整
+//        make.centerY.equalTo(self.fullScreenBtn.mas_centerY); // 垂直居中对齐
+//    }];
+    // 静音按钮在分辨率按钮左边（可选）
     [self.muteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.mas_equalTo(30);
-        make.trailing.equalTo(self.fullScreenBtn.mas_leading).offset(-20); // 间距10，你可以根据美观调整
-        make.centerY.equalTo(self.fullScreenBtn.mas_centerY); // 垂直居中对齐
+        make.trailing.equalTo(self.resolutionBtn.mas_leading).offset(-8); // 与分辨率按钮有间距
+        make.centerY.equalTo(self.startBtn.mas_centerY);
     }];
 
+//    [self.resolutionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.height.mas_equalTo(30);
+//        make.width.mas_greaterThanOrEqualTo(45);
+//        make.trailing.equalTo(self.bottomImageView.mas_trailing).offset(-5);
+//        make.centerY.equalTo(self.startBtn.mas_centerY);
+//    }];
+    
+    // 分辨率按钮在全屏按钮左边
     [self.resolutionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(30);
         make.width.mas_greaterThanOrEqualTo(45);
-        make.trailing.equalTo(self.bottomImageView.mas_trailing).offset(-5);
+        make.trailing.equalTo(self.fullScreenBtn.mas_leading).offset(-8); // 与全屏按钮有间距
         make.centerY.equalTo(self.startBtn.mas_centerY);
     }];
     
@@ -1049,8 +1063,10 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if (!_resolutionBtn) {
         _resolutionBtn                 = [UIButton buttonWithType:UIButtonTypeCustom];
         _resolutionBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        _resolutionBtn.backgroundColor = [UIColor clearColor];
+        
+//        _resolutionBtn.backgroundColor = [UIColor clearColor];
         // test layout
+        [_resolutionBtn setTitle:@"蓝光" forState:UIControlStateNormal];
 //        _resolutionBtn.backgroundColor = [UIColor redColor];
         [_resolutionBtn addTarget:self action:@selector(resolutionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }

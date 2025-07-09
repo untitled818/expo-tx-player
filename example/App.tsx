@@ -6,11 +6,24 @@ import { useTxPlayer } from "./components/useTxPlayer";
 import { PlayerView } from "./components";
 import { destroyPlayer } from "./components/Player";
 
+// 推流： rtmp://tpush-uat.uipqub.com/live/test?txSecret=4d80fc919fcab678a5e8d0fd28fa1f10&txTime=6A4F3DC1
+
+// hls拉流：https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1
+
+// webrtc拉流：webrtc://tpull-uat.uipqub.com/live/test?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1
+
+// 自適應HLS拉流： https://tpull-uat.uipqub.com/live/test_RBS.m3u8?txSecret=a50e6f5c594322c481ace51db2db3de9&txTime=6A4F3DC1
+
+// 自適應拉流： webrtc://tpull-uat.uipqub.com/live/test?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1&tabr_bitrates=base,base2&tabr_start_bitrate=base2&tabr_control=auto
+
 const hls =
   "https://tpull-uat.appsix24.com/live/UCjvmxg2phmM_base.m3u8?txSecret=113ef6a79f3da13b190d848bee8889cb&txTime=686E14ED";
 
+// const rtc =
+//   "webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
+
 const rtc =
-  "webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";
+  "webrtc://tpull-uat.uipqub.com/live/test?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1&tabr_bitrates=base,base2&tabr_start_bitrate=base2&tabr_control=auto";
 
 let intervalId: NodeJS.Timeout | null = null;
 let count = 0;
@@ -122,6 +135,13 @@ export default function App() {
             player.play();
           }
         }}
+      />
+
+      <Button
+        title="设置视频分类和标题"
+        onPress={() =>
+          player.setVideoCategoryAndTitle("网球", `费德勒 vs 纳达尔`)
+        }
       />
 
       <Button title="开始模拟高密度弹幕" onPress={startFiring} />

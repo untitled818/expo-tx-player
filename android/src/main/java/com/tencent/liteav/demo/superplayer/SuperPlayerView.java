@@ -1705,6 +1705,11 @@ public class SuperPlayerView extends RelativeLayout
     ((SuperPlayerImpl) mSuperPlayer).detachPlayerView();
   }
 
+  public void setCategoryAndTitle(String category, String title) {
+    mWindowPlayer.updateCategoryAndTitle(category, title);
+    mFullScreenPlayer.updateCategoryAndTitle(category, title);
+  }
+
   public void refreshVodView() {
     ((SuperPlayerImpl) mSuperPlayer).vodPlayerRefreshView();
   }

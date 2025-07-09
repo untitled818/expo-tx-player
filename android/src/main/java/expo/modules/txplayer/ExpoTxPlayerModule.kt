@@ -163,6 +163,13 @@ class ExpoTxPlayerModule : Module() {
       }
     }
 
+    // set video category and title
+    Function("setCategoryAndTitle") { category: String, title: String ->
+      Handler(Looper.getMainLooper()).post {
+        ExpoTxPlayerHolder.playerView?.setCategoryAndTitle(category,title);
+      }
+    }
+
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of
     // the view definition: Prop, Events.

@@ -71,6 +71,8 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   private ImageView mIvPlayNext;
   private ImageView mIvFullScreen;
   private TextView mTvTitle;
+  private TextView mTvVideoCategory;
+  private TextView mTvVideoTitle;
   private TextView mTvBackToLive;
   private ImageView mBackground;
   private ImageView mIvBack;
@@ -247,6 +249,8 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mLayoutBottom.setOnClickListener(this);
     mLayoutReplay = (LinearLayout) findViewById(R.id.superplayer_ll_replay);
     mTvTitle = (TextView) findViewById(R.id.superplayer_tv_title);
+    mTvVideoCategory = (TextView) findViewById(R.id.superplayer_tv_video_category);
+    mTvVideoTitle = (TextView) findViewById(R.id.superplayer_tv_video_title);
     mIvPause = (ImageView) findViewById(R.id.superplayer_iv_pause);
     mIvBack = (ImageView) findViewById(R.id.superplayer_iv_back);
     mTvCurrent = (TextView) findViewById(R.id.superplayer_tv_current);
@@ -467,6 +471,14 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   public void prepareLoading() {
     toggleView(mPbLiveLoading, true);
     toggleView(mImageStartAndResume, false);
+  }
+
+  // set the category and title
+  public void updateCategoryAndTitle(String category, String title) {
+    mTvVideoCategory.setText(category);
+    mTvVideoCategory.setVisibility(View.VISIBLE);
+    mTvVideoTitle.setText(title);
+    mTvVideoTitle.setVisibility(View.VISIBLE);
   }
 
   @Override

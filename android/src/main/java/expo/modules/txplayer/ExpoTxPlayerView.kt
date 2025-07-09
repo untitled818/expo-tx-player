@@ -357,6 +357,11 @@ class ExpoTxPlayerView(context: Context, appContext: AppContext) : ExpoView(cont
     playerView.detachPlayerView();
   }
 
+  fun setCategoryAndTitle(category: String, title: String) {
+    playerView.setCategoryAndTitle(category, title);
+  }
+
+
 
   private fun getFullScreenPlayer(): Any? {
     return try {
