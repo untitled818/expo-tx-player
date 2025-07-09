@@ -76,6 +76,8 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   private TextView mTvTitle;
   private TextView mTvVideoCategory;
   private ImageView mIvDanmu;
+
+  private ImageView mIvMute;
   private TextView mTvVideoTitle;
   private TextView mTvBackToLive;
   private ImageView mBackground;
@@ -259,6 +261,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mTvTitle = (TextView) findViewById(R.id.superplayer_tv_title);
     mTvVideoCategory = (TextView) findViewById(R.id.superplayer_tv_video_category);
     mIvDanmu = (ImageView) findViewById(R.id.superplayer_iv_danmuku);
+    mIvMute =  (ImageView) findViewById(R.id.superplayer_ic_muted);
     mTvVideoTitle = (TextView) findViewById(R.id.superplayer_tv_video_title);
     mIvPause = (ImageView) findViewById(R.id.superplayer_iv_pause);
     mIvBack = (ImageView) findViewById(R.id.superplayer_iv_back);
@@ -290,6 +293,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mPiPIV.setOnClickListener(this);
     mIvCast.setOnClickListener(this);
     mIvDanmu.setOnClickListener(this);
+    mIvMute.setOnClickListener(this);
 
     mSeekBarProgress.setOnSeekBarChangeListener(this);
 
@@ -374,6 +378,12 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
   public void updateBarrageUI(boolean on) {
     mIvDanmu.setImageResource(
         on ? R.drawable.superplayer_ic_danmuku_on : R.drawable.superplayer_ic_danmuku_off
+    );
+  }
+
+  public void updateMuteUI(boolean isMuted) {
+    mIvMute.setImageResource(
+            isMuted ? R.drawable.superplayer_ic_muted_close : R.drawable.superplayer_ic_muted_open
     );
   }
 
@@ -800,6 +810,10 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     } else if (id == R.id.superplayer_iv_danmuku) {
       if (mSuperPlayerView != null) {
         mSuperPlayerView.toggleBarrage();
+      }
+    } else if (id == R.id.superplayer_ic_muted) {
+      if (mSuperPlayerView != null) {
+        mSuperPlayerView.toggleMute();
       }
     } else if (id == R.id.superplayer_iv_fullscreen) {
       if (mControllerCallback != null) {

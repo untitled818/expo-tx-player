@@ -402,10 +402,10 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
     }
 
     public void setMute(boolean mute) {
-        if (mVodPlayer != null) {
-            mVodPlayer.setMute(mute);
-        } else {
+        if (mLivePlayer != null) {
             mLivePlayer.setMute(mute);
+        } else {
+            mVodPlayer.setMute(mute);
         }
     }
 

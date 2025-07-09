@@ -71,14 +71,14 @@
 
         <!-- 模拟分享图标 -->
         <ImageView
-        android:id="@+id/superplayer_iv_snapshot"
+        android:id="@+id/superplayer_iv_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="right"
-        android:src="@drawable/superplayer_ic_vod_snapshot_normal"
+        android:src="@drawable/superplayer_iv_share"
          />
 
       <ImageView
@@ -313,23 +313,25 @@
       android:textColor="@android:color/white"
       android:textSize="11dp" />
 
-    <!-- 模拟图标 -->
+    <!-- Home icon -->
     <ImageView
-      android:id="@+id/superplayer_iv_back"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:id="@+id/superplayer_iv_home"
+      android:layout_width="24dp"
+      android:layout_height="24dp"
       android:layout_gravity="center_vertical"
       android:layout_marginLeft="20dp"
-      android:src="@drawable/superplayer_btn_back_play" />
+      android:tint="@android:color/white"
+      android:src="@drawable/superplayer_iv_home" />
 
-    <!-- 模拟图标 -->
+    <!-- Pip icon -->
     <ImageView
-      android:id="@+id/superplayer_iv_back"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:id="@+id/superplayer_ic_pip"
+      android:layout_width="24dp"
+      android:layout_height="24dp"
+      android:tint="@color/superplayer_white"
       android:layout_gravity="center_vertical"
       android:layout_marginLeft="20dp"
-      android:src="@drawable/superplayer_btn_back_play" />
+      android:src="@drawable/superplayer_ic_pip" />
   </LinearLayout>
 
 
@@ -451,12 +453,13 @@
     
     <!-- mute btn -->
     <ImageView
-        android:id="@+id/superplayer_iv_mute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/superplayer_ic_muted"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:tint="@color/superplayer_white"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="5dp"
-        android:src="@drawable/superplayer_play_next" />
+        android:src="@drawable/superplayer_ic_muted_open" />
 
 
     <TextView

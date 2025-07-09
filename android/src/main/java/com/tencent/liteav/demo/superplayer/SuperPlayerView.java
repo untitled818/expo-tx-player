@@ -143,6 +143,7 @@ public class SuperPlayerView extends RelativeLayout
   private boolean isCallResume = false;
   // set danmaku State default true
   private boolean mIsBarrageOn = false;
+  private boolean mIsMuted = false;
   private LinearLayout mDynamicWatermarkLayout;
   private DynamicWatermarkView mDynamicWatermarkView;
   private ISuperPlayerListener mSuperPlayerListener;
@@ -174,9 +175,30 @@ public class SuperPlayerView extends RelativeLayout
     initPlayer();
   }
 
+
+  public boolean isMuted() {
+    return mIsMuted;
+  }
+
+  public void toggleMute() {
+    mIsMuted = !mIsMuted;
+
+    if (mWindowPlayer != null) {
+      mWindowPlayer.updateMuteUI(mIsMuted);
+    }
+    if (mFullScreenPlayer != null) {
+      mFullScreenPlayer.updateMuteUI(mIsMuted);
+    }
+
+    // video set muted
+    setMute(mIsMuted);
+  }
+
   public boolean isBarrageOn() {
     return mIsBarrageOn;
   }
+
+
 
   public void toggleBarrage() {
     mIsBarrageOn = !mIsBarrageOn;
@@ -517,7 +539,8 @@ public class SuperPlayerView extends RelativeLayout
 
   // 关闭弹幕：停止发送 + 清空 UI 弹幕
   public void closeDanmu() {
-    mFullScreenPlayer.mBarrageOn = false;
+//    mFullScreenPlayer.mBarrageOn = false;
+    toggleBarrage();
     if (mDanmuView != null) {
       mDanmuView.toggle(false); // 停止发送
       mDanmuView.removeAllDanmakus(true); // 清空屏幕弹幕

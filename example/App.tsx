@@ -195,6 +195,18 @@ export default function App() {
             player.switchSource(hls);
           }}
         />
+        <Button
+          title="测试🔇"
+          onPress={() => {
+            player.muted = true;
+          }}
+        />
+        <Button
+          title="测试不🔇"
+          onPress={() => {
+            player.muted = false;
+          }}
+        />
 
         <Button
           title="切换rtc播放源"

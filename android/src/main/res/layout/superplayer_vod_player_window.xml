@@ -22,20 +22,24 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/superplayer_btn_back_play" />
 
-        <!-- 模拟图标 -->
+        <!-- Home icon -->
         <ImageView
-            android:id="@+id/superplayer_iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/superplayer_iv_home"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/superplayer_btn_back_play" />
+            android:tint="@color/superplayer_white"
+            android:src="@drawable/superplayer_iv_home" />
 
+        <!-- Pip icon -->
         <ImageView
-            android:id="@+id/superplayer_iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/superplayer_ic_pip"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:tint="@color/superplayer_white"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/superplayer_btn_back_play" />
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/superplayer_ic_pip" />
 
         
 
@@ -87,13 +91,13 @@
             android:src="@drawable/superplayer_ic_danmuku_off" />
         
         <ImageView
-            android:id="@+id/superplayer_iv_cast"
+            android:id="@+id/superplayer_iv_share"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="14dp"
-            android:src="@drawable/superplayer_ic_cast"
+            android:src="@drawable/superplayer_iv_share"
             android:contentDescription="投屏" />
         
     </LinearLayout>
@@ -290,16 +294,21 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/superplayer_play_next"/>
 
-        <!-- 模拟音量图标 -->
+        <!-- muted icon -->
         <ImageView
-            android:id="@+id/superplayer_iv_fullscreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/superplayer_ic_muted"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:tint="@color/superplayer_white"
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="20dp"
-            android:src="@drawable/superplayer_ic_vod_fullscreen" />
+            android:src="@drawable/superplayer_ic_muted_open" />
 
+
+            <!-- android:layout_width="wrap_content"
+            android:layout_height="wrap_content" -->
+        <!-- Fullsscreen icon -->
         <ImageView
             android:id="@+id/superplayer_iv_fullscreen"
             android:layout_width="wrap_content"
