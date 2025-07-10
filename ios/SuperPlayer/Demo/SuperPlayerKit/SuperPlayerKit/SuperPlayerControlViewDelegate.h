@@ -6,9 +6,15 @@
 @class TXTrackInfo;
 
 @protocol SuperPlayerControlViewDelegate <NSObject>
-/** Back button event */
-/** 返回按钮事件 */
+/** share button event */
+/** 分享按钮事件 */
+- (void)controlViewShare:(UIView *)controlView;
+/** cast button event */
+/** 投屏 按钮事件 */
 - (void)controlViewCase:(UIView *)controlView;
+/** home button event*/
+/** home 按钮事件*/
+- (void) controlViewHome:(UIView *)controlView;
 /** Back button event */
 /** 返回按钮事件 */
 - (void)controlViewBack:(UIView *)controlView;

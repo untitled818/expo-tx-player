@@ -63,10 +63,10 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 //        [self.topImageView addSubview:self.moreBtn];
         [self addSubview:self.lockBtn];
         [self addSubview:self.pipBtn];
+        [self addSubview:self.caseBtn];
         [self.topImageView addSubview:self.backBtn];
         [self.topImageView addSubview:self.homeBtn];
         [self.topImageView addSubview:self.customPipBtn];
-        [self.topImageView addSubview:self.caseBtn];
         [self.topImageView addSubview:self.shareBtn];
         
 
@@ -156,11 +156,17 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         make.centerY.equalTo(self.backBtn.mas_centerY);
     }];
 
-    // caseBtn 在 shareBtn 的左边，间距 10
+    // caseBtn right center
+    [self.caseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.trailing.equalTo(self.mas_trailing).offset(-15);
+        make.centerY.equalTo(self.mas_centerY);
+        make.width.height.mas_equalTo(32);
+    }];
+    
 //    [self.caseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.trailing.equalTo(self.shareBtn.mas_leading).offset(-10); // 与 shareBtn 间隔 10
-//        make.top.equalTo(self.shareBtn);
-//        make.width.height.mas_equalTo(40);
+//        make.top.equalTo(self.mas_top).offset(20);        // 距离顶部 20pt
+//        make.centerX.equalTo(self.mas_centerX);           // 水平居中
+//        make.width.height.mas_equalTo(32);                // 按钮大小
 //    }];
 //
 //    [self.moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -185,8 +191,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 //                                 [NSNumber numberWithBool:self.disableOfflineBtn],
 //                                 [NSNumber numberWithBool:self.disableSubtitlesBtn]];
     
-    NSArray *buttonStatusArr = @[[NSNumber numberWithBool:self.danmakuBtn.hidden],
-                                 [NSNumber numberWithBool:self.caseBtn.hidden]];
+    NSArray *buttonStatusArr = @[[NSNumber numberWithBool:self.danmakuBtn.hidden]];
     
     [self setTopButtonConstranintsWithStatus:buttonStatusArr];
 
@@ -298,11 +303,11 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         make.width.height.mas_equalTo(32);
     }];
     
-    [self.pipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.mas_trailing).offset(-15);
-        make.centerY.equalTo(self.mas_centerY);
-        make.width.height.mas_equalTo(32);
-    }];
+//    [self.pipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.trailing.equalTo(self.mas_trailing).offset(-15);
+//        make.centerY.equalTo(self.mas_centerY);
+//        make.width.height.mas_equalTo(32);
+//    }];
 
     [self.playeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.mas_equalTo(50);
@@ -354,27 +359,22 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 }
 
 - (void) shareBtnClick:(UIButton *)sender {
-    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
-        [self.delegate controlViewCase:self];
+    if ([self.delegate respondsToSelector:@selector(controlViewShare:)]) {
+        [self.delegate controlViewShare:self];
     }
 }
 
 - (void) homeBtnClick:(UIButton *)sender {
-    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
-        [self.delegate controlViewCase:self];
+    if ([self.delegate respondsToSelector:@selector(controlViewHome:)]) {
+        [self.delegate controlViewHome:self];
     }
 }
 
-- (void) customPipBtnClick:(UIButton *)sender {
-    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
-        [self.delegate controlViewCase:self];
-    }
-}
 
 - (void) muteBtnClick:(UIButton *)sender {
-    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
-        [self.delegate controlViewCase:self];
-    }
+//    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
+//        [self.delegate controlViewCase:self];
+//    }
 }
 
 
@@ -653,7 +653,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 //                                 [NSNumber numberWithBool:self.subtitlesBtn.hidden],
 //                                 [NSNumber numberWithBool:self.trackBtn.hidden]];
     
-    NSArray *buttonStatusArr = @[[NSNumber numberWithBool:self.danmakuBtn.hidden],[NSNumber numberWithBool:self.caseBtn.hidden]];
+    NSArray *buttonStatusArr = @[[NSNumber numberWithBool:self.danmakuBtn.hidden]];
     [self setTopButtonConstranintsWithStatus:buttonStatusArr];
 
     [self.backBtn setImage:SuperPlayerImage(@"back_full") forState:UIControlStateNormal];
@@ -735,7 +735,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 
 - (void)setTopButtonConstranintsWithStatus:(NSArray *)buttonStatusArr {
 //    NSArray *buttonArray = @[self.danmakuBtn, self.offlineBtn, self.subtitlesBtn, self.trackBtn];
-    NSArray *buttonArray = @[self.danmakuBtn, self.caseBtn];
+    NSArray *buttonArray = @[self.danmakuBtn];
     
     
     int k = 0;
@@ -852,12 +852,6 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         
         // 使用自定义图标
         [_caseBtn setImage:SuperPlayerImage(@"superplayer_ic_cast") forState:(UIControlStateNormal)];
-
-        // 使用系统图标（AirPlay）
-//        UIImage *icon = [UIImage systemImageNamed:@"airplayvideo"];
-//        icon = [icon imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//        [_caseBtn setImage:icon forState:UIControlStateNormal];
-//        _caseBtn.tintColor = [UIColor whiteColor];
         [_caseBtn addTarget:self action:@selector(caseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _caseBtn;
@@ -868,7 +862,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if (!_shareBtn) {
         // use custom share icon
         _shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_shareBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
+        [_shareBtn setImage:SuperPlayerImage(@"share") forState:(UIControlStateNormal)];
         [_shareBtn addTarget:self action:@selector(shareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _shareBtn;
@@ -878,7 +872,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if (!_homeBtn) {
         // use custom home icon
         _homeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_homeBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
+        [_homeBtn setImage:SuperPlayerImage(@"home") forState:(UIControlStateNormal)];
         [_homeBtn addTarget:self action:@selector(homeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _homeBtn;
@@ -888,8 +882,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if (!_customPipBtn) {
         // use custom pip icon
         _customPipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_customPipBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
-        [_customPipBtn addTarget:self action:@selector(customPipBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_customPipBtn setImage:SuperPlayerImage(@"pip_play_icon") forState:(UIControlStateNormal)];
+        [_customPipBtn addTarget:self action:@selector(pipBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _customPipBtn;
 }

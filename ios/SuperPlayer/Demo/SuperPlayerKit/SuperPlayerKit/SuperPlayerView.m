@@ -1916,6 +1916,18 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     }
 }
 
+- (void)controlViewHome:(SuperPlayerControlView *)controlView {
+    if ([self.delegate respondsToSelector:@selector(superPlayerHomeAction:)]) {
+        [self.delegate superPlayerHomeAction:self];
+    }
+}
+
+- (void)controlViewShare:(SuperPlayerControlView *)controlView {
+    if ([self.delegate respondsToSelector:@selector(superPlayerShareAction:)]) {
+        [self.delegate superPlayerShareAction:self];
+    }
+}
+
 
 - (void)controlViewBack:(SuperPlayerControlView *)controlView {
     [self controlViewBackAction:controlView];

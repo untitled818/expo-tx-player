@@ -98,6 +98,12 @@
 - (void)superPlayerStatusDidChange:(SuperPlayerView *)player status:(NSString *)status;
 
 
+// home click event
+- (void)superPlayerHomeAction:(SuperPlayerView *)player;
+
+// share click event
+- (void)superPlayerShareAction:(SuperPlayerView *)player;
+
 - (void)superPlayerCaseAction:(SuperPlayerView *)player;
 /// return event
 /// 返回事件

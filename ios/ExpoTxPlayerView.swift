@@ -24,6 +24,8 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
     public let onPlayingChange = EventDispatcher()
     public let onStatusChange = EventDispatcher()
     public let onBack = EventDispatcher()
+    public let onHomeClick = EventDispatcher()
+    public let onShareClick = EventDispatcher()
     
     @objc enum DanmakuDensity: Int {
         case low, medium, high
@@ -155,6 +157,17 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         print("[ExpoTxPlayer] superPlayerCaseAction 投屏事件触发")
         // 你可以在这里处理投屏按钮事件，比如触发事件通知 JS 层
         onCastButtonPressed();
+    }
+    
+    
+    func superPlayerHomeAction(_ player: SuperPlayerView!) {
+        print("[ExpoTxPlayer] superPlayerCaseAction home click 事件触发")
+        onHomeClick();
+    }
+    
+    func superPlayerShareAction(_ player: SuperPlayerView!) {
+        print("[ExpoTxPlayer] superPlayerCaseAction share click 事件触发")
+        onShareClick();
     }
     
     func superPlayerDidEnterPicture(inPicture player: SuperPlayerView ) -> Void {
