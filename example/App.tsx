@@ -127,6 +127,9 @@ export default function App() {
         onHomeClick={() => {
           console.log("home icon callback");
         }}
+        onShareClick={() => {
+          console.log("share icon callback");
+        }}
       />
 
       <Button

@@ -79,6 +79,8 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
 
   private ImageView mIvHome;
 
+  private ImageView mIvShare;
+
   private ImageView mIvMute;
   private TextView mTvVideoTitle;
   private TextView mTvBackToLive;
@@ -265,6 +267,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mIvDanmu = (ImageView) findViewById(R.id.superplayer_iv_danmuku);
     mIvMute =  (ImageView) findViewById(R.id.superplayer_ic_muted);
     mIvHome =   (ImageView) findViewById(R.id.superplayer_iv_home);
+    mIvShare =  (ImageView) findViewById(R.id.superplayer_iv_share);
     mTvVideoTitle = (TextView) findViewById(R.id.superplayer_tv_video_title);
     mIvPause = (ImageView) findViewById(R.id.superplayer_iv_pause);
     mIvBack = (ImageView) findViewById(R.id.superplayer_iv_back);
@@ -298,6 +301,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     mIvDanmu.setOnClickListener(this);
     mIvMute.setOnClickListener(this);
     mIvHome.setOnClickListener(this);
+    mIvShare.setOnClickListener(this);
 
     mSeekBarProgress.setOnSeekBarChangeListener(this);
 
@@ -846,6 +850,10 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     } else if (id == R.id.superplayer_iv_home) {
       if (mControllerCallback != null) {
         mControllerCallback.onHomeClick();
+      }
+    } else if (id == R.id.superplayer_iv_share) {
+      if (mControllerCallback != null) {
+        mControllerCallback.onShareClick();
       }
     }
   }

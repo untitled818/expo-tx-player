@@ -386,5 +386,7 @@ public interface Player {
         void onCast();
 
         void onHomeClick();
+
+        void onShareClick();
     }
 }

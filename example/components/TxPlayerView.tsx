@@ -18,6 +18,7 @@ type Props = {
   onScreenCastStop?: () => void;
   onBack?: () => void;
   onHomeClick?: () => void;
+  onShareClick?: () => void;
 };
 
 const url =
@@ -41,6 +42,7 @@ export const PlayerView: React.FC<Props> = ({
   onScreenCastStop,
   onBack,
   onHomeClick,
+  onShareClick,
 }) => {
   const castModalRef = useRef<any>(null);
   useEffect(() => {
@@ -55,6 +57,7 @@ export const PlayerView: React.FC<Props> = ({
           console.log("投屏触发");
         }}
         onHomeClick={onHomeClick}
+        onShareClick={onShareClick}
         onFullscreenEnter={onFullscreenEnter}
         onFullscreenEnd={onFullscreenEnd}
         onPIPStart={onPIPStart}

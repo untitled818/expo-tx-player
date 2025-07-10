@@ -1019,6 +1019,13 @@ public class SuperPlayerView extends RelativeLayout
         mPlayerViewCallback.onHomeClick();
       }
     }
+
+    @Override
+    public void onShareClick() {
+      if (mPlayerViewCallback != null) {
+        mPlayerViewCallback.onShareClick();
+      }
+    }
   };
 
   private void handleResume() {
@@ -1230,6 +1237,8 @@ public class SuperPlayerView extends RelativeLayout
     void onCastButtonPressed();
 
     void onHomeClick();
+
+    void onShareClick();
 
   }
 
