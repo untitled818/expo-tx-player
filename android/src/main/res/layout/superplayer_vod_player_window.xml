@@ -33,7 +33,7 @@
 
         <!-- Pip icon -->
         <ImageView
-            android:id="@+id/superplayer_ic_pip"
+            android:id="@+id/superplayer_iv_pip"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:tint="@color/superplayer_white"
@@ -71,7 +71,7 @@
         android:layout_weight="1" />
 
         <!-- 投屏按钮（右上角） -->
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/superplayer_iv_cast"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -79,7 +79,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginRight="14dp"
             android:src="@drawable/superplayer_ic_cast"
-            android:contentDescription="投屏" />
+            android:contentDescription="投屏" /> -->
 
         <ImageView
             android:id="@+id/superplayer_iv_danmuku"
@@ -340,12 +340,11 @@
         android:layout_height="match_parent" />
 
     <ImageView
-        android:id="@+id/superplayer_iv_pip"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/superplayer_iv_cast"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:visibility="gone"
-        android:src="@drawable/superplayer_pip_play_icon" />
+        android:layout_marginRight="20dp"
+        android:src="@drawable/superplayer_ic_cast" />
 </RelativeLayout>

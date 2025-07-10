@@ -513,4 +513,13 @@
     android:layout_height="match_parent"
     android:layout_alignParentEnd="true"
     android:visibility="gone" />
+
+  <ImageView
+    android:id="@+id/superplayer_iv_cast"
+    android:layout_width="24dp"
+    android:layout_height="24dp"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true"
+    android:layout_marginRight="20dp"
+    android:src="@drawable/superplayer_ic_cast" />
 </RelativeLayout>
