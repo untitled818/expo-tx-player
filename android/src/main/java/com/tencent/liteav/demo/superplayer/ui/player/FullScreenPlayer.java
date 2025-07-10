@@ -141,6 +141,8 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
   private ImageView mIvMute;
   private ImageView mIvHome;
 
+  private ImageView mIvShare;
+
   private ImageView mIvCast;
   private ImageView mIvSnapshot;
   private ImageView mIvLock;
@@ -381,6 +383,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     mIvDanmu = (ImageView) findViewById(R.id.superplayer_iv_danmuku);
     mIvMute =  (ImageView) findViewById(R.id.superplayer_ic_muted);
     mIvHome =   (ImageView) findViewById(R.id.superplayer_iv_home);
+    mIvShare =  (ImageView) findViewById(R.id.superplayer_iv_share);
     mIvCast = (ImageView) findViewById(R.id.superplayer_iv_cast);
     mIvMore = (ImageView) findViewById(R.id.superplayer_iv_more);
     mIvDownload = (ImageView) findViewById(R.id.superplayer_iv_download);
@@ -430,6 +433,7 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     mIvMute.setOnClickListener(this);
     mIvHome.setOnClickListener(this);
     mIvCast.setOnClickListener(this);
+    mIvShare.setOnClickListener(this);
     mIvDownload.setOnClickListener(this);
     mIvSnapshot.setOnClickListener(this);
     mIvMore.setOnClickListener(this);
@@ -954,6 +958,10 @@ public class FullScreenPlayer extends AbsPlayer implements View.OnClickListener,
     } else if (i == R.id.superplayer_iv_cast) {
       if (mControllerCallback != null) {
         mControllerCallback.onCast();
+      }
+    } else if (i == R.id.superplayer_iv_share) {
+      if (mControllerCallback != null) {
+        mControllerCallback.onShareClick();
       }
     }
   }

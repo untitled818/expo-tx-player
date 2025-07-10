@@ -327,7 +327,7 @@
 
     <!-- Pip icon -->
     <ImageView
-      android:id="@+id/superplayer_ic_pip"
+      android:id="@+id/superplayer_iv_pip"
       android:layout_width="24dp"
       android:layout_height="24dp"
       android:tint="@color/superplayer_white"
