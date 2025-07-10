@@ -6,6 +6,9 @@
 @class TXTrackInfo;
 
 @protocol SuperPlayerControlViewDelegate <NSObject>
+/** muted button event*/
+/** 音量按钮事件*/
+- (void)controlViewDidToggleMute:(BOOL)isMuted;
 /** share button event */
 /** 分享按钮事件 */
 - (void)controlViewShare:(UIView *)controlView;

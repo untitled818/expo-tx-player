@@ -370,11 +370,12 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     }
 }
 
-
 - (void) muteBtnClick:(UIButton *)sender {
-//    if ([self.delegate respondsToSelector:@selector(controlViewCase:)]) {
-//        [self.delegate controlViewCase:self];
-//    }
+    sender.selected = !sender.selected;
+    if ([self.delegate respondsToSelector:@selector(controlViewDidToggleMute:)]) {
+            [self.delegate controlViewDidToggleMute:sender.selected];
+    }
+    [self fadeOut:3];
 }
 
 
@@ -892,8 +893,8 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if (!_muteBtn) {
         // use custom pip icon
         _muteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_muteBtn setImage:SuperPlayerImage(@"danmu-simple") forState:(UIControlStateNormal)];
-        [_muteBtn setImage:SuperPlayerImage(@"danmu_pressed") forState:UIControlStateSelected];
+        [_muteBtn setImage:SuperPlayerImage(@"muted_open") forState:(UIControlStateNormal)];
+        [_muteBtn setImage:SuperPlayerImage(@"muted_close") forState:UIControlStateSelected];
         [_muteBtn addTarget:self action:@selector(muteBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _muteBtn;

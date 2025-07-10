@@ -1928,6 +1928,10 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     }
 }
 
+- (void)controlViewDidToggleMute:(BOOL)isMuted {
+    [self setMute:isMuted];
+}
+
 
 - (void)controlViewBack:(SuperPlayerControlView *)controlView {
     [self controlViewBackAction:controlView];
