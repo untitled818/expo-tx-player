@@ -39,12 +39,14 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 
         [self addSubview:self.topImageView];
         [self addSubview:self.bottomImageView];
+        [self addSubview:self.switchSourcePopupView];
         [self.bottomImageView addSubview:self.startBtn];
         [self.bottomImageView addSubview:self.currentTimeLabel];
         self.currentTimeLabel.hidden = YES;
         [self.bottomImageView addSubview:self.videoSlider];
         self.videoSlider.hidden = YES;
         [self.bottomImageView addSubview:self.resolutionBtn];
+        [self.bottomImageView addSubview:self.switchSourceBtn];
         [self.bottomImageView addSubview:self.muteBtn];
         [self.bottomImageView addSubview:self.fullScreenBtn];
         [self.bottomImageView addSubview:self.totalTimeLabel];
@@ -274,6 +276,20 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         make.centerY.equalTo(self.startBtn.mas_centerY);
     }];
     
+    [self.switchSourceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(30);
+        make.width.mas_greaterThanOrEqualTo(45);
+        make.trailing.equalTo(self.muteBtn.mas_leading).offset(-8); // 与全屏按钮有间距
+        make.centerY.equalTo(self.startBtn.mas_centerY);
+    }];
+    
+    [self.switchSourcePopupView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(90);
+        make.centerX.equalTo(self.switchSourceBtn.mas_centerX); // 与按钮居中对齐
+        make.bottom.equalTo(self.switchSourceBtn.mas_top).offset(-8); // 在上方留间距
+    }];
+    
     [self.nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(self.bottomImageView.mas_trailing).offset(-35);
         make.centerY.equalTo(self.startBtn.mas_centerY);
@@ -362,6 +378,14 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if ([self.delegate respondsToSelector:@selector(controlViewShare:)]) {
         [self.delegate controlViewShare:self];
     }
+}
+
+- (void)switchSourceButtonTapped:(UIButton *)sender {
+    NSString *selectedTitle = [sender titleForState:UIControlStateNormal];
+    if ([self.delegate respondsToSelector:@selector(controlViewDidSelectStreamWithTitle:)]) {
+        [self.delegate controlViewDidSelectStreamWithTitle:selectedTitle];
+    }
+    self.switchSourcePopupView.hidden = YES; // 隐藏弹窗
 }
 
 - (void) homeBtnClick:(UIButton *)sender {
@@ -505,6 +529,48 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     return _resolutionView;
 }
 
+- (UIView *)switchSourcePopupView {
+    if (!_switchSourcePopupView) {
+        _switchSourcePopupView = [[UIView alloc] init];
+        _switchSourcePopupView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+        _switchSourcePopupView.layer.cornerRadius = 8;
+        _switchSourcePopupView.clipsToBounds = YES;
+        _switchSourcePopupView.hidden = YES;
+
+        UIButton *hdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [hdButton setTitle:@"高清" forState:UIControlStateNormal];
+        [hdButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        hdButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        hdButton.tag = 101;
+        [hdButton addTarget:self action:@selector(switchSourceButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [_switchSourcePopupView addSubview:hdButton];
+
+        
+        UIButton *smoothButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [smoothButton setTitle:@"流畅" forState:UIControlStateNormal];
+        [smoothButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        smoothButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        smoothButton.tag = 102;
+        [smoothButton addTarget:self action:@selector(switchSourceButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [_switchSourcePopupView addSubview:smoothButton];
+
+        // 使用 Masonry 布局两个 Label 垂直排列
+        [hdButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_switchSourcePopupView).offset(15);
+            make.left.right.equalTo(_switchSourcePopupView);
+            make.height.mas_equalTo(25);
+        }];
+        [smoothButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(hdButton.mas_bottom).offset(10);
+            make.left.right.equalTo(_switchSourcePopupView);
+            make.height.mas_equalTo(25);
+        }];
+    }
+    return _switchSourcePopupView;
+}
+
+
+
 - (void)resolutionBtnClick:(UIButton *)sender {
     self.topImageView.hidden    = YES;
     self.bottomImageView.hidden = YES;
@@ -517,6 +583,11 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
 
     [self fadeShow];
     self.isShowSecondView = YES;
+}
+
+- (void)switchSourceBtnClick:(UIButton *)sender {
+    NSLog(@"点击高清");
+    self.switchSourcePopupView.hidden = NO;
 }
 
 - (void)progressSliderTouchBegan:(UISlider *)sender {
@@ -1061,11 +1132,26 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
         
 //        _resolutionBtn.backgroundColor = [UIColor clearColor];
         // test layout
-        [_resolutionBtn setTitle:@"蓝光" forState:UIControlStateNormal];
+//        [_resolutionBtn setTitle:@"蓝光" forState:UIControlStateNormal];
 //        _resolutionBtn.backgroundColor = [UIColor redColor];
         [_resolutionBtn addTarget:self action:@selector(resolutionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _resolutionBtn;
+}
+
+
+- (UIButton *)switchSourceBtn {
+    if (!_switchSourceBtn) {
+        _switchSourceBtn                 = [UIButton buttonWithType:UIButtonTypeCustom];
+        _switchSourceBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        
+//        _resolutionBtn.backgroundColor = [UIColor clearColor];
+        // test layout
+        [_switchSourceBtn setTitle:@"高清" forState:UIControlStateNormal];
+//        _resolutionBtn.backgroundColor = [UIColor redColor];
+        [_switchSourceBtn addTarget:self action:@selector(switchSourceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _switchSourceBtn;
 }
 
 - (UIButton *)backLiveBtn {
@@ -1293,6 +1379,7 @@ SuperPlayerTrackViewDelegate, SuperPlayerSubtitlesViewDelegate>
     if (self.disableResolutionBtn) {
         return;
     }
+    
     
     [self setPlayState:isPlaying];
     self.backLiveBtn.hidden                          = !isTimeShifting;

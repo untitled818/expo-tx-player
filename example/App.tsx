@@ -17,7 +17,7 @@ import { destroyPlayer } from "./components/Player";
 // 自適應拉流： webrtc://tpull-uat.uipqub.com/live/test?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1&tabr_bitrates=base,base2&tabr_start_bitrate=base2&tabr_control=auto
 
 const hls =
-  "https://tpull-uat.appsix24.com/live/UCjvmxg2phmM_base.m3u8?txSecret=113ef6a79f3da13b190d848bee8889cb&txTime=686E14ED";
+  "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1";
 
 // const rtc =
 //   "webrtc://tpull-uat.uipqub.com/live/test?txSecret=84fa018ec80b3fe2195036ca94e8d6d7&txTime=69E98971";

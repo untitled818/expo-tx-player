@@ -101,6 +101,12 @@
 /// Switch resolution button
 /// 切换分辨率按钮
 @property(nonatomic, strong) UIButton *resolutionBtn;
+///  actually switch resolution -> switch scream source
+///  实际切换分辨率 -> 通过切换流的地址
+@property(nonatomic, strong) UIButton *switchSourceBtn;
+/// switchSource View
+///  切换流的View
+@property(nonatomic, strong) UIView *switchSourcePopupView;
 /// Resolution View
 /// 分辨率的View
 @property(nonatomic, strong) UIView *resolutionView;

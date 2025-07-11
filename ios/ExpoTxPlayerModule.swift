@@ -146,6 +146,8 @@ public class ExpoTxPlayerModule: Module {
         
         
         
+        
+        
         View(ExpoTxPlayerView.self) {
             Events("onCastButtonPressed", "onFullscreenEnter", "onFullscreenEnd","onPIPStart", "onPIPStop", "onError", "onStatusChange", "onBufferedChange", "onPlayingChange", "onBack", "onHomeClick", "onShareClick")
 //            Events("onLoad")

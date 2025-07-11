@@ -626,6 +626,7 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
     
     // 如果videoUrl存在，则是直播
     int liveType = -1;
+//    self.isLive = YES;
     if (self.playerModel.videoURL && self.playerModel.videoURL.length > 0) {
         liveType = [self livePlayerType];
         if (liveType >= 0) {
@@ -1931,6 +1932,26 @@ TXLiveBaseDelegate,TXLivePlayListener,TXVodPlayListener>
 - (void)controlViewDidToggleMute:(BOOL)isMuted {
     [self setMute:isMuted];
 }
+
+- (void)controlViewDidSelectStreamWithTitle:(NSString *)title {
+    NSLog(@"选择的清晰度流: %@", title);
+    
+    // 你可以根据 title 找到对应的 SuperPlayerUrl
+    for (SuperPlayerUrl *url in self.playerModel.multiVideoURLs) {
+        if ([url.title isEqualToString:title]) {
+            [self switchSource:url.url];
+            break;
+        }
+    }
+}
+
+- (void)switchSource:(NSString *)url {
+    NSLog(@"🔄 切换流地址: %@", url);
+    [self resetPlayer]; // 关闭旧播放器
+    self.playerModel.videoURL = url;
+    [self playWithModelNeedLicence:self.playerModel]; // 重新播放
+}
+
 
 
 - (void)controlViewBack:(SuperPlayerControlView *)controlView {

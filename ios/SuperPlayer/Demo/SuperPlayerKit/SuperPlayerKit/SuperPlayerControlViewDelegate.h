@@ -6,6 +6,10 @@
 @class TXTrackInfo;
 
 @protocol SuperPlayerControlViewDelegate <NSObject>
+
+/** change resolution -> switch  scream event */
+/** 切换分辨率 -> 切换源事件*/
+- (void)controlViewDidSelectStreamWithTitle:(NSString *)title;
 /** muted button event*/
 /** 音量按钮事件*/
 - (void)controlViewDidToggleMute:(BOOL)isMuted;

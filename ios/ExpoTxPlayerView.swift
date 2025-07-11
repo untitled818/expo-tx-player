@@ -55,9 +55,22 @@ class ExpoTxPlayerView: ExpoView, SuperPlayerDelegate, CFDanmakuDelegate {
         print("[ExpoTxPlayer] 🎬 设置视频地址: \(url)")
         playerView.resetPlayer();
         let model = SuperPlayerModel()
-        model.videoURL = url
+        
+        
+        let hls = SuperPlayerUrl()
+        hls.title = "流畅"
+        hls.url = "https://tpull-uat.uipqub.com/live/test.m3u8?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1"
+
+        let webrtc = SuperPlayerUrl()
+        webrtc.title = "高清"
+        webrtc.url = "webrtc://tpull-uat.uipqub.com/live/test?txSecret=6a62b08d4c0d9d899157d134d7f14124&txTime=6A4F3DC1"
+
+        model.multiVideoURLs = [hls, webrtc]
+        model.playingDefinition = webrtc.title
+        model.videoURL = webrtc.url // 初始播放地址
         
         playerView.play(withModelNeedLicence: model)
+        
     }
     
     public func resetPlayer() {
